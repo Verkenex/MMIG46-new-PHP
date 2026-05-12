@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+use MMIG46\Core\Env;
+use MMIG46\Core\View;
 $root = dirname(__DIR__);
 if (file_exists($root . '/vendor/autoload.php')) { require $root . '/vendor/autoload.php'; }
 spl_autoload_register(function ($class) use ($root) {
@@ -11,9 +13,23 @@ spl_autoload_register(function ($class) use ($root) {
 });
 MMIG46\Core\Env::load($root . '/.env');
 MMIG46\Core\Session::start();
-set_exception_handler(function(Throwable $e) {
-    error_log($e);
+set_exception_handler(function (Throwable $e): void {
     http_response_code(500);
-    $message = MMIG46\Core\Env::get('APP_ENV') === 'production' ? 'Interner Serverfehler.' : $e->getMessage();
-    echo MMIG46\Core\View::render('errors/500', ['message' => $message]);
+
+    error_log(sprintf(
+        "[%s] %s in %s:%d\n%s",
+        get_class($e),
+        $e->getMessage(),
+        $e->getFile(),
+        $e->getLine(),
+        $e->getTraceAsString()
+    ));
+
+    $message = Env::get('APP_ENV') === 'production'
+        ? 'Ein interner Fehler ist aufgetreten.'
+        : $e->getMessage();
+
+    echo View::render('errors/500', [
+        'message' => $message,
+    ]);
 });
