@@ -1,0 +1,1 @@
+<?php use MMIG46\Core\Security; ?><section class="page narrow"><h1>Login</h1><form method="post" class="card"><input type="hidden" name="_csrf" value="<?=Security::csrf()?>"><label>E-Mail<input type="email" name="email" required></label><label>Passwort<input type="password" name="password" required></label><button class="btn primary">Einloggen</button></form></section>

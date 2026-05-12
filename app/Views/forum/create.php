@@ -1,0 +1,1 @@
+<?php use MMIG46\Core\Security; ?><section class="page narrow"><h1>Neuer Beitrag</h1><form method="post" class="card"><input type="hidden" name="_csrf" value="<?=Security::csrf()?>"><label>Titel<input name="title" required></label><label>Text/Markdown<textarea name="body" rows="10" required></textarea></label><button class="btn primary">Veröffentlichen</button></form></section>

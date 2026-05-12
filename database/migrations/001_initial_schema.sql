@@ -1,0 +1,1 @@
+-- Initialschema siehe database/install.sql

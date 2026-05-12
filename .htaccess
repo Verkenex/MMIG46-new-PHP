@@ -1,0 +1,10 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^$ public/ [L]
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L]
+<FilesMatch "^(\.env|composer\.(json|lock)|README\.md|INSTALLATION\.md)$">
+  Require all denied
+</FilesMatch>
