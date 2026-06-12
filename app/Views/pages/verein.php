@@ -25,6 +25,13 @@
                     Mitgliederkommunikation und Pflege eines aktiven europäischen Netzwerks.
                 </p>
             </article>
+            <article class="content-card">
+                <h2>Gemeinschaft</h2>
+                 <p>
+                    Neben technischen und organisatorischen Themen steht der persönliche Austausch im Mittelpunkt:
+                    gemeinsame Fly-Ins, Mitgliedertreffen, Erfahrungsberichte und direkte Unterstützung innerhalb der Community.
+                </p>
+            </article>
         </div>
 
         <aside class="link-panel">

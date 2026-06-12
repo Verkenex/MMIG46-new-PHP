@@ -19,6 +19,14 @@
                 </div>
             </article>
 
+            <section class="content-card" style="margin-top: 32px;">
+                <h2>Hinweise zu Reisen</h2>
+                <p>
+                    Die dargestellten Reisen sind statische Entwurfsinhalte. Später können Termine, Programme,
+                    Anmeldestatus und Rückblicke dynamisch gepflegt werden.
+                </p>
+            </section>
+
             <article class="travel-card">
                 <div class="travel-card__image travel-card__image--venedig"></div>
                 <div class="travel-card__body">
