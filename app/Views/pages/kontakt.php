@@ -30,7 +30,7 @@
                         <textarea id="message" name="message" required></textarea>
                     </div>
 
-                    <div class="form-field">
+                    <div class="form-field form-field--captcha">
                         <label for="captcha">Captcha: <?= (int)($a ?? 0) ?> + <?= (int)($b ?? 0) ?> =</label>
                         <input id="captcha" name="captcha" type="number" inputmode="numeric" required>
                     </div>

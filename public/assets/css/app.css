@@ -24,8 +24,16 @@ html {
     scroll-behavior: smooth;
 }
 
+html,
 body {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
     margin: 0;
+    display: flex;
+    flex-direction: column;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: var(--bg);
     color: var(--text);
@@ -62,7 +70,7 @@ img {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 34px;
+    gap: clamp(18px, 3vw, 34px);
 }
 
 .brand {
@@ -77,7 +85,7 @@ img {
 .site-nav {
     display: flex;
     justify-content: center;
-    gap: 32px;
+    gap: clamp(18px, 2.4vw, 32px);
 }
 
 .site-nav a,
@@ -144,7 +152,7 @@ img {
 }
 
 main {
-    min-height: 70vh;
+    flex: 1 0 auto;
 }
 
 .flash {
@@ -177,7 +185,7 @@ main {
 }
 
 .hero__grid {
-    min-height: 460px;
+    min-height: 430px;
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
     gap: 36px;
@@ -186,7 +194,7 @@ main {
 
 .hero__content {
     max-width: 620px;
-    padding: 76px 0 92px;
+    padding: 58px 0 74px;
 }
 
 .hero h1 {
@@ -212,7 +220,7 @@ main {
 }
 
 .hero__visual {
-    min-height: 440px;
+    min-height: 390px;
 }
 
 .button {
@@ -489,7 +497,7 @@ main {
 .link-panel a {
     position: relative;
     display: grid;
-    grid-template-columns: 170px 1fr;
+    grid-template-columns: 180px 1fr;
     gap: 16px;
     padding: 20px 50px 20px 24px;
     text-decoration: none;
@@ -608,13 +616,14 @@ td {
 }
 
 .site-footer {
-    margin-top: 16px;
+    margin-top: auto;
+    flex-shrink: 0;
     background: var(--navy);
     color: rgba(255, 255, 255, 0.78);
 }
 
 .site-footer__inner {
-    min-height: 96px;
+    min-height: 82px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -623,7 +632,8 @@ td {
 
 .footer-links {
     display: flex;
-    gap: 28px;
+    gap: 26px;
+    flex-shrink: 0;
 }
 
 .footer-links a,
@@ -636,7 +646,8 @@ td {
 .site-footer p {
     max-width: 520px;
     margin: 0;
-    font-size: 0.86rem;
+    font-size: 0.84rem;
+    line-height: 1.45;
 }
 
 .cookie {
@@ -849,7 +860,7 @@ td {
 
 .page-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 360px;
+    grid-template-columns: minmax(0, 1fr) 420px;
     gap: 34px;
     align-items: start;
 }
@@ -878,14 +889,14 @@ td {
 }
 
 .auth-shell {
-    min-height: calc(100vh - 78px - 96px);
+    min-height: min(680px, calc(100vh - 78px - 82px));
     display: grid;
     align-items: center;
-    padding: 72px 0;
+    padding: 64px 0;
 }
 
 .auth-card {
-    width: min(460px, 100%);
+    width: min(500px, 100%);
     margin: 0 auto;
     background: var(--surface);
     border: 1px solid var(--line);
@@ -1084,4 +1095,50 @@ td {
 .story-card__image,
 .travel-card__image {
     background-color: #e8ebef;
+}
+
+.legal-page {
+    max-width: 900px;
+}
+
+.legal-card {
+    font-size: 1.02rem;
+}
+
+.legal-card h2 {
+    margin-top: 30px;
+    margin-bottom: 8px;
+    font-size: 1.35rem;
+}
+
+.legal-card h2:first-child {
+    margin-top: 0;
+}
+
+.legal-card p {
+    margin-top: 0;
+}
+
+.form-field--captcha {
+    max-width: 220px;
+}
+
+.site-nav a {
+    position: relative;
+}
+
+.site-nav a.is-active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--accent);
+}
+
+.story-card__image,
+.travel-card__image {
+    filter: saturate(0.9) contrast(0.96);
 }

@@ -4,6 +4,16 @@ use MMIG46\Core\Security;
 use MMIG46\Core\Session;
 
 $isLoggedIn = !empty($_SESSION['user']);
+$currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+
+function nav_active(string $path, string $currentPath): string
+{
+    if ($path === '/') {
+        return $currentPath === '/' ? ' is-active' : '';
+    }
+
+    return str_starts_with($currentPath, $path) ? ' is-active' : '';
+}
 ?>
 
 <!doctype html>
@@ -28,13 +38,13 @@ $isLoggedIn = !empty($_SESSION['user']);
         </button>
 
         <nav class="site-nav" aria-label="Hauptnavigation">
-            <a href="/news">News</a>
-            <a href="/reisen">Reisen</a>
-            <a href="/verein">Verein</a>
-            <a href="/memberlist">Memberlist</a>
-            <a href="/forum">Forum</a>
-            <a href="/kontakt">Kontakt</a>
-        </nav>
+    <a class="<?= nav_active('/news', $currentPath) ?>" href="/news">News</a>
+    <a class="<?= nav_active('/reisen', $currentPath) ?>" href="/reisen">Reisen</a>
+    <a class="<?= nav_active('/verein', $currentPath) ?>" href="/verein">Verein</a>
+    <a class="<?= nav_active('/memberlist', $currentPath) ?>" href="/memberlist">Memberlist</a>
+    <a class="<?= nav_active('/forum', $currentPath) ?>" href="/forum">Forum</a>
+    <a class="<?= nav_active('/kontakt', $currentPath) ?>" href="/kontakt">Kontakt</a>
+</nav>
 
         <div class="site-actions">
             <?php if ($isLoggedIn): ?>
