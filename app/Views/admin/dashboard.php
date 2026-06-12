@@ -1,1 +1,146 @@
-<?php use MMIG46\Core\Security; ?><section class="page"><h1>Verwaltung</h1><div class="grid two"><form method="post" action="/verwaltung/users" class="card"><h2>Account anlegen</h2><input type="hidden" name="_csrf" value="<?=Security::csrf()?>"><label>Name<input name="name" required></label><label>E-Mail<input type="email" name="email" required></label><label>Passwort<input type="password" name="password" minlength="8" required></label><label>Rolle<select name="role"><option>member</option><option>moderator</option><option>admin</option></select></label><button class="btn primary">Speichern</button></form><form method="post" action="/verwaltung/members" class="card"><h2>Mitglied eintragen</h2><input type="hidden" name="_csrf" value="<?=Security::csrf()?>"><label>Name<input name="name" required></label><label>E-Mail<input type="email" name="email"></label><label>Aircraft<input name="aircraft" placeholder="Piper Meridian / Jetprop"></label><label>Base<input name="base"></label><label>Rolle<input name="role_label" placeholder="Mitglied"></label><label><input type="checkbox" name="is_public" checked> Öffentlich anzeigen</label><button class="btn primary">Speichern</button></form></div><h2>Nutzer</h2><pre><?php foreach($users as $u) echo Security::e($u['name'].' · '.$u['email'].' · '.$u['role'])."\n"; ?></pre><h2>Mitglieder</h2><pre><?php foreach($members as $m) echo Security::e($m['name'].' · '.$m['aircraft'])."\n"; ?></pre></section>
+<section class="page">
+    <div class="container">
+        <header class="page-hero">
+            <p class="page-kicker">Verwaltung</p>
+            <h1 class="page-title">Administration der MMIG46-Plattform.</h1>
+            <p class="page-lead">
+                Nutzerkonten, Mitgliederliste und Inhalte können hier vorbereitet und gepflegt werden.
+            </p>
+        </header>
+
+        <div class="admin-grid">
+            <form class="content-card form-stack" method="post" action="/verwaltung/users">
+                <input type="hidden" name="_csrf" value="<?= \MMIG46\Core\Security::csrf() ?>">
+
+                <h2>Account anlegen</h2>
+
+                <div class="form-field">
+                    <label for="user-name">Name</label>
+                    <input id="user-name" name="name" type="text" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="user-email">E-Mail</label>
+                    <input id="user-email" name="email" type="email" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="user-password">Passwort</label>
+                    <input id="user-password" name="password" type="password" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="user-role">Rolle</label>
+                    <select id="user-role" name="role">
+                        <option value="member">member</option>
+                        <option value="moderator">moderator</option>
+                        <option value="admin">admin</option>
+                    </select>
+                </div>
+
+                <button class="button button--primary" type="submit">Speichern</button>
+            </form>
+
+            <form class="content-card form-stack" method="post" action="/verwaltung/members">
+                <input type="hidden" name="_csrf" value="<?= \MMIG46\Core\Security::csrf() ?>">
+
+                <h2>Mitglied eintragen</h2>
+
+                <div class="form-field">
+                    <label for="member-name">Name</label>
+                    <input id="member-name" name="name" type="text" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="member-email">E-Mail</label>
+                    <input id="member-email" name="email" type="email">
+                </div>
+
+                <div class="form-field">
+                    <label for="member-aircraft">Aircraft</label>
+                    <input id="member-aircraft" name="aircraft" type="text" placeholder="PA46-350P">
+                </div>
+
+                <div class="form-field">
+                    <label for="member-base">Base</label>
+                    <input id="member-base" name="base" type="text" placeholder="EDFE">
+                </div>
+
+                <div class="form-field">
+                    <label for="member-role">Rolle</label>
+                    <input id="member-role" name="role" type="text" placeholder="Mitglied">
+                </div>
+
+                <label class="checkbox-row">
+                    <input name="is_public" type="checkbox" value="1" checked>
+                    <span>Öffentlich anzeigen</span>
+                </label>
+
+                <button class="button button--primary" type="submit">Speichern</button>
+            </form>
+        </div>
+
+        <div class="split-grid" style="margin-top: 24px;">
+            <article class="table-card">
+                <div class="table-card__header">
+                    <h2>Nutzer</h2>
+                    <span class="badge">Demo</span>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>E-Mail</th>
+                            <th>Rolle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Admin</td>
+                            <td>admin@example.test</td>
+                            <td>admin</td>
+                        </tr>
+                        <tr>
+                            <td>Moderator</td>
+                            <td>moderator@example.test</td>
+                            <td>moderator</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="table-card">
+                <div class="table-card__header">
+                    <h2>Mitglieder</h2>
+                    <span class="badge">Demo</span>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Aircraft</th>
+                            <th>Base</th>
+                            <th>Öffentlich</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Thomas B.</td>
+                            <td>PA46-310P</td>
+                            <td>EDFE</td>
+                            <td>Ja</td>
+                        </tr>
+                        <tr>
+                            <td>Sabine K.</td>
+                            <td>PA46-310P</td>
+                            <td>LOWW</td>
+                            <td>Ja</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </div>
+    </div>
+</section>
