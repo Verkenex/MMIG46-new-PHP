@@ -1,33 +1,49 @@
-<section class="page-hero compact">
-    <div class="container">
-        <p class="eyebrow"><?= htmlspecialchars($item['category'] ?? 'Aktuelles') ?></p>
-        <h1><?= htmlspecialchars($item['title']) ?></h1>
-        <p class="muted">
-            <?= htmlspecialchars(date('d.m.Y', strtotime($item['published_at']))) ?>
-        </p>
+<?php
+$title = htmlspecialchars($item['title'] ?? 'Artikel', ENT_QUOTES, 'UTF-8');
+$category = htmlspecialchars($item['category'] ?? 'Aktuelles', ENT_QUOTES, 'UTF-8');
+$publishedAt = htmlspecialchars($item['published_at'] ?? '', ENT_QUOTES, 'UTF-8');
+$image = trim((string)($item['image'] ?? ''));
+$excerpt = htmlspecialchars($item['excerpt'] ?? '', ENT_QUOTES, 'UTF-8');
+
+function mmig_asset_path(string $path): string {
+    $path = trim($path);
+    if ($path === '') {
+        return '';
+    }
+    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '/')) {
+        return $path;
+    }
+    return '/' . ltrim($path, '/');
+}
+?>
+
+<section class="article-page">
+  <article class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow"><?= $category ?></p>
+      <h1><?= $title ?></h1>
+
+      <?php if ($excerpt !== ''): ?>
+        <p class="article-lead"><?= $excerpt ?></p>
+      <?php endif; ?>
+
+      <?php if ($publishedAt !== ''): ?>
+        <p class="article-meta"><?= $publishedAt ?></p>
+      <?php endif; ?>
+    </header>
+
+    <?php if ($image !== ''): ?>
+      <figure class="article-hero">
+        <img src="<?= htmlspecialchars(mmig_asset_path($image), ENT_QUOTES, 'UTF-8') ?>" alt="<?= $title ?>">
+      </figure>
+    <?php endif; ?>
+
+    <div class="article-body">
+      <?= $bodyHtml ?>
     </div>
-</section>
 
-<section class="section">
-    <div class="container article-layout">
-        <?php if (!empty($item['image_path'])): ?>
-            <img
-                class="article-hero-image"
-                src="<?= htmlspecialchars($item['image_path']) ?>"
-                alt="<?= htmlspecialchars($item['title']) ?>"
-            >
-        <?php endif; ?>
-
-        <?php if (!empty($item['teaser'])): ?>
-            <p class="lead"><?= htmlspecialchars($item['teaser']) ?></p>
-        <?php endif; ?>
-
-        <article class="richtext">
-            <?= $bodyHtml ?>
-        </article>
-
-        <p class="back-link">
-            <a href="/news">← Zurück zu Aktuelles</a>
-        </p>
-    </div>
+    <footer class="article-footer">
+      <a href="/aktuelles" class="back-link">← Zurück zu Aktuelles</a>
+    </footer>
+  </article>
 </section>

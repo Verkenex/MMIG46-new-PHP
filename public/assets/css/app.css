@@ -2104,3 +2104,129 @@ td {
         text-shadow: none !important;
     }
 }
+
+
+.article-page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3vw, 3rem) 1rem 4rem;
+}
+
+.article-shell {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 28px;
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.article-header {
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3.25rem) 1.5rem;
+}
+
+.article-header h1 {
+  max-width: 860px;
+  margin: 0.35rem 0 0;
+  font-size: clamp(2rem, 4.2vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.article-lead {
+  max-width: 760px;
+  margin-top: 1rem;
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--muted, #526070);
+}
+
+.article-meta {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--muted, #526070);
+}
+
+.article-hero {
+  margin: 0;
+  padding: 0 clamp(1rem, 4vw, 3.25rem) 1.5rem;
+}
+
+.article-hero img {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  border-radius: 22px;
+}
+
+.article-body {
+  max-width: 780px;
+  padding: 0 clamp(1.25rem, 4vw, 3.25rem) clamp(2rem, 4vw, 3.25rem);
+  font-size: 1.08rem;
+  line-height: 1.75;
+  color: var(--text, #162033);
+}
+
+.article-body h2 {
+  margin-top: 2.25rem;
+  font-size: clamp(1.45rem, 2vw, 2rem);
+  line-height: 1.2;
+}
+
+.article-body h3 {
+  margin-top: 1.75rem;
+  font-size: 1.2rem;
+}
+
+.article-body p {
+  margin: 1rem 0;
+}
+
+.article-body ul,
+.article-body ol {
+  padding-left: 1.4rem;
+  margin: 1rem 0;
+}
+
+.article-body li {
+  margin: 0.35rem 0;
+}
+
+.article-body img {
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  margin: 1.5rem 0;
+}
+
+.article-footer {
+  max-width: 780px;
+  padding: 0 clamp(1.25rem, 4vw, 3.25rem) 2.5rem;
+}
+
+.back-link {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 720px) {
+  .article-page {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .article-shell {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .article-hero img {
+    max-height: 360px;
+    border-radius: 18px;
+  }
+}
