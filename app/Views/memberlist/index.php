@@ -1,61 +1,38 @@
 <section class="page">
-    <div class="container">
-        <header class="page-hero">
-            <p class="page-kicker">Memberlist</p>
-            <h1 class="page-title">Mitglieder der MMIG46.</h1>
-            <p class="page-lead">
-                Übersicht öffentlich sichtbarer Mitglieder, Aircraft, Homebase und Rolle im Verein.
-            </p>
-        </header>
+  <p class="eyebrow">MMIG46</p>
+  <h1>Memberlist</h1>
+  <p class="meta">Öffentlich sichtbare Mitglieder der MMIG46.</p>
 
-        <article class="table-card">
-            <div class="table-card__header">
-                <h2>Mitglieder</h2>
-                <span class="badge">Öffentliche Liste</span>
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Aircraft</th>
-                        <th>Base</th>
-                        <th>Rolle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Thomas B.</td>
-                        <td>PA46-310P</td>
-                        <td>EDFE</td>
-                        <td>Vorstand</td>
-                    </tr>
-                    <tr>
-                        <td>Markus L.</td>
-                        <td>PA46-350P</td>
-                        <td>EDNY</td>
-                        <td>Mitglied</td>
-                    </tr>
-                    <tr>
-                        <td>Sabine K.</td>
-                        <td>PA46-310P</td>
-                        <td>LOWW</td>
-                        <td>Mitglied</td>
-                    </tr>
-                    <tr>
-                        <td>Andreas H.</td>
-                        <td>PA46-350P</td>
-                        <td>EDME</td>
-                        <td>Mitglied</td>
-                    </tr>
-                    <tr>
-                        <td>Jürgen M.</td>
-                        <td>PA46-310P</td>
-                        <td>EDDK</td>
-                        <td>Mitglied</td>
-                    </tr>
-                </tbody>
-            </table>
-        </article>
-    </div>
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Aircraft</th>
+          <th>Base</th>
+          <th>Rolle</th>
+          <th>Mitgliedschaft</th>
+          <th>Website</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach (($members ?? []) as $member): ?>
+          <tr>
+            <td><?= htmlspecialchars($member['name']) ?></td>
+            <td><?= htmlspecialchars($member['aircraft'] ?? '') ?></td>
+            <td><?= htmlspecialchars($member['base'] ?? '') ?></td>
+            <td><?= htmlspecialchars($member['role_label'] ?? '') ?></td>
+            <td><?= htmlspecialchars($member['member_type'] ?? '') ?></td>
+            <td>
+              <?php if (!empty($member['website'])): ?>
+                <a href="<?= htmlspecialchars($member['website']) ?>" target="_blank" rel="noopener">
+                  Website
+                </a>
+              <?php endif; ?>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 </section>

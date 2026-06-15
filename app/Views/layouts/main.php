@@ -2,9 +2,20 @@
 
 use MMIG46\Core\Security;
 use MMIG46\Core\Session;
+use MMIG46\Models\SiteSetting;
 
 $isLoggedIn = !empty($_SESSION['user']);
 $currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+
+$siteName = 'MMIG46 e.V.';
+$copyrightName = 'MMIG46 e.V.';
+
+try {
+    $siteName = SiteSetting::get('site_name', $siteName) ?? $siteName;
+    $copyrightName = SiteSetting::get('copyright_name', $copyrightName) ?? $copyrightName;
+} catch (Throwable $e) {
+    // Fallback, falls die site_settings-Tabelle lokal noch nicht installiert ist.
+}
 
 function nav_active(string $path, string $currentPath): string
 {
@@ -21,7 +32,7 @@ function nav_active(string $path, string $currentPath): string
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MMIG46</title>
+    <title><?= Security::e($siteName) ?></title>
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/assets/css/app.css">
     <script defer src="/assets/js/app.js"></script>
@@ -29,8 +40,8 @@ function nav_active(string $path, string $currentPath): string
 <body>
 <header class="site-header">
     <div class="container site-header__inner">
-        <a class="brand" href="/" aria-label="MMIG46 Startseite">
-            <span>MMIG46</span>
+        <a class="brand" href="/" aria-label="<?= Security::e($siteName) ?> Startseite">
+            <span><?= Security::e($siteName) ?></span>
         </a>
 
         <button class="nav-toggle" type="button" data-nav aria-label="Menü öffnen">
@@ -38,13 +49,13 @@ function nav_active(string $path, string $currentPath): string
         </button>
 
         <nav class="site-nav" aria-label="Hauptnavigation">
-    <a class="<?= nav_active('/news', $currentPath) ?>" href="/news">News</a>
-    <a class="<?= nav_active('/reisen', $currentPath) ?>" href="/reisen">Reisen</a>
-    <a class="<?= nav_active('/verein', $currentPath) ?>" href="/verein">Verein</a>
-    <a class="<?= nav_active('/memberlist', $currentPath) ?>" href="/memberlist">Memberlist</a>
-    <a class="<?= nav_active('/forum', $currentPath) ?>" href="/forum">Forum</a>
-    <a class="<?= nav_active('/kontakt', $currentPath) ?>" href="/kontakt">Kontakt</a>
-</nav>
+            <a class="<?= nav_active('/news', $currentPath) ?>" href="/news">News</a>
+            <a class="<?= nav_active('/reisen', $currentPath) ?>" href="/reisen">Reisen</a>
+            <a class="<?= nav_active('/verein', $currentPath) ?>" href="/verein">Verein</a>
+            <a class="<?= nav_active('/memberlist', $currentPath) ?>" href="/memberlist">Memberlist</a>
+            <a class="<?= nav_active('/forum', $currentPath) ?>" href="/forum">Forum</a>
+            <a class="<?= nav_active('/kontakt', $currentPath) ?>" href="/kontakt">Kontakt</a>
+        </nav>
 
         <div class="site-actions">
             <?php if ($isLoggedIn): ?>
@@ -89,6 +100,7 @@ function nav_active(string $path, string $currentPath): string
         </nav>
 
         <p>
+            © <?= date('Y') ?> <?= Security::e($copyrightName) ?>.
             Diese Website verwendet notwendige Session-Cookies.
             Mehr Informationen finden Sie in der
             <a href="/datenschutz">Datenschutzerklärung</a>.

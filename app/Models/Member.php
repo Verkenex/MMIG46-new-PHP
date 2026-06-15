@@ -1,7 +1,27 @@
 <?php
+
 namespace MMIG46\Models;
+
 use MMIG46\Core\DB;
-final class Member {
-    public static function publicList(): array { return DB::pdo()->query('SELECT name, aircraft, base, role_label FROM members WHERE is_public=1 ORDER BY name')->fetchAll(); }
-    public static function all(): array { return DB::pdo()->query('SELECT * FROM members ORDER BY name')->fetchAll(); }
+
+class Member
+{
+    public static function publicMembers(): array
+    {
+        return DB::pdo()
+            ->query(
+                'SELECT name, aircraft, base, role_label, member_type, website
+                 FROM members
+                 WHERE is_public = 1
+                 ORDER BY sort_order, name'
+            )
+            ->fetchAll();
+    }
+
+    public static function all(): array
+    {
+        return DB::pdo()
+            ->query('SELECT * FROM members ORDER BY sort_order, name')
+            ->fetchAll();
+    }
 }

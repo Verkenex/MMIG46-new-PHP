@@ -54,3 +54,55 @@ CREATE TABLE login_attempts (
   INDEX idx_login_ip_time (ip_address, attempted_at),
   INDEX idx_login_email_time (email, attempted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE content_pages (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(80) NOT NULL UNIQUE,
+  title VARCHAR(180) NOT NULL,
+  teaser TEXT NULL,
+  body MEDIUMTEXT NOT NULL,
+  meta_title VARCHAR(180) NULL,
+  meta_description VARCHAR(255) NULL,
+  is_published TINYINT(1) NOT NULL DEFAULT 1,
+  updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_content_slug (slug),
+  INDEX idx_content_published (is_published)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE news_items (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(180) NOT NULL,
+  slug VARCHAR(100) NOT NULL UNIQUE,
+  teaser TEXT NULL,
+  body MEDIUMTEXT NOT NULL,
+  published_at DATETIME NOT NULL,
+  is_published TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_news_published (is_published, published_at),
+  INDEX idx_news_slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE travel_items (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(180) NOT NULL,
+  slug VARCHAR(100) NOT NULL UNIQUE,
+  location VARCHAR(180) NULL,
+  starts_on DATE NULL,
+  ends_on DATE NULL,
+  status ENUM('planned','completed','archived') NOT NULL DEFAULT 'planned',
+  teaser TEXT NULL,
+  body MEDIUMTEXT NOT NULL,
+  is_published TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_travel_status_date (status, starts_on),
+  INDEX idx_travel_slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE site_settings (
+  setting_key VARCHAR(80) PRIMARY KEY,
+  setting_value TEXT NOT NULL,
+  updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

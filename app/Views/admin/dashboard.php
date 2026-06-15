@@ -1,146 +1,222 @@
 <section class="page">
-    <div class="container">
-        <header class="page-hero">
-            <p class="page-kicker">Verwaltung</p>
-            <h1 class="page-title">Administration der MMIG46-Plattform.</h1>
-            <p class="page-lead">
-                Nutzerkonten, Mitgliederliste und Inhalte können hier vorbereitet und gepflegt werden.
-            </p>
-        </header>
+  <p class="eyebrow">Verwaltung</p>
+  <h1>Administration der MMIG46-Plattform</h1>
+  <p>Nutzerkonten, Mitgliederliste und Inhalte können hier vorbereitet und gepflegt werden.</p>
 
-        <div class="admin-grid">
-            <form class="content-card form-stack" method="post" action="/verwaltung/users">
-                <input type="hidden" name="_csrf" value="<?= \MMIG46\Core\Security::csrf() ?>">
+  <section class="grid two">
+    <article>
+      <h2>Account anlegen</h2>
 
-                <h2>Account anlegen</h2>
+      <form method="post" action="/verwaltung/users">
+        <?= \MMIG46\Core\Security::csrfField() ?>
 
-                <div class="form-field">
-                    <label for="user-name">Name</label>
-                    <input id="user-name" name="name" type="text" required>
-                </div>
+        <label>
+          Name
+          <input name="name" required>
+        </label>
 
-                <div class="form-field">
-                    <label for="user-email">E-Mail</label>
-                    <input id="user-email" name="email" type="email" required>
-                </div>
+        <label>
+          E-Mail
+          <input type="email" name="email" required>
+        </label>
 
-                <div class="form-field">
-                    <label for="user-password">Passwort</label>
-                    <input id="user-password" name="password" type="password" required>
-                </div>
+        <label>
+          Passwort
+          <input type="password" name="password" required>
+        </label>
 
-                <div class="form-field">
-                    <label for="user-role">Rolle</label>
-                    <select id="user-role" name="role">
-                        <option value="member">member</option>
-                        <option value="moderator">moderator</option>
-                        <option value="admin">admin</option>
-                    </select>
-                </div>
+        <label>
+          Rolle
+          <select name="role">
+            <option value="member">member</option>
+            <option value="moderator">moderator</option>
+            <option value="admin">admin</option>
+          </select>
+        </label>
 
-                <button class="button button--primary" type="submit">Speichern</button>
-            </form>
+        <button class="primary">Speichern</button>
+      </form>
+    </article>
 
-            <form class="content-card form-stack" method="post" action="/verwaltung/members">
-                <input type="hidden" name="_csrf" value="<?= \MMIG46\Core\Security::csrf() ?>">
+    <article>
+      <h2>Mitglied eintragen</h2>
 
-                <h2>Mitglied eintragen</h2>
+      <form method="post" action="/verwaltung/members">
+        <?= \MMIG46\Core\Security::csrfField() ?>
 
-                <div class="form-field">
-                    <label for="member-name">Name</label>
-                    <input id="member-name" name="name" type="text" required>
-                </div>
+        <label>
+          Name
+          <input name="name" required>
+        </label>
 
-                <div class="form-field">
-                    <label for="member-email">E-Mail</label>
-                    <input id="member-email" name="email" type="email">
-                </div>
+        <label>
+          E-Mail
+          <input type="email" name="email">
+        </label>
 
-                <div class="form-field">
-                    <label for="member-aircraft">Aircraft</label>
-                    <input id="member-aircraft" name="aircraft" type="text" placeholder="PA46-350P">
-                </div>
+        <label>
+          Aircraft
+          <input name="aircraft" placeholder="PA46-310P">
+        </label>
 
-                <div class="form-field">
-                    <label for="member-base">Base</label>
-                    <input id="member-base" name="base" type="text" placeholder="EDFE">
-                </div>
+        <label>
+          Base
+          <input name="base" placeholder="EDFE">
+        </label>
 
-                <div class="form-field">
-                    <label for="member-role">Rolle</label>
-                    <input id="member-role" name="role" type="text" placeholder="Mitglied">
-                </div>
+        <label>
+          Rolle
+          <input name="role_label" placeholder="Pilot, Owner, Vorstand">
+        </label>
 
-                <label class="checkbox-row">
-                    <input name="is_public" type="checkbox" value="1" checked>
-                    <span>Öffentlich anzeigen</span>
-                </label>
+        <label>
+          Mitgliedschaft
+          <input name="member_type" placeholder="Mitglied, Vorstand, Ehrenmitglied">
+        </label>
 
-                <button class="button button--primary" type="submit">Speichern</button>
-            </form>
-        </div>
+        <label>
+          Website
+          <input name="website" placeholder="https://...">
+        </label>
 
-        <div class="split-grid" style="margin-top: 24px;">
-            <article class="table-card">
-                <div class="table-card__header">
-                    <h2>Nutzer</h2>
-                    <span class="badge">Demo</span>
-                </div>
+        <label>
+          Sortierung
+          <input type="number" name="sort_order" value="100">
+        </label>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>E-Mail</th>
-                            <th>Rolle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Admin</td>
-                            <td>admin@example.test</td>
-                            <td>admin</td>
-                        </tr>
-                        <tr>
-                            <td>Moderator</td>
-                            <td>moderator@example.test</td>
-                            <td>moderator</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </article>
+        <label>
+          <input type="checkbox" name="is_public" checked>
+          Öffentlich anzeigen
+        </label>
 
-            <article class="table-card">
-                <div class="table-card__header">
-                    <h2>Mitglieder</h2>
-                    <span class="badge">Demo</span>
-                </div>
+        <button class="primary">Speichern</button>
+      </form>
+    </article>
+  </section>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Aircraft</th>
-                            <th>Base</th>
-                            <th>Öffentlich</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Thomas B.</td>
-                            <td>PA46-310P</td>
-                            <td>EDFE</td>
-                            <td>Ja</td>
-                        </tr>
-                        <tr>
-                            <td>Sabine K.</td>
-                            <td>PA46-310P</td>
-                            <td>LOWW</td>
-                            <td>Ja</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </article>
-        </div>
+  <section>
+    <h2>Inhaltsseite bearbeiten</h2>
+
+    <form method="post" action="/verwaltung/pages">
+      <?= \MMIG46\Core\Security::csrfField() ?>
+
+      <label>
+        Slug
+        <input name="slug" placeholder="verein" required>
+      </label>
+
+      <label>
+        Titel
+        <input name="title" required>
+      </label>
+
+      <label>
+        Teaser
+        <input name="teaser">
+      </label>
+
+      <label>
+        Inhalt / Markdown
+        <textarea name="body" rows="12" required></textarea>
+      </label>
+
+      <label>
+        Meta Title
+        <input name="meta_title">
+      </label>
+
+      <label>
+        Meta Description
+        <input name="meta_description">
+      </label>
+
+      <label>
+        <input type="checkbox" name="is_published" checked>
+        Öffentlich anzeigen
+      </label>
+
+      <button class="primary">Speichern</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Inhaltsseiten</h2>
+
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>Slug</th>
+            <th>Titel</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach (($pages ?? []) as $page): ?>
+            <tr>
+              <td><?= htmlspecialchars($page['slug']) ?></td>
+              <td><?= htmlspecialchars($page['title']) ?></td>
+              <td><?= !empty($page['is_published']) ? 'öffentlich' : 'intern' ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </div>
+  </section>
+
+  <section>
+    <h2>Nutzer</h2>
+
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th>Rolle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach (($users ?? []) as $user): ?>
+            <tr>
+              <td><?= htmlspecialchars($user['name']) ?></td>
+              <td><?= htmlspecialchars($user['email']) ?></td>
+              <td><?= htmlspecialchars($user['role']) ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Mitglieder</h2>
+
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Aircraft</th>
+            <th>Base</th>
+            <th>Rolle</th>
+            <th>Mitgliedschaft</th>
+            <th>Öffentlich</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach (($members ?? []) as $member): ?>
+            <tr>
+              <td><?= htmlspecialchars($member['name']) ?></td>
+              <td><?= htmlspecialchars($member['aircraft'] ?? '') ?></td>
+              <td><?= htmlspecialchars($member['base'] ?? '') ?></td>
+              <td><?= htmlspecialchars($member['role_label'] ?? '') ?></td>
+              <td><?= htmlspecialchars($member['member_type'] ?? '') ?></td>
+              <td><?= !empty($member['is_public']) ? 'Ja' : 'Nein' ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </section>

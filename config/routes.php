@@ -10,8 +10,11 @@ use MMIG46\Controllers\PageController;
 
 $router->get('/', [PageController::class, 'home']);
 
-foreach (['/news', '/reisen', '/verein', '/impressum', '/datenschutz', '/agb'] as $path) {
-    $router->get($path, [PageController::class, 'staticPage']);
+$router->get('/news', [PageController::class, 'news']);
+$router->get('/reisen', [PageController::class, 'travels']);
+
+foreach (['/verein', '/impressum', '/datenschutz', '/agb'] as $path) {
+    $router->get($path, [PageController::class, 'contentPage']);
 }
 
 $router->get('/kontakt', [PageController::class, 'contact']);
@@ -30,3 +33,4 @@ $router->get('/memberlist', [MemberController::class, 'index']);
 $router->get('/verwaltung', [AdminController::class, 'dashboard']);
 $router->post('/verwaltung/users', [AdminController::class, 'storeUser']);
 $router->post('/verwaltung/members', [AdminController::class, 'storeMember']);
+$router->post('/verwaltung/pages', [AdminController::class, 'storePage']);
