@@ -58,37 +58,34 @@ class PageController
         ]);
     }
 
- public function verein(): string
-{
-    $page = ContentPage::findPublishedBySlug('verein');
-
-    if (!$page) {
-        http_response_code(404);
-        return View::render('errors/404');
+    public function verein(): string
+    {
+        return View::render('pages/verein');
     }
 
-    $data = json_decode($page['body'] ?? '', true);
-
-    if (!is_array($data)) {
-        $data = [
-            'eyebrow' => 'Verein',
-            'headline' => $page['title'] ?? 'MMIG46 e.V.',
-            'intro' => $page['teaser'] ?? '',
-            'cards' => [],
-            'actions' => [],
-        ];
+    public function impressum(): string
+    {
+        return View::render('pages/impressum');
     }
 
-    return View::render('pages/verein', [
-        'page' => $page,
-        'data' => $data,
-    ]);
-}
+    public function datenschutz(): string
+    {
+        return View::render('pages/datenschutz');
+    }
+
+    public function agb(): string
+    {
+        return View::render('pages/agb');
+    }
 
     public function contentPage(): string
     {
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $slug = trim((string)$path, '/');
+                if (in_array($slug, ['verein', 'impressum', 'datenschutz', 'agb'], true)) {
+            http_response_code(404);
+            return View::render('errors/404');
+        }
 
         $page = ContentPage::findPublishedBySlug($slug);
 

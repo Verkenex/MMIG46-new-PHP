@@ -1,5 +1,12 @@
-document.querySelector('[data-nav]')?.addEventListener('click', () => {
-    document.querySelector('.site-header')?.classList.toggle('open');
+document.querySelector('[data-nav]')?.addEventListener('click', (event) => {
+    const header = document.querySelector('.site-header');
+
+    if (!header) {
+        return;
+    }
+
+    const isOpen = header.classList.toggle('open');
+    event.currentTarget.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 });
 
 const cookie = document.getElementById('cookie');

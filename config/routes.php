@@ -14,9 +14,10 @@ $router->get('/news', [PageController::class, 'news']);
 $router->get('/news/{slug}', [PageController::class, 'newsDetail']);
 $router->get('/reisen', [PageController::class, 'travels']);
 
-foreach (['/verein', '/impressum', '/datenschutz', '/agb'] as $path) {
-    $router->get($path, [PageController::class, 'contentPage']);
-}
+$router->get('/verein', [PageController::class, 'verein']);
+$router->get('/impressum', [PageController::class, 'impressum']);
+$router->get('/datenschutz', [PageController::class, 'datenschutz']);
+$router->get('/agb', [PageController::class, 'agb']);
 
 $router->get('/kontakt', [PageController::class, 'contact']);
 $router->post('/kontakt', [PageController::class, 'sendContact']);

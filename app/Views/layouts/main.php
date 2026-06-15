@@ -44,7 +44,7 @@ function nav_active(string $path, string $currentPath): string
             <span><?= Security::e($siteName) ?></span>
         </a>
 
-        <button class="nav-toggle" type="button" data-nav aria-label="Menü öffnen">
+        <button class="nav-toggle" type="button" data-nav aria-label="Menü öffnen" aria-expanded="false">
             Menü
         </button>
 
