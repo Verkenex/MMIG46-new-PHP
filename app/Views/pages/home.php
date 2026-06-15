@@ -1,4 +1,4 @@
-<section class="hero">
+<section class="hero dynamic-hero">
   <div>
     <p class="eyebrow"><?= htmlspecialchars($settings['site_name'] ?? 'MMIG46 e.V.') ?></p>
 
@@ -20,47 +20,64 @@
   </div>
 </section>
 
-<section class="grid two">
-  <article>
-    <h2>Aktuell</h2>
+<section class="page">
+  <div class="split">
+    <h2>Aktuelles</h2>
+    <a class="text-link" href="/news">Alle News anzeigen →</a>
+  </div>
 
+  <div class="cards">
     <?php if (empty($latestNews)): ?>
-      <p class="meta">Noch keine veröffentlichten News.</p>
+      <article class="card">
+        <div class="card-body">
+          <p class="meta">Noch keine veröffentlichten News.</p>
+        </div>
+      </article>
     <?php else: ?>
       <?php foreach ($latestNews as $item): ?>
-        <div class="card">
-          <p class="meta">
-            <?= htmlspecialchars(date('d.m.Y', strtotime($item['published_at']))) ?>
-          </p>
-          <h3><?= htmlspecialchars($item['title']) ?></h3>
-          <p><?= htmlspecialchars($item['teaser'] ?? '') ?></p>
-        </div>
+        <article class="card">
+          <div class="card-body">
+            <p class="badge">News</p>
+            <h3><?= htmlspecialchars($item['title']) ?></h3>
+            <p><?= htmlspecialchars($item['teaser'] ?? '') ?></p>
+            <p class="meta"><?= htmlspecialchars(date('d.m.Y', strtotime($item['published_at']))) ?></p>
+          </div>
+        </article>
       <?php endforeach; ?>
     <?php endif; ?>
+  </div>
+</section>
 
-    <p><a class="btn" href="/news">Alle News</a></p>
-  </article>
-
-  <article>
+<section class="page">
+  <div class="split">
     <h2>Reisen & Fly-Ins</h2>
+    <a class="text-link" href="/reisen">Alle Reisen anzeigen →</a>
+  </div>
 
+  <div class="cards">
     <?php if (empty($latestTravels)): ?>
-      <p class="meta">Noch keine veröffentlichten Reisen.</p>
+      <article class="card">
+        <div class="card-body">
+          <p class="meta">Noch keine veröffentlichten Reisen.</p>
+        </div>
+      </article>
     <?php else: ?>
       <?php foreach ($latestTravels as $item): ?>
-        <div class="card">
-          <p class="meta">
-            <?= htmlspecialchars($item['status']) ?>
-            <?php if (!empty($item['location'])): ?>
-              · <?= htmlspecialchars($item['location']) ?>
-            <?php endif; ?>
-          </p>
-          <h3><?= htmlspecialchars($item['title']) ?></h3>
-          <p><?= htmlspecialchars($item['teaser'] ?? '') ?></p>
-        </div>
+        <article class="card">
+          <div class="card-body">
+            <p class="badge">
+              <?= htmlspecialchars($item['status']) ?>
+              <?php if (!empty($item['location'])): ?>
+                · <?= htmlspecialchars($item['location']) ?>
+              <?php endif; ?>
+            </p>
+            <h3><?= htmlspecialchars($item['title']) ?></h3>
+            <p><?= htmlspecialchars($item['teaser'] ?? '') ?></p>
+          </div>
+        </article>
       <?php endforeach; ?>
     <?php endif; ?>
-
-    <p><a class="btn" href="/reisen">Alle Reisen</a></p>
-  </article>
+  </div>
 </section>
+
+
