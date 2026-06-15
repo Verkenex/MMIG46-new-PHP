@@ -9,13 +9,16 @@ class NewsItem
     public static function published(int $limit = 20): array
     {
         $stmt = DB::pdo()->prepare(
-            'SELECT * FROM news_items
+            'SELECT id, title, slug, category, image_path, comment_count, teaser, body, published_at, is_published
+             FROM news_items
              WHERE is_published = 1
              ORDER BY published_at DESC
              LIMIT ?'
         );
+
         $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
         $stmt->execute();
+
         return $stmt->fetchAll();
     }
 
@@ -27,9 +30,14 @@ class NewsItem
     public static function findPublishedBySlug(string $slug): ?array
     {
         $stmt = DB::pdo()->prepare(
-            'SELECT * FROM news_items WHERE slug = ? AND is_published = 1 LIMIT 1'
+            'SELECT id, title, slug, category, image_path, comment_count, teaser, body, published_at, is_published
+             FROM news_items
+             WHERE slug = ? AND is_published = 1
+             LIMIT 1'
         );
+
         $stmt->execute([$slug]);
+
         return $stmt->fetch() ?: null;
     }
 }

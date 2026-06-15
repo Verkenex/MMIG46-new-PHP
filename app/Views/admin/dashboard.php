@@ -140,6 +140,130 @@
   </section>
 
   <section>
+  <h2>News bearbeiten</h2>
+
+  <form method="post" action="/verwaltung/news">
+    <?= \MMIG46\Core\Security::csrfField() ?>
+
+    <label>
+      Slug
+      <input name="slug" placeholder="fly-in-woerthersee-2026" required>
+    </label>
+
+    <label>
+      Titel
+      <input name="title" required>
+    </label>
+
+    <label>
+      Kategorie
+      <input name="category" placeholder="Reisen, Verein, Technik">
+    </label>
+
+    <label>
+      Bildpfad
+      <input name="image_path" placeholder="/assets/img/woerthersee.jpg">
+    </label>
+
+    <label>
+      Kommentare
+      <input type="number" name="comment_count" value="0">
+    </label>
+
+    <label>
+      Veröffentlichungsdatum
+      <input type="datetime-local" name="published_at">
+    </label>
+
+    <label>
+      Teaser
+      <input name="teaser">
+    </label>
+
+    <label>
+      Inhalt
+      <textarea name="body" rows="8"></textarea>
+    </label>
+
+    <label>
+      <input type="checkbox" name="is_published" checked>
+      Öffentlich anzeigen
+    </label>
+
+    <button class="primary">News speichern</button>
+  </form>
+</section>
+
+<section>
+  <h2>Reise bearbeiten</h2>
+
+  <form method="post" action="/verwaltung/travels">
+    <?= \MMIG46\Core\Security::csrfField() ?>
+
+    <label>
+      Slug
+      <input name="slug" placeholder="fly-in-woerthersee-2026" required>
+    </label>
+
+    <label>
+      Titel
+      <input name="title" required>
+    </label>
+
+    <label>
+      Bildpfad
+      <input name="image_path" placeholder="/assets/img/woerthersee.jpg">
+    </label>
+
+    <label>
+      Ort
+      <input name="location" placeholder="Woerthersee">
+    </label>
+
+    <label>
+      Startdatum
+      <input type="date" name="starts_on">
+    </label>
+
+    <label>
+      Enddatum
+      <input type="date" name="ends_on">
+    </label>
+
+    <label>
+      Status
+      <select name="status">
+        <option value="planned">planned</option>
+        <option value="completed">completed</option>
+        <option value="archived">archived</option>
+      </select>
+    </label>
+
+    <label>
+      Teaser
+      <input name="teaser">
+    </label>
+
+    <label>
+      CTA Label
+      <input name="cta_label" placeholder="Details ansehen">
+    </label>
+
+    <label>
+      Inhalt
+      <textarea name="body" rows="8"></textarea>
+    </label>
+
+    <label>
+      <input type="checkbox" name="is_published" checked>
+      Öffentlich anzeigen
+    </label>
+
+    <button class="primary">Reise speichern</button>
+  </form>
+</section>
+
+  <section>
     <h2>Inhaltsseiten</h2>
 
     <div class="table">

@@ -108,4 +108,87 @@ class AdminController
         header('Location:/verwaltung');
         exit;
     }
+
+    public function storeNews(): string
+{
+    $this->guard();
+    Security::verifyCsrf();
+
+    $slug = trim($_POST['slug'] ?? '');
+    $publishedAt = trim($_POST['published_at'] ?? '');
+
+    if ($publishedAt === '') {
+        $publishedAt = date('Y-m-d H:i:s');
+    }
+
+    DB::pdo()
+        ->prepare(
+            'INSERT INTO news_items
+             (title, slug, category, image_path, comment_count, teaser, body, published_at, is_published)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+             title = VALUES(title),
+             category = VALUES(category),
+             image_path = VALUES(image_path),
+             comment_count = VALUES(comment_count),
+             teaser = VALUES(teaser),
+             body = VALUES(body),
+             published_at = VALUES(published_at),
+             is_published = VALUES(is_published)'
+        )
+        ->execute([
+            trim($_POST['title'] ?? ''),
+            $slug,
+            trim($_POST['category'] ?? ''),
+            trim($_POST['image_path'] ?? ''),
+            (int)($_POST['comment_count'] ?? 0),
+            trim($_POST['teaser'] ?? ''),
+            trim($_POST['body'] ?? ''),
+            $publishedAt,
+            isset($_POST['is_published']) ? 1 : 0,
+        ]);
+
+    header('Location:/verwaltung');
+    exit;
+}
+
+public function storeTravel(): string
+{
+    $this->guard();
+    Security::verifyCsrf();
+
+    DB::pdo()
+        ->prepare(
+            'INSERT INTO travel_items
+             (title, slug, image_path, location, starts_on, ends_on, status, teaser, cta_label, body, is_published)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+             title = VALUES(title),
+             image_path = VALUES(image_path),
+             location = VALUES(location),
+             starts_on = VALUES(starts_on),
+             ends_on = VALUES(ends_on),
+             status = VALUES(status),
+             teaser = VALUES(teaser),
+             cta_label = VALUES(cta_label),
+             body = VALUES(body),
+             is_published = VALUES(is_published)'
+        )
+        ->execute([
+            trim($_POST['title'] ?? ''),
+            trim($_POST['slug'] ?? ''),
+            trim($_POST['image_path'] ?? ''),
+            trim($_POST['location'] ?? ''),
+            ($_POST['starts_on'] ?? '') !== '' ? $_POST['starts_on'] : null,
+            ($_POST['ends_on'] ?? '') !== '' ? $_POST['ends_on'] : null,
+            $_POST['status'] ?? 'planned',
+            trim($_POST['teaser'] ?? ''),
+            trim($_POST['cta_label'] ?? ''),
+            trim($_POST['body'] ?? ''),
+            isset($_POST['is_published']) ? 1 : 0,
+        ]);
+
+    header('Location:/verwaltung');
+    exit;
+}
 }

@@ -34,3 +34,6 @@ $router->get('/verwaltung', [AdminController::class, 'dashboard']);
 $router->post('/verwaltung/users', [AdminController::class, 'storeUser']);
 $router->post('/verwaltung/members', [AdminController::class, 'storeMember']);
 $router->post('/verwaltung/pages', [AdminController::class, 'storePage']);
+
+$router->post('/verwaltung/news', [AdminController::class, 'storeNews']);
+$router->post('/verwaltung/travels', [AdminController::class, 'storeTravel']);

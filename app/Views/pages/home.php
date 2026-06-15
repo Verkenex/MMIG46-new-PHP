@@ -1,5 +1,5 @@
-<section class="hero dynamic-hero">
-  <div>
+<section class="home-hero">
+  <div class="home-hero__content">
     <p class="eyebrow"><?= htmlspecialchars($settings['site_name'] ?? 'MMIG46 e.V.') ?></p>
 
     <h1><?= htmlspecialchars($settings['site_claim'] ?? 'Malibu Mirage Interessengemeinschaft 46') ?></h1>
@@ -14,10 +14,40 @@
       <a class="btn" href="/kontakt">Kontakt aufnehmen</a>
     </div>
   </div>
+</section>
 
-  <div class="orb">
-    <span>PA-46</span>
-  </div>
+<section class="feature-strip">
+  <article>
+    <span>✈</span>
+    <div>
+      <h2>Fly-Ins & Reisen</h2>
+      <p>Gemeinsame Ausflüge, Fly-Ins und Reiseziele in Europa.</p>
+    </div>
+  </article>
+
+  <article>
+    <span>♟</span>
+    <div>
+      <h2>Mitgliederbereich</h2>
+      <p>Exklusive Inhalte, interne Informationen und direkter Austausch.</p>
+    </div>
+  </article>
+
+  <article>
+    <span>🔧</span>
+    <div>
+      <h2>Technischer Austausch</h2>
+      <p>Erfahrungen teilen, Fragen stellen und von der Gemeinschaft profitieren.</p>
+    </div>
+  </article>
+
+  <article>
+    <span>💬</span>
+    <div>
+      <h2>Forum & News</h2>
+      <p>Aktuelle News, Diskussionen und hilfreiche Beiträge aus der Community.</p>
+    </div>
+  </article>
 </section>
 
 <section class="page">
@@ -26,58 +56,38 @@
     <a class="text-link" href="/news">Alle News anzeigen →</a>
   </div>
 
-  <div class="cards">
+  <div class="image-card-grid">
     <?php if (empty($latestNews)): ?>
-      <article class="card">
-        <div class="card-body">
+      <article class="image-card">
+        <div class="image-card__body">
           <p class="meta">Noch keine veröffentlichten News.</p>
         </div>
       </article>
     <?php else: ?>
       <?php foreach ($latestNews as $item): ?>
-        <article class="card">
-          <div class="card-body">
-            <p class="badge">News</p>
-            <h3><?= htmlspecialchars($item['title']) ?></h3>
+        <article class="image-card">
+          <?php if (!empty($item['image_path'])): ?>
+            <div class="image-card__media">
+              <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="">
+              <span class="image-card__badge">
+                <?= htmlspecialchars($item['category'] ?? 'News') ?>
+              </span>
+            </div>
+          <?php endif; ?>
+
+          <div class="image-card__body">
+            <h2><?= htmlspecialchars($item['title']) ?></h2>
             <p><?= htmlspecialchars($item['teaser'] ?? '') ?></p>
-            <p class="meta"><?= htmlspecialchars(date('d.m.Y', strtotime($item['published_at']))) ?></p>
-          </div>
-        </article>
-      <?php endforeach; ?>
-    <?php endif; ?>
-  </div>
-</section>
 
-<section class="page">
-  <div class="split">
-    <h2>Reisen & Fly-Ins</h2>
-    <a class="text-link" href="/reisen">Alle Reisen anzeigen →</a>
-  </div>
-
-  <div class="cards">
-    <?php if (empty($latestTravels)): ?>
-      <article class="card">
-        <div class="card-body">
-          <p class="meta">Noch keine veröffentlichten Reisen.</p>
-        </div>
-      </article>
-    <?php else: ?>
-      <?php foreach ($latestTravels as $item): ?>
-        <article class="card">
-          <div class="card-body">
-            <p class="badge">
-              <?= htmlspecialchars($item['status']) ?>
-              <?php if (!empty($item['location'])): ?>
-                · <?= htmlspecialchars($item['location']) ?>
+            <div class="image-card__meta">
+              <span><?= htmlspecialchars(date('d.m.Y', strtotime($item['published_at']))) ?></span>
+              <?php if (isset($item['comment_count'])): ?>
+                <span><?= (int)$item['comment_count'] ?> Kommentare</span>
               <?php endif; ?>
-            </p>
-            <h3><?= htmlspecialchars($item['title']) ?></h3>
-            <p><?= htmlspecialchars($item['teaser'] ?? '') ?></p>
+            </div>
           </div>
         </article>
       <?php endforeach; ?>
     <?php endif; ?>
   </div>
 </section>
-
-

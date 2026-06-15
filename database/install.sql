@@ -106,3 +106,12 @@ CREATE TABLE site_settings (
   setting_value TEXT NOT NULL,
   updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE news_items
+  ADD COLUMN category VARCHAR(80) NULL AFTER slug,
+  ADD COLUMN image_path VARCHAR(255) NULL AFTER category,
+  ADD COLUMN comment_count INT UNSIGNED NOT NULL DEFAULT 0 AFTER image_path;
+
+ALTER TABLE travel_items
+  ADD COLUMN image_path VARCHAR(255) NULL AFTER slug,
+  ADD COLUMN cta_label VARCHAR(80) NULL AFTER teaser;
