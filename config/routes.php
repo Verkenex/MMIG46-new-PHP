@@ -11,6 +11,7 @@ use MMIG46\Controllers\PageController;
 $router->get('/', [PageController::class, 'home']);
 
 $router->get('/news', [PageController::class, 'news']);
+$router->get('/news/{slug}', [PageController::class, 'newsDetail']);
 $router->get('/reisen', [PageController::class, 'travels']);
 
 foreach (['/verein', '/impressum', '/datenschutz', '/agb'] as $path) {
@@ -37,3 +38,6 @@ $router->post('/verwaltung/pages', [AdminController::class, 'storePage']);
 
 $router->post('/verwaltung/news', [AdminController::class, 'storeNews']);
 $router->post('/verwaltung/travels', [AdminController::class, 'storeTravel']);
+
+$router->get('/mitgliedsantrag', [PageController::class, 'membershipApplication']);
+$router->post('/mitgliedsantrag', [PageController::class, 'sendMembershipApplication']);

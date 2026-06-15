@@ -65,26 +65,43 @@
       </article>
     <?php else: ?>
       <?php foreach ($latestNews as $item): ?>
+        <?php
+          $newsUrl = '/news/' . rawurlencode($item['slug']);
+          $newsTitle = htmlspecialchars($item['title']);
+          $newsTeaser = htmlspecialchars($item['teaser'] ?? '');
+          $newsCategory = htmlspecialchars($item['category'] ?? 'News');
+          $newsDate = htmlspecialchars(date('d.m.Y', strtotime($item['published_at'])));
+        ?>
+
         <article class="image-card">
           <?php if (!empty($item['image_path'])): ?>
-            <div class="image-card__media">
-              <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="">
+            <a class="image-card__media" href="<?= htmlspecialchars($newsUrl) ?>" aria-label="Artikel lesen: <?= $newsTitle ?>">
+              <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="<?= $newsTitle ?>">
               <span class="image-card__badge">
-                <?= htmlspecialchars($item['category'] ?? 'News') ?>
+                <?= $newsCategory ?>
               </span>
-            </div>
+            </a>
           <?php endif; ?>
 
           <div class="image-card__body">
-            <h2><?= htmlspecialchars($item['title']) ?></h2>
-            <p><?= htmlspecialchars($item['teaser'] ?? '') ?></p>
+            <h2>
+              <a href="<?= htmlspecialchars($newsUrl) ?>">
+                <?= $newsTitle ?>
+              </a>
+            </h2>
+
+            <p><?= $newsTeaser ?></p>
 
             <div class="image-card__meta">
-              <span><?= htmlspecialchars(date('d.m.Y', strtotime($item['published_at']))) ?></span>
+              <span><?= $newsDate ?></span>
               <?php if (isset($item['comment_count'])): ?>
                 <span><?= (int)$item['comment_count'] ?> Kommentare</span>
               <?php endif; ?>
             </div>
+
+            <a class="text-link" href="<?= htmlspecialchars($newsUrl) ?>">
+              Artikel lesen →
+            </a>
           </div>
         </article>
       <?php endforeach; ?>

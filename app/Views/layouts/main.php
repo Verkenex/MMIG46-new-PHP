@@ -58,20 +58,32 @@ function nav_active(string $path, string $currentPath): string
         </nav>
 
         <div class="site-actions">
-            <?php if ($isLoggedIn): ?>
-                <form method="post" action="/logout" class="inline">
-                    <input type="hidden" name="_csrf" value="<?= Security::csrf() ?>">
-                    <button class="plain-action" type="submit">Logout</button>
-                </form>
-            <?php else: ?>
-                <a class="plain-action" href="/login">Login</a>
-            <?php endif; ?>
+    <?php if ($isLoggedIn): ?>
+        <?php $userRole = $_SESSION['user']['role'] ?? ''; ?>
 
-            <a class="admin-action" href="/verwaltung">
+        <?php if ($userRole === 'admin'): ?>
+            <a class="admin-action" href="/verwaltung" aria-label="Login">
                 <span aria-hidden="true">⚙</span>
-                <span>Verwaltung</span>
+                <span>Login</span>
             </a>
-        </div>
+        <?php else: ?>
+            <a class="admin-action" href="/forum" aria-label="Login">
+                <span aria-hidden="true">⚙</span>
+                <span>Login</span>
+            </a>
+        <?php endif; ?>
+
+        <form method="post" action="/logout" class="inline">
+            <input type="hidden" name="_csrf" value="<?= Security::csrf() ?>">
+            <button class="plain-action" type="submit">Logout</button>
+        </form>
+    <?php else: ?>
+        <a class="admin-action" href="/login" aria-label="Login">
+            <span aria-hidden="true">⚙</span>
+            <span>Login</span>
+        </a>
+    <?php endif; ?>
+</div>
     </div>
 </header>
 

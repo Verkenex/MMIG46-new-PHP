@@ -194,6 +194,75 @@
   </form>
 </section>
 
+<section class="admin-panel">
+    <h2>Beiträge verwalten</h2>
+    <p>
+        Bestehenden Slug erneut verwenden, um einen Beitrag zu aktualisieren.
+        Neuen Slug verwenden, um einen neuen Beitrag anzulegen.
+    </p>
+
+    <form method="post" action="/verwaltung/news" class="admin-form">
+        <?= \MMIG46\Core\Security::csrfField() ?>
+
+        <label>Titel
+            <input name="title" required>
+        </label>
+
+        <label>Slug
+            <input name="slug" required placeholder="fly-in-woerthersee-2026">
+        </label>
+
+        <label>Kategorie
+            <input name="category" placeholder="Verein, Reisen, Aktuelles">
+        </label>
+
+        <label>Bildpfad
+            <input name="image_path" placeholder="/assets/img/news-meeting.jpg">
+        </label>
+
+        <label>Teaser
+            <textarea name="teaser"></textarea>
+        </label>
+
+        <label>Artikeltext / Markdown
+            <textarea name="body" rows="10" required></textarea>
+        </label>
+
+        <label>Veröffentlichungsdatum
+            <input name="published_at" placeholder="2026-06-15 12:00:00">
+        </label>
+
+        <label>
+            <input type="checkbox" name="is_published" value="1" checked>
+            Veröffentlicht
+        </label>
+
+        <button class="button" type="submit">Beitrag speichern</button>
+    </form>
+
+    <h3>Bestehende Beiträge</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Slug</th>
+                <th>Datum</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($news as $item): ?>
+                <tr>
+                    <td><?= htmlspecialchars($item['title']) ?></td>
+                    <td><code><?= htmlspecialchars($item['slug']) ?></code></td>
+                    <td><?= htmlspecialchars($item['published_at']) ?></td>
+                    <td><?= !empty($item['is_published']) ? 'online' : 'offline' ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>
+
 <section>
   <h2>Reise bearbeiten</h2>
 

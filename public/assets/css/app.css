@@ -1559,3 +1559,54 @@ td {
     margin-bottom: 6px;
   }
 }
+
+.application-form fieldset {
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 18px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.application-form legend {
+    font-weight: 700;
+    padding: 0 .5rem;
+}
+
+.application-form label {
+    display: grid;
+    gap: .4rem;
+    margin-bottom: 1rem;
+}
+
+.application-form input,
+.application-form textarea,
+.application-form select {
+    width: 100%;
+}
+
+.print-signature {
+    display: none;
+}
+
+@media print {
+    .no-print,
+    .site-header,
+    .site-footer {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+        color: #000;
+    }
+
+    .application-form fieldset {
+        break-inside: avoid;
+        border: 1px solid #999;
+    }
+
+    .print-signature {
+        display: block;
+        margin-top: 2rem;
+    }
+}

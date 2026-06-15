@@ -12,7 +12,7 @@ INSERT INTO content_pages
 (slug, title, teaser, body, meta_title, meta_description, is_published)
 VALUES
 (
-  'verein',
+  '<a class="button" href="/mitgliedsantrag">Mitglied werden</a>',
   'Verein',
   'Die MMIG46 e.V. vernetzt Besitzer, Halter und Piloten der Piper PA46.',
   'Die MMIG46 e.V. ist eine Interessengemeinschaft rund um die Piper PA46.
