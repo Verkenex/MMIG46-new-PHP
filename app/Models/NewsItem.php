@@ -41,16 +41,3 @@ class NewsItem
         return $stmt->fetch() ?: null;
     }
 }
-
-public static function findPublishedBySlug(string $slug): ?array
-{
-    $stmt = DB::pdo()->prepare(
-        'SELECT * FROM news_items
-         WHERE slug = ? AND is_published = 1
-         LIMIT 1'
-    );
-    $stmt->execute([$slug]);
-    $item = $stmt->fetch();
-
-    return $item ?: null;
-}

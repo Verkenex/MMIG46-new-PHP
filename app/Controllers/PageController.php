@@ -5,13 +5,13 @@ namespace MMIG46\Controllers;
 use MMIG46\Core\Security;
 use MMIG46\Core\Session;
 use MMIG46\Core\View;
+use MMIG46\Models\ContactRequest;
 use MMIG46\Models\ContentPage;
 use MMIG46\Models\NewsItem;
 use MMIG46\Models\SiteSetting;
 use MMIG46\Models\TravelItem;
 use MMIG46\Services\Mailer;
 use MMIG46\Services\Markdown;
-use MMIG46\Models\ContactRequest;
 
 class PageController
 {
@@ -32,24 +32,24 @@ class PageController
     }
 
     public function newsDetail(string $slug = ''): string
-{
-    if ($slug === '') {
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $slug = basename($path);
+    {
+        if ($slug === '') {
+            $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            $slug = basename((string)$path);
+        }
+
+        $item = NewsItem::findPublishedBySlug($slug);
+
+        if (!$item) {
+            http_response_code(404);
+            return View::render('errors/404');
+        }
+
+        return View::render('pages/news-detail', [
+            'item' => $item,
+            'bodyHtml' => Markdown::toHtml($item['body'] ?? ''),
+        ]);
     }
-
-    $item = NewsItem::findPublishedBySlug($slug);
-
-    if (!$item) {
-        http_response_code(404);
-        return View::render('errors/404');
-    }
-
-    return View::render('pages/news-detail', [
-        'item' => $item,
-        'bodyHtml' => Markdown::toHtml($item['body'] ?? ''),
-    ]);
-}
 
     public function travels(): string
     {
@@ -58,10 +58,15 @@ class PageController
         ]);
     }
 
+    public function verein(): string
+    {
+        return View::render('pages/verein');
+    }
+
     public function contentPage(): string
     {
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $slug = trim($path, '/');
+        $slug = trim((string)$path, '/');
 
         $page = ContentPage::findPublishedBySlug($slug);
 
@@ -111,60 +116,65 @@ class PageController
     }
 
     public function membershipApplication(): string
-{
-    return View::render('pages/mitgliedsantrag');
-}
+    {
+        return View::render('pages/mitgliedsantrag');
+    }
 
-public function sendMembershipApplication(): string
-{
-    Security::verifyCsrf();
+    public function sendMembershipApplication(): string
+    {
+        Security::verifyCsrf();
 
-    $data = [
-        'membership_type' => trim($_POST['membership_type'] ?? ''),
-        'invoice_name' => trim($_POST['invoice_name'] ?? ''),
-        'street' => trim($_POST['street'] ?? ''),
-        'postal_city_country' => trim($_POST['postal_city_country'] ?? ''),
-        'last_name' => trim($_POST['last_name'] ?? ''),
-        'first_name' => trim($_POST['first_name'] ?? ''),
-        'birthday' => trim($_POST['birthday'] ?? ''),
-        'occupation' => trim($_POST['occupation'] ?? ''),
-        'copilot_spouse' => trim($_POST['copilot_spouse'] ?? ''),
-        'total_time' => trim($_POST['total_time'] ?? ''),
-        'time_in_type' => trim($_POST['time_in_type'] ?? ''),
-        'license_ratings' => trim($_POST['license_ratings'] ?? ''),
-        'flying_since' => trim($_POST['flying_since'] ?? ''),
-        'aviation_history' => trim($_POST['aviation_history'] ?? ''),
-        'registered_owner' => trim($_POST['registered_owner'] ?? ''),
-        'callsign' => trim($_POST['callsign'] ?? ''),
-        'model' => trim($_POST['model'] ?? ''),
-        'serial_number' => trim($_POST['serial_number'] ?? ''),
-        'aircraft_year' => trim($_POST['aircraft_year'] ?? ''),
-        'modifications' => trim($_POST['modifications'] ?? ''),
-        'home_base' => trim($_POST['home_base'] ?? ''),
-        'office_phone' => trim($_POST['office_phone'] ?? ''),
-        'office_email' => trim($_POST['office_email'] ?? ''),
-        'home_phone' => trim($_POST['home_phone'] ?? ''),
-        'private_email' => trim($_POST['private_email'] ?? ''),
-        'mobile' => trim($_POST['mobile'] ?? ''),
-        'consent' => isset($_POST['consent']) ? 'yes' : 'no',
-    ];
+        $data = [
+            'membership_type' => trim($_POST['membership_type'] ?? ''),
+            'invoice_name' => trim($_POST['invoice_name'] ?? ''),
+            'street' => trim($_POST['street'] ?? ''),
+            'postal_city_country' => trim($_POST['postal_city_country'] ?? ''),
+            'last_name' => trim($_POST['last_name'] ?? ''),
+            'first_name' => trim($_POST['first_name'] ?? ''),
+            'birthday' => trim($_POST['birthday'] ?? ''),
+            'occupation' => trim($_POST['occupation'] ?? ''),
+            'copilot_spouse' => trim($_POST['copilot_spouse'] ?? ''),
+            'total_time' => trim($_POST['total_time'] ?? ''),
+            'time_in_type' => trim($_POST['time_in_type'] ?? ''),
+            'license_ratings' => trim($_POST['license_ratings'] ?? ''),
+            'flying_since' => trim($_POST['flying_since'] ?? ''),
+            'aviation_history' => trim($_POST['aviation_history'] ?? ''),
+            'registered_owner' => trim($_POST['registered_owner'] ?? ''),
+            'callsign' => trim($_POST['callsign'] ?? ''),
+            'model' => trim($_POST['model'] ?? ''),
+            'serial_number' => trim($_POST['serial_number'] ?? ''),
+            'aircraft_year' => trim($_POST['aircraft_year'] ?? ''),
+            'modifications' => trim($_POST['modifications'] ?? ''),
+            'home_base' => trim($_POST['home_base'] ?? ''),
+            'office_phone' => trim($_POST['office_phone'] ?? ''),
+            'office_email' => trim($_POST['office_email'] ?? ''),
+            'home_phone' => trim($_POST['home_phone'] ?? ''),
+            'private_email' => trim($_POST['private_email'] ?? ''),
+            'mobile' => trim($_POST['mobile'] ?? ''),
+            'consent' => isset($_POST['consent']) ? 'yes' : 'no',
+        ];
 
-    if ($data['first_name'] === '' || $data['last_name'] === '' || $data['private_email'] === '' || $data['consent'] !== 'yes') {
-        Session::flash('error', 'Bitte Pflichtfelder ausfüllen und Einwilligung bestätigen.');
+        if (
+            $data['first_name'] === ''
+            || $data['last_name'] === ''
+            || $data['private_email'] === ''
+            || $data['consent'] !== 'yes'
+        ) {
+            Session::flash('error', 'Bitte Pflichtfelder ausfüllen und Einwilligung bestätigen.');
+            header('Location:/mitgliedsantrag');
+            exit;
+        }
+
+        $message = "Neuer Mitgliedsantrag:\n\n" . print_r($data, true);
+
+        Mailer::contact(
+            $data['first_name'] . ' ' . $data['last_name'],
+            $data['private_email'],
+            $message
+        );
+
+        Session::flash('success', 'Der Mitgliedsantrag wurde übermittelt. Sie können ihn zusätzlich ausdrucken.');
         header('Location:/mitgliedsantrag');
         exit;
     }
-
-    // Minimalvariante: E-Mail an Verein senden.
-    $message = "Neuer Mitgliedsantrag:\n\n" . print_r($data, true);
-    Mailer::contact(
-        $data['first_name'] . ' ' . $data['last_name'],
-        $data['private_email'],
-        $message
-    );
-
-    Session::flash('success', 'Der Mitgliedsantrag wurde übermittelt. Sie können ihn zusätzlich ausdrucken.');
-    header('Location:/mitgliedsantrag');
-    exit;
-}
 }
