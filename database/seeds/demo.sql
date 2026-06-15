@@ -25,7 +25,7 @@ ON DUPLICATE KEY UPDATE
   role = VALUES(role),
   email_verified_at = VALUES(email_verified_at);
 
-INSERT INTO members (name, email, aircraft, base, role_label, is_public)
+INSERT INTO members (name, email, aircraft, base, role_label, member_type, is_public, sort_order)
 VALUES
   (
     'Max Mustermann',
@@ -33,14 +33,19 @@ VALUES
     'Piper PA-46 Jetprop',
     'EDDH',
     'Mitglied',
-    1
+    'Standard',
+    1,
+    100
   )
 ON DUPLICATE KEY UPDATE
   email = VALUES(email),
   aircraft = VALUES(aircraft),
   base = VALUES(base),
   role_label = VALUES(role_label),
-  is_public = VALUES(is_public);
+  member_type = VALUES(member_type),
+  website = VALUES(website),
+  is_public = VALUES(is_public),
+  sort_order = VALUES(sort_order);
 
 INSERT INTO site_settings (setting_key, setting_value)
 VALUES

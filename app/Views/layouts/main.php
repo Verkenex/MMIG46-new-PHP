@@ -52,7 +52,7 @@ function nav_active(string $path, string $currentPath): string
             <a class="<?= nav_active('/news', $currentPath) ?>" href="/news">News</a>
             <a class="<?= nav_active('/reisen', $currentPath) ?>" href="/reisen">Reisen</a>
             <a class="<?= nav_active('/verein', $currentPath) ?>" href="/verein">Verein</a>
-            <a class="<?= nav_active('/memberlist', $currentPath) ?>" href="/memberlist">Memberlist</a>
+            <a class="<?= nav_active('/mitglieder', $currentPath) ?>" href="/mitglieder">Mitglieder</a>
             <a class="<?= nav_active('/forum', $currentPath) ?>" href="/forum">Forum</a>
             <a class="<?= nav_active('/kontakt', $currentPath) ?>" href="/kontakt">Kontakt</a>
         </nav>

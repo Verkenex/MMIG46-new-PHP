@@ -18,7 +18,10 @@ CREATE TABLE members (
   aircraft VARCHAR(120) NULL,
   base VARCHAR(120) NULL,
   role_label VARCHAR(120) NULL,
+  member_type VARCHAR(120) NULL,
+  website VARCHAR(255) NULL,
   is_public TINYINT(1) NOT NULL DEFAULT 1,
+  sort_order INT NOT NULL DEFAULT 100,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

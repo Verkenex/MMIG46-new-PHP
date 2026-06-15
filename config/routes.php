@@ -30,6 +30,7 @@ $router->get('/forum', [ForumController::class, 'index']);
 $router->get('/forum/neu', [ForumController::class, 'create']);
 $router->post('/forum/neu', [ForumController::class, 'store']);
 
+$router->get('/mitglieder', [MemberController::class, 'index']);
 $router->get('/memberlist', [MemberController::class, 'index']);
 
 $router->get('/verwaltung', [AdminController::class, 'dashboard']);
