@@ -2198,3 +2198,81 @@ td {
     margin: 0;
     color: #4c5566;
 }
+
+
+/* Print form controls as paper fields */
+
+.print-check,
+.print-text-line {
+    display: none;
+}
+
+@media print {
+    .membership-option,
+    .consent-check {
+        grid-template-columns: 4mm minmax(0, 1fr) !important;
+    }
+
+    .membership-option input[type="radio"],
+    .consent-check input[type="checkbox"] {
+        display: none !important;
+    }
+
+    .membership-option .print-check,
+    .consent-check .print-check {
+        display: inline-block !important;
+        width: 3.8mm !important;
+        height: 3.8mm !important;
+        border: 0.25mm solid #777 !important;
+        border-radius: 50% !important;
+        background: #fff !important;
+        margin-top: 0.2mm !important;
+    }
+
+    .consent-check .print-check {
+        border-radius: 0.8mm !important;
+    }
+
+    .membership-option input[type="radio"]:checked + .print-check::after,
+    .consent-check input[type="checkbox"]:checked + .print-check::after {
+        content: "" !important;
+        display: block !important;
+        width: 2.2mm !important;
+        height: 2.2mm !important;
+        margin: 0.55mm auto 0 !important;
+        border-radius: 50% !important;
+        background: #000 !important;
+    }
+
+    .consent-check input[type="checkbox"]:checked + .print-check::after {
+        width: 2.4mm !important;
+        height: 2.4mm !important;
+        border-radius: 0.4mm !important;
+    }
+
+    select.screen-control {
+        display: none !important;
+    }
+
+    .print-text-line {
+        display: block !important;
+        height: 6.2mm !important;
+        border: 0.25mm solid #bbb !important;
+        border-radius: 1.5mm !important;
+        background: #fff !important;
+    }
+
+    datalist {
+        display: none !important;
+    }
+}
+
+
+/* Hide form placeholders in print */
+
+@media print {
+    .membership-form input::placeholder,
+    .membership-form textarea::placeholder {
+        color: transparent !important;
+    }
+}

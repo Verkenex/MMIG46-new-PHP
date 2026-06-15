@@ -43,8 +43,8 @@ $aircraftModels = [
                                 type="radio"
                                 name="membership_type"
                                 value="<?= Security::e($value) ?>"
-                                <?= $value === 'owner_pilot' ? 'checked' : '' ?>
                             >
+                            <span class="print-check" aria-hidden="true"></span>
                             <span><?= Security::e($label) ?></span>
                         </label>
                     <?php endforeach; ?>
@@ -88,7 +88,7 @@ $aircraftModels = [
 
                     <label>
                         Geburtstag
-                        <input name="birthday" type="date">
+                        <input name="birthday" inputmode="numeric" placeholder="TT.MM.JJJJ" autocomplete="bday">
                     </label>
 
                     <label>
@@ -148,19 +148,15 @@ $aircraftModels = [
                         <input name="callsign">
                     </label>
 
-                    <label>
+                    <label class="print-line-field">
                         Modell
-                        <select name="model">
+                        <select name="model" class="screen-control">
                             <option value="">Bitte wählen</option>
                             <?php foreach ($aircraftModels as $model): ?>
                                 <option value="<?= Security::e($model) ?>"><?= Security::e($model) ?></option>
                             <?php endforeach; ?>
                         </select>
-                    </label>
-
-                    <label>
-                        Seriennummer
-                        <input name="serial_number">
+                        <span class="print-text-line" aria-hidden="true"></span>
                     </label>
 
                     <label>
@@ -225,6 +221,7 @@ $aircraftModels = [
 
                 <label class="consent-check">
                     <input type="checkbox" name="consent" required>
+                    <span class="print-check" aria-hidden="true"></span>
                     <span>Ich stimme der Verarbeitung meiner Daten und den oben genannten Hinweisen zu.</span>
                 </label>
             </fieldset>
