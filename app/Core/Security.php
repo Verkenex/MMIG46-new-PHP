@@ -6,4 +6,8 @@ final class Security {
     public static function e(?string $v): string { return htmlspecialchars((string)$v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
     public static function requireRole(array $roles): void { $role = $_SESSION['user']['role'] ?? 'guest'; if (!in_array($role,$roles,true)) { header('Location: /login'); exit; } }
     public static function passwordOk(string $p): bool { return strlen($p) >= 8; }
+        public static function csrfField(): string
+    {
+        return '<input type="hidden" name="_csrf" value="' . self::e(self::csrf()) . '">';
+    }
 }
