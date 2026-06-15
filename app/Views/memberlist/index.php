@@ -4,6 +4,19 @@
   <p class="meta">Öffentlich sichtbare Mitglieder der MMIG46.</p>
 
   <div class="table">
+
+    <?php if (empty($members)): ?>
+    <div class="empty-state">
+        <h2>Noch keine öffentlich sichtbaren Mitglieder</h2>
+        <p>
+            Aktuell sind keine Mitglieder für die öffentliche Anzeige freigegeben.
+            Sichtbare Einträge können im Adminbereich gepflegt werden.
+        </p>
+    </div>
+<?php else: ?>
+    <!-- bestehende Tabelle hier belassen -->
+<?php endif; ?>
+
     <table>
       <thead>
         <tr>

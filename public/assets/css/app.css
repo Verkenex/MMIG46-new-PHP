@@ -1865,3 +1865,336 @@ td {
     }
 }
 
+/* Membership application cleanup */
+
+.membership-page {
+    padding: clamp(56px, 7vw, 88px) 0;
+}
+
+.membership-header {
+    max-width: 760px;
+    margin-bottom: 52px;
+}
+
+.membership-header h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    letter-spacing: -0.055em;
+    line-height: 1;
+}
+
+.membership-header p:not(.eyebrow) {
+    margin: 20px 0 0;
+    color: #4c5566;
+    font-size: 1.08rem;
+}
+
+.print-button {
+    margin-top: 24px;
+}
+
+.membership-form {
+    display: grid;
+    gap: 28px;
+}
+
+.membership-fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: clamp(24px, 3vw, 36px);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.membership-fieldset legend {
+    padding: 0 10px;
+    color: var(--navy);
+    font-size: 1.05rem;
+    font-weight: 900;
+}
+
+.membership-options {
+    display: grid;
+    gap: 12px;
+}
+
+.membership-option,
+.consent-check {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    color: var(--navy);
+    font-weight: 800;
+}
+
+.membership-option input,
+.consent-check input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 22px;
+}
+
+.form-grid label {
+    display: grid;
+    gap: 8px;
+    color: var(--navy);
+    font-weight: 800;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid #cfd8e3;
+    border-radius: 8px;
+    background: #fff;
+    padding: 10px 12px;
+    color: var(--navy);
+    font: inherit;
+}
+
+.form-grid textarea {
+    resize: vertical;
+}
+
+.span-2 {
+    grid-column: span 2;
+}
+
+.consent-box p {
+    max-width: 90ch;
+    margin: 0 0 14px;
+    color: #4c5566;
+}
+
+.consent-check {
+    margin-top: 12px;
+}
+
+.membership-signature {
+    display: none;
+}
+
+.membership-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 760px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .span-2 {
+        grid-column: auto;
+    }
+}
+
+/* Print: compact one-page membership application */
+
+@media print {
+    @page {
+        size: A4;
+        margin: 9mm 10mm;
+    }
+
+    html,
+    body {
+        width: 210mm;
+        min-height: 297mm;
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 8.8pt !important;
+        line-height: 1.2 !important;
+    }
+
+    .site-header,
+    .site-footer,
+    .cookie,
+    .print-button,
+    .membership-actions {
+        display: none !important;
+    }
+
+    main {
+        padding: 0 !important;
+    }
+
+    .container {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+    }
+
+    .membership-page {
+        padding: 0 !important;
+    }
+
+    .membership-header {
+        margin: 0 0 5mm !important;
+        max-width: none !important;
+    }
+
+    .membership-header .eyebrow {
+        margin: 0 0 2mm !important;
+        font-size: 7.5pt !important;
+        letter-spacing: 0.18em !important;
+    }
+
+    .membership-header h1 {
+        margin: 0 !important;
+        font-size: 20pt !important;
+        line-height: 1 !important;
+        letter-spacing: -0.03em !important;
+        color: #000 !important;
+    }
+
+    .membership-header p:not(.eyebrow) {
+        margin: 3mm 0 0 !important;
+        font-size: 9pt !important;
+        color: #000 !important;
+    }
+
+    .membership-form {
+        display: grid !important;
+        gap: 3mm !important;
+    }
+
+    .membership-fieldset {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        padding: 3.5mm 5mm 4mm !important;
+        border: 0.35mm solid #999 !important;
+        border-radius: 4mm !important;
+        box-shadow: none !important;
+        background: #fff !important;
+    }
+
+    .membership-fieldset legend {
+        padding: 0 2mm !important;
+        font-size: 8.5pt !important;
+        font-weight: 800 !important;
+        color: #000 !important;
+    }
+
+    .membership-options {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 2mm !important;
+    }
+
+    .membership-option,
+    .consent-check {
+        grid-template-columns: 4mm minmax(0, 1fr) !important;
+        gap: 2mm !important;
+        font-size: 7.8pt !important;
+        font-weight: 700 !important;
+        color: #000 !important;
+    }
+
+    .membership-option input,
+    .consent-check input {
+        width: 3.6mm !important;
+        height: 3.6mm !important;
+        margin: 0 !important;
+        accent-color: #000 !important;
+    }
+
+    .form-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 2.2mm 3mm !important;
+    }
+
+    .form-grid label {
+        gap: 1mm !important;
+        font-size: 7.6pt !important;
+        font-weight: 700 !important;
+        color: #000 !important;
+    }
+
+    .span-2 {
+        grid-column: span 2 !important;
+    }
+
+    .form-grid input,
+    .form-grid select,
+    .form-grid textarea {
+        min-height: 6.2mm !important;
+        height: 6.2mm !important;
+        padding: 0 1.5mm !important;
+        border: 0.25mm solid #bbb !important;
+        border-radius: 1.5mm !important;
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 7.5pt !important;
+        box-shadow: none !important;
+    }
+
+    .form-grid textarea {
+        height: 9mm !important;
+        min-height: 9mm !important;
+        resize: none !important;
+    }
+
+    .consent-box p {
+        margin: 0 0 2mm !important;
+        max-width: none !important;
+        font-size: 7.5pt !important;
+        color: #000 !important;
+    }
+
+    .consent-check {
+        margin-top: 2mm !important;
+    }
+
+    .membership-signature {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 8mm;
+        margin-top: 1mm;
+        font-size: 8pt;
+        color: #000;
+    }
+
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+}
+
+
+
+/* Empty state */
+
+.empty-state {
+    margin-top: 28px;
+    max-width: 680px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.empty-state h2 {
+    margin: 0 0 10px;
+    color: var(--navy);
+    letter-spacing: -0.035em;
+}
+
+.empty-state p {
+    margin: 0;
+    color: #4c5566;
+}

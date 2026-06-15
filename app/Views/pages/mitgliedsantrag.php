@@ -1,102 +1,242 @@
-<section class="page-hero compact">
+<?php
+
+use MMIG46\Core\Security;
+
+$membershipTypes = [
+    'corporate_supplier' => 'Corporate Supplier MMIG46 – 2.500 EUR Jahresbeitrag',
+    'owner_pilot' => 'Owner / Pilot – 250 EUR Jahresbeitrag',
+    'associate_pilot' => 'Associate Pilot – 250 EUR Jahresbeitrag',
+];
+
+$aircraftModels = [
+    'PA46-310',
+    'PA46-350',
+    'PA46R-350T',
+    'PA46-500',
+    'PA46-JETPROP',
+    'Andere',
+];
+?>
+
+<section class="membership-page">
     <div class="container">
-        <p class="eyebrow">MMIG46 e.V.</p>
-        <h1>Mitgliedsantrag</h1>
-        <p>Digital ausfüllen, absenden oder direkt ausdrucken.</p>
-        <button type="button" class="button button-secondary no-print" onclick="window.print()">Formular drucken</button>
-    </div>
-</section>
+        <header class="membership-header">
+            <p class="eyebrow">MMIG46 e.V.</p>
+            <h1>Mitgliedsantrag</h1>
+            <p>Digital ausfüllen, absenden oder als einseitiges Formular drucken.</p>
 
-<section class="section">
-    <div class="container form-shell">
-        <form method="post" action="/mitgliedsantrag" class="application-form">
-            <?= \MMIG46\Core\Security::csrfField() ?>
+            <button class="button button--secondary print-button" type="button" onclick="window.print()">
+                Formular drucken
+            </button>
+        </header>
 
-            <fieldset>
-                <legend>Membership Status</legend>
-                <label><input type="radio" name="membership_type" value="Corporate Supplier MMIG46" required> Corporate Supplier MMIG46 (EUR 2.500 annual fee)</label>
-                <label><input type="radio" name="membership_type" value="Owner / Pilot"> Owner / Pilot (EUR 250 annual fee)</label>
-                <label><input type="radio" name="membership_type" value="Associate Pilot"> Associate Pilot (EUR 250 annual fee)</label>
+        <form class="membership-form" method="post" action="/mitgliedsantrag">
+            <?= Security::csrfField() ?>
+
+            <fieldset class="membership-fieldset membership-status">
+                <legend>Mitgliedschaft</legend>
+
+                <div class="membership-options">
+                    <?php foreach ($membershipTypes as $value => $label): ?>
+                        <label class="membership-option">
+                            <input
+                                type="radio"
+                                name="membership_type"
+                                value="<?= Security::e($value) ?>"
+                                <?= $value === 'owner_pilot' ? 'checked' : '' ?>
+                            >
+                            <span><?= Security::e($label) ?></span>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Invoice</legend>
-                <label>Company/Name <input name="invoice_name" required></label>
-                <label>Street <input name="street"></label>
-                <label>Postal Code, City/Country <input name="postal_city_country"></label>
+            <fieldset class="membership-fieldset">
+                <legend>Rechnungsanschrift</legend>
+
+                <div class="form-grid">
+                    <label>
+                        Firma / Name
+                        <input name="invoice_name" autocomplete="organization">
+                    </label>
+
+                    <label>
+                        Straße
+                        <input name="street" autocomplete="street-address">
+                    </label>
+
+                    <label class="span-2">
+                        PLZ, Ort, Land
+                        <input name="postal_city_country" autocomplete="address-level2">
+                    </label>
+                </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Member Information</legend>
-                <label>Last Name <input name="last_name" required></label>
-                <label>First Name <input name="first_name" required></label>
-                <label>Birthday <input name="birthday" placeholder="YY/MM/DD"></label>
-                <label>Occupation/Business <input name="occupation"></label>
-                <label>Co-Pilot/Spouse <input name="copilot_spouse"></label>
+            <fieldset class="membership-fieldset">
+                <legend>Mitgliedsdaten</legend>
+
+                <div class="form-grid">
+                    <label>
+                        Nachname *
+                        <input name="last_name" required autocomplete="family-name">
+                    </label>
+
+                    <label>
+                        Vorname *
+                        <input name="first_name" required autocomplete="given-name">
+                    </label>
+
+                    <label>
+                        Geburtstag
+                        <input name="birthday" type="date">
+                    </label>
+
+                    <label>
+                        Beruf / Tätigkeit
+                        <input name="occupation">
+                    </label>
+
+                    <label class="span-2">
+                        Co-Pilot / Partner
+                        <input name="copilot_spouse">
+                    </label>
+                </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Flying Information</legend>
-                <label>Total Time <input name="total_time"></label>
-                <label>In Type <input name="time_in_type"></label>
-                <label>License and Ratings <input name="license_ratings"></label>
-                <label>Flying since <input name="flying_since"></label>
-                <label>Aviation History/Types flown <textarea name="aviation_history"></textarea></label>
+            <fieldset class="membership-fieldset">
+                <legend>Fliegerische Angaben</legend>
+
+                <div class="form-grid">
+                    <label>
+                        Gesamtflugzeit
+                        <input name="total_time">
+                    </label>
+
+                    <label>
+                        Flugzeit auf Muster
+                        <input name="time_in_type">
+                    </label>
+
+                    <label>
+                        Lizenz / Ratings
+                        <input name="license_ratings">
+                    </label>
+
+                    <label>
+                        Fliegerisch aktiv seit
+                        <input name="flying_since">
+                    </label>
+
+                    <label class="span-2">
+                        Bisherige Muster / Erfahrung
+                        <textarea name="aviation_history" rows="2"></textarea>
+                    </label>
+                </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Aircraft Information</legend>
-                <label>Registered Owner <input name="registered_owner"></label>
-                <label>Call sign <input name="callsign"></label>
-                <label>Model
-                    <select name="model">
-                        <option value="PA46-310">PA46-310</option>
-                        <option value="PA46-350">PA46-350</option>
-                        <option value="PA46R-350T">PA46R-350T</option>
-                        <option value="PA46-500">PA46-500</option>
-                        <option value="PA46-JETPROP">PA46-JETPROP</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </label>
-                <label>Serial Number <input name="serial_number"></label>
-                <label>Year <input name="aircraft_year"></label>
-                <label>Notable Modifications <textarea name="modifications"></textarea></label>
-                <label>Home based Airport <input name="home_base"></label>
+            <fieldset class="membership-fieldset">
+                <legend>Flugzeug</legend>
+
+                <div class="form-grid">
+                    <label>
+                        Eingetragener Halter / Eigentümer
+                        <input name="registered_owner">
+                    </label>
+
+                    <label>
+                        Kennzeichen / Callsign
+                        <input name="callsign">
+                    </label>
+
+                    <label>
+                        Modell
+                        <select name="model">
+                            <option value="">Bitte wählen</option>
+                            <?php foreach ($aircraftModels as $model): ?>
+                                <option value="<?= Security::e($model) ?>"><?= Security::e($model) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+
+                    <label>
+                        Seriennummer
+                        <input name="serial_number">
+                    </label>
+
+                    <label>
+                        Baujahr
+                        <input name="aircraft_year">
+                    </label>
+
+                    <label>
+                        Homebase
+                        <input name="home_base">
+                    </label>
+
+                    <label class="span-2">
+                        Relevante Modifikationen
+                        <textarea name="modifications" rows="2"></textarea>
+                    </label>
+                </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Communication</legend>
-                <label>Daytime/Office Phone <input name="office_phone"></label>
-                <label>Daytime E-Mail <input type="email" name="office_email"></label>
-                <label>Private/Home Phone <input name="home_phone"></label>
-                <label>Private E-Mail <input type="email" name="private_email" required></label>
-                <label>Mobile <input name="mobile"></label>
+            <fieldset class="membership-fieldset">
+                <legend>Kontakt</legend>
+
+                <div class="form-grid">
+                    <label>
+                        Telefon geschäftlich
+                        <input name="office_phone" autocomplete="tel">
+                    </label>
+
+                    <label>
+                        E-Mail geschäftlich
+                        <input name="office_email" type="email" autocomplete="email">
+                    </label>
+
+                    <label>
+                        Telefon privat
+                        <input name="home_phone" autocomplete="tel">
+                    </label>
+
+                    <label>
+                        E-Mail privat *
+                        <input name="private_email" type="email" required autocomplete="email">
+                    </label>
+
+                    <label class="span-2">
+                        Mobil
+                        <input name="mobile" autocomplete="tel">
+                    </label>
+                </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Einwilligung / Declaration of consent</legend>
+            <fieldset class="membership-fieldset consent-box">
+                <legend>Einwilligung</legend>
+
                 <p>
-                    Ich bestätige, die Satzung des Vereins MMIG46 e.V. gelesen zu haben und akzeptiere diese verbindlich.
-                    I confirm that I have read the constitution of MMIG46 and agree to the terms and conditions.
+                    Ich bestätige, die Satzung des MMIG46 e.V. gelesen zu haben und akzeptiere diese verbindlich.
                 </p>
+
                 <p>
-                    Ich erkläre mich einverstanden, dass meine persönlichen Daten durch MMIG46 e.V. zur Mitgliederverwaltung
-                    und zur Zusendung von Informationen rund um MMIG46 e.V. genutzt werden.
+                    Ich bin damit einverstanden, dass meine personenbezogenen Daten durch den MMIG46 e.V.
+                    zur Mitgliederverwaltung und zur Zusendung vereinsbezogener Informationen verarbeitet werden.
                 </p>
-                <label class="checkbox">
-                    <input type="checkbox" name="consent" value="1" required>
-                    Ich stimme der Verarbeitung meiner Daten und den oben genannten Hinweisen zu.
+
+                <label class="consent-check">
+                    <input type="checkbox" name="consent" required>
+                    <span>Ich stimme der Verarbeitung meiner Daten und den oben genannten Hinweisen zu.</span>
                 </label>
             </fieldset>
 
-            <div class="form-actions no-print">
-                <button class="button" type="submit">Mitgliedsantrag absenden</button>
-                <button class="button button-secondary" type="button" onclick="window.print()">Drucken</button>
+            <div class="membership-signature">
+                <p>Ort, Datum: __________________________________________</p>
+                <p>Unterschrift: _________________________________________</p>
             </div>
 
-            <div class="print-signature">
-                <p>Ort, Datum: ________________________________</p>
-                <p>Unterschrift: _______________________________</p>
+            <div class="membership-actions">
+                <button class="button button--primary" type="submit">Mitgliedsantrag absenden</button>
+                <button class="button button--secondary" type="button" onclick="window.print()">Drucken</button>
             </div>
         </form>
     </div>
