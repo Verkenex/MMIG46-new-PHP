@@ -121,7 +121,7 @@ function nav_active(string $path, string $currentPath): string
 </footer>
 
 <div id="cookie" class="cookie">
-    <p>Wir verwenden nur notwendige Session-Cookies. Tracking/Marketing ist standardmäßig deaktiviert.</p>
+    <p>Wir verwenden nur notwendige Session-Cookies. Tracking- und Marketing-Cookies werden nicht eingesetzt.</p>
     <button type="button" data-cookie>Verstanden</button>
 </div>
 </body>
