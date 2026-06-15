@@ -90,25 +90,6 @@ class AdminController
         exit;
     }
 
-    public function storePage(): string
-    {
-        $this->guard();
-        Security::verifyCsrf();
-
-        ContentPage::upsert([
-            'slug' => trim($_POST['slug'] ?? ''),
-            'title' => trim($_POST['title'] ?? ''),
-            'teaser' => trim($_POST['teaser'] ?? ''),
-            'body' => trim($_POST['body'] ?? ''),
-            'meta_title' => trim($_POST['meta_title'] ?? ''),
-            'meta_description' => trim($_POST['meta_description'] ?? ''),
-            'is_published' => isset($_POST['is_published']),
-        ]);
-
-        header('Location:/verwaltung');
-        exit;
-    }
-
     public function storeNews(): string
 {
     $this->guard();

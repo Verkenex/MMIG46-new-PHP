@@ -94,50 +94,7 @@
     </article>
   </section>
 
-  <section>
-    <h2>Inhaltsseite bearbeiten</h2>
-
-    <form method="post" action="/verwaltung/pages">
-      <?= \MMIG46\Core\Security::csrfField() ?>
-
-      <label>
-        Slug
-        <input name="slug" placeholder="verein" required>
-      </label>
-
-      <label>
-        Titel
-        <input name="title" required>
-      </label>
-
-      <label>
-        Teaser
-        <input name="teaser">
-      </label>
-
-      <label>
-        Inhalt / Markdown
-        <textarea name="body" rows="12" required></textarea>
-      </label>
-
-      <label>
-        Meta Title
-        <input name="meta_title">
-      </label>
-
-      <label>
-        Meta Description
-        <input name="meta_description">
-      </label>
-
-      <label>
-        <input type="checkbox" name="is_published" checked>
-        Öffentlich anzeigen
-      </label>
-
-      <button class="primary">Speichern</button>
-    </form>
-  </section>
+  
 
   <section>
   <h2>News bearbeiten</h2>
