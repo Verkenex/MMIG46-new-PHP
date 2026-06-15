@@ -6,7 +6,6 @@ use MMIG46\Core\DB;
 use MMIG46\Core\Security;
 use MMIG46\Core\Session;
 use MMIG46\Core\View;
-use MMIG46\Models\ContentPage;
 use MMIG46\Models\Member;
 use MMIG46\Models\NewsItem;
 use MMIG46\Models\TravelItem;
@@ -29,7 +28,6 @@ class AdminController
         return View::render('admin/dashboard', [
             'users' => User::all(),
             'members' => Member::all(),
-            'pages' => ContentPage::all(),
             'news' => NewsItem::published(100),
             'travels' => TravelItem::published(),
         ]);

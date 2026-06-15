@@ -94,62 +94,7 @@
     </article>
   </section>
 
-  
 
-  <section>
-  <h2>News bearbeiten</h2>
-
-  <form method="post" action="/verwaltung/news">
-    <?= \MMIG46\Core\Security::csrfField() ?>
-
-    <label>
-      Slug
-      <input name="slug" placeholder="fly-in-woerthersee-2026" required>
-    </label>
-
-    <label>
-      Titel
-      <input name="title" required>
-    </label>
-
-    <label>
-      Kategorie
-      <input name="category" placeholder="Reisen, Verein, Technik">
-    </label>
-
-    <label>
-      Bildpfad
-      <input name="image_path" placeholder="/assets/img/woerthersee.jpg">
-    </label>
-
-    <label>
-      Kommentare
-      <input type="number" name="comment_count" value="0">
-    </label>
-
-    <label>
-      Veröffentlichungsdatum
-      <input type="datetime-local" name="published_at">
-    </label>
-
-    <label>
-      Teaser
-      <input name="teaser">
-    </label>
-
-    <label>
-      Inhalt
-      <textarea name="body" rows="8"></textarea>
-    </label>
-
-    <label>
-      <input type="checkbox" name="is_published" checked>
-      Öffentlich anzeigen
-    </label>
-
-    <button class="primary">News speichern</button>
-  </form>
-</section>
 
 <section class="admin-panel">
     <h2>Beiträge verwalten</h2>
@@ -288,31 +233,6 @@
     <button class="primary">Reise speichern</button>
   </form>
 </section>
-
-  <section>
-    <h2>Inhaltsseiten</h2>
-
-    <div class="table">
-      <table>
-        <thead>
-          <tr>
-            <th>Slug</th>
-            <th>Titel</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach (($pages ?? []) as $page): ?>
-            <tr>
-              <td><?= htmlspecialchars($page['slug']) ?></td>
-              <td><?= htmlspecialchars($page['title']) ?></td>
-              <td><?= !empty($page['is_published']) ? 'öffentlich' : 'intern' ?></td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    </div>
-  </section>
 
   <section>
     <h2>Nutzer</h2>

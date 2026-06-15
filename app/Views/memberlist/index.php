@@ -6,23 +6,19 @@
   <div class="table">
 
     <?php if (empty($members)): ?>
-    <div class="empty-state">
-        <h2>Noch keine öffentlich sichtbaren Mitglieder</h2>
-        <p>
-            Aktuell sind keine Mitglieder für die öffentliche Anzeige freigegeben.
-            Sichtbare Einträge können im Adminbereich gepflegt werden.
-        </p>
-    </div>
+    <div class="empty-state">...</div>
 <?php else: ?>
-    <!-- bestehende Tabelle hier belassen -->
+    <table>
+        ...
+    </table>
 <?php endif; ?>
 
     <table>
       <thead>
         <tr>
           <th>Name</th>
-          <th>Aircraft</th>
-          <th>Base</th>
+          <th>Flugzeug</th>
+          <th>Heimatflughafen</th>
           <th>Rolle</th>
           <th>Mitgliedschaft</th>
           <th>Website</th>
