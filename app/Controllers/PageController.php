@@ -38,6 +38,8 @@ class PageController
             $slug = basename((string)$path);
         }
 
+        $slug = rawurldecode($slug);
+
         $item = NewsItem::findPublishedBySlug($slug);
 
         if (!$item) {
@@ -102,10 +104,13 @@ class PageController
 
     public function contact(): string
     {
-        $_SESSION['captcha'] = random_int(3, 9) + random_int(1, 6);
+        $captchaLeft = random_int(3, 9);
+        $captchaRight = random_int(1, 6);
+
+        $_SESSION['captcha_answer'] = $captchaLeft + $captchaRight;
 
         return View::render('pages/contact', [
-            'captcha' => $_SESSION['captcha'],
+            'captchaQuestion' => $captchaLeft . ' + ' . $captchaRight,
         ]);
     }
 
@@ -113,7 +118,7 @@ class PageController
     {
         Security::verifyCsrf();
 
-        $expected = (int)($_SESSION['captcha'] ?? 0);
+        $expected = (int)($_SESSION['captcha_answer'] ?? 0);
         $given = (int)($_POST['captcha'] ?? -1);
 
         if ($expected !== $given) {
@@ -121,6 +126,7 @@ class PageController
             header('Location:/kontakt');
             exit;
         }
+        unset($_SESSION['captcha_answer']);
 
         $name = trim($_POST['name'] ?? '');
         $email = trim($_POST['email'] ?? '');

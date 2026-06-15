@@ -1,110 +1,123 @@
+<?php
+
+use MMIG46\Core\Security;
+
+$siteName = $settings['site_name'] ?? 'MMIG46 e.V.';
+$siteClaim = $settings['site_claim'] ?? 'Malibu Mirage Interessengemeinschaft 46';
+$siteDescription = $settings['site_description'] ?? 'Vereinigung von Besitzern, Haltern und Piloten der Piper PA46.';
+?>
+
 <section class="home-hero">
-  <div class="home-hero__content">
-    <p class="eyebrow"><?= htmlspecialchars($settings['site_name'] ?? 'MMIG46 e.V.') ?></p>
+    <div class="home-hero__content">
+        <p class="eyebrow"><?= Security::e($siteName) ?></p>
 
-    <h1><?= htmlspecialchars($settings['site_claim'] ?? 'Malibu Mirage Interessengemeinschaft 46') ?></h1>
+        <h1><?= Security::e($siteClaim) ?></h1>
 
-    <p>
-      <?= htmlspecialchars($settings['site_description'] ?? 'Vereinigung von Besitzern, Haltern und Piloten der Piper PA46.') ?>
-    </p>
+        <p>
+            <?= Security::e($siteDescription) ?>
+        </p>
 
-    <div class="actions">
-      <a class="btn primary" href="/reisen">Reisen ansehen</a>
-      <a class="btn" href="/verein">Mehr über den Verein</a>
-      <a class="btn" href="/kontakt">Kontakt aufnehmen</a>
+        <div class="actions">
+            <a class="btn primary" href="/reisen">Reisen ansehen</a>
+            <a class="btn" href="/verein">Mehr über den Verein</a>
+            <a class="btn" href="/kontakt">Kontakt aufnehmen</a>
+        </div>
     </div>
-  </div>
 </section>
 
 <section class="feature-strip">
-  <article>
-    <span>✈</span>
-    <div>
-      <h2>Fly-Ins & Reisen</h2>
-      <p>Gemeinsame Ausflüge, Fly-Ins und Reiseziele in Europa.</p>
-    </div>
-  </article>
+    <article>
+        <span aria-hidden="true">✈</span>
+        <div>
+            <h2>Fly-Ins & Reisen</h2>
+            <p>Gemeinsame Ausflüge, Fly-Ins und Reiseziele in Europa.</p>
+        </div>
+    </article>
 
-  <article>
-    <span>♟</span>
-    <div>
-      <h2>Mitgliederbereich</h2>
-      <p>Exklusive Inhalte, interne Informationen und direkter Austausch.</p>
-    </div>
-  </article>
+    <article>
+        <span aria-hidden="true">♟</span>
+        <div>
+            <h2>Mitgliederbereich</h2>
+            <p>Exklusive Inhalte, interne Informationen und direkter Austausch.</p>
+        </div>
+    </article>
 
-  <article>
-    <span>🔧</span>
-    <div>
-      <h2>Technischer Austausch</h2>
-      <p>Erfahrungen teilen, Fragen stellen und von der Gemeinschaft profitieren.</p>
-    </div>
-  </article>
+    <article>
+        <span aria-hidden="true">🔧</span>
+        <div>
+            <h2>Technischer Austausch</h2>
+            <p>Erfahrungen teilen, Fragen stellen und von der Gemeinschaft profitieren.</p>
+        </div>
+    </article>
 
-  <article>
-    <span>💬</span>
-    <div>
-      <h2>Forum & News</h2>
-      <p>Aktuelle News, Diskussionen und hilfreiche Beiträge aus der Community.</p>
-    </div>
-  </article>
+    <article>
+        <span aria-hidden="true">💬</span>
+        <div>
+            <h2>Forum & News</h2>
+            <p>Aktuelle News, Diskussionen und hilfreiche Beiträge aus der Community.</p>
+        </div>
+    </article>
 </section>
 
 <section class="page">
-  <div class="split">
-    <h2>Aktuelles</h2>
-    <a class="text-link" href="/news">Alle News anzeigen →</a>
-  </div>
+    <div class="split">
+        <h2>Aktuelles</h2>
+        <a class="text-link" href="/news">Alle News anzeigen →</a>
+    </div>
 
-  <div class="image-card-grid">
     <?php if (empty($latestNews)): ?>
-      <article class="image-card">
-        <div class="image-card__body">
-          <p class="meta">Noch keine veröffentlichten News.</p>
+        <div class="empty-state">
+            <h2>Noch keine veröffentlichten News</h2>
+            <p>Neue Beiträge erscheinen hier, sobald sie im Adminbereich veröffentlicht wurden.</p>
         </div>
-      </article>
     <?php else: ?>
-      <?php foreach ($latestNews as $item): ?>
-        <?php
-          $newsUrl = '/news/' . rawurlencode($item['slug']);
-          $newsTitle = htmlspecialchars($item['title']);
-          $newsTeaser = htmlspecialchars($item['teaser'] ?? '');
-          $newsCategory = htmlspecialchars($item['category'] ?? 'News');
-          $newsDate = htmlspecialchars(date('d.m.Y', strtotime($item['published_at'])));
-        ?>
+        <div class="home-news-grid">
+            <?php foreach ($latestNews as $item): ?>
+                <?php
+                $newsSlug = trim((string)($item['slug'] ?? ''));
+                $newsUrl = $newsSlug !== ''
+                    ? '/news/' . rawurlencode($newsSlug)
+                    : '/news';
 
-        <article class="image-card">
-          <?php if (!empty($item['image_path'])): ?>
-            <a class="image-card__media" href="<?= htmlspecialchars($newsUrl) ?>" aria-label="Artikel lesen: <?= $newsTitle ?>">
-              <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="<?= $newsTitle ?>">
-              <span class="image-card__badge">
-                <?= $newsCategory ?>
-              </span>
-            </a>
-          <?php endif; ?>
+                $newsTitle = Security::e($item['title'] ?? 'News');
+                $newsTeaser = Security::e($item['teaser'] ?? '');
+                $newsCategory = Security::e($item['category'] ?? 'News');
 
-          <div class="image-card__body">
-            <h2>
-              <a href="<?= htmlspecialchars($newsUrl) ?>">
-                <?= $newsTitle ?>
-              </a>
-            </h2>
+                $publishedAt = (string)($item['published_at'] ?? '');
+                $timestamp = $publishedAt !== '' ? strtotime($publishedAt) : false;
+                $newsDate = $timestamp ? date('d.m.Y', $timestamp) : '';
 
-            <p><?= $newsTeaser ?></p>
+                $imagePath = trim((string)($item['image_path'] ?? ''));
+                ?>
 
-            <div class="image-card__meta">
-              <span><?= $newsDate ?></span>
-              <?php if (isset($item['comment_count'])): ?>
-                <span><?= (int)$item['comment_count'] ?> Kommentare</span>
-              <?php endif; ?>
-            </div>
+                <article class="home-news-card">
+                    <a class="home-news-card__link" href="<?= Security::e($newsUrl) ?>">
+                        <figure class="home-news-card__media">
+                            <?php if ($imagePath !== ''): ?>
+                                <img src="<?= Security::e($imagePath) ?>" alt="<?= $newsTitle ?>">
+                            <?php endif; ?>
 
-            <a class="text-link" href="<?= htmlspecialchars($newsUrl) ?>">
-              Artikel lesen →
-            </a>
-          </div>
-        </article>
-      <?php endforeach; ?>
+                            <span class="home-news-card__badge"><?= $newsCategory ?></span>
+                        </figure>
+
+                        <div class="home-news-card__body">
+                            <h3><?= $newsTitle ?></h3>
+
+                            <?php if ($newsTeaser !== ''): ?>
+                                <p class="home-news-card__teaser"><?= $newsTeaser ?></p>
+                            <?php endif; ?>
+
+                            <?php if ($newsDate !== ''): ?>
+                                <p class="home-news-card__meta"><?= Security::e($newsDate) ?></p>
+                            <?php endif; ?>
+
+                            <span class="home-news-card__more">
+                                <?= $newsSlug !== '' ? 'Artikel lesen →' : 'Alle News anzeigen →' ?>
+                            </span>
+                        </div>
+                    </a>
+                </article>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
-  </div>
 </section>
