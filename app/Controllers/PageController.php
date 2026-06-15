@@ -58,10 +58,32 @@ class PageController
         ]);
     }
 
-    public function verein(): string
-    {
-        return View::render('pages/verein');
+ public function verein(): string
+{
+    $page = ContentPage::findPublishedBySlug('verein');
+
+    if (!$page) {
+        http_response_code(404);
+        return View::render('errors/404');
     }
+
+    $data = json_decode($page['body'] ?? '', true);
+
+    if (!is_array($data)) {
+        $data = [
+            'eyebrow' => 'Verein',
+            'headline' => $page['title'] ?? 'MMIG46 e.V.',
+            'intro' => $page['teaser'] ?? '',
+            'cards' => [],
+            'actions' => [],
+        ];
+    }
+
+    return View::render('pages/verein', [
+        'page' => $page,
+        'data' => $data,
+    ]);
+}
 
     public function contentPage(): string
     {
