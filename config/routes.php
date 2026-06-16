@@ -14,6 +14,9 @@ $router->get('/news', [PageController::class, 'news']);
 $router->get('/news/{slug}', [PageController::class, 'newsDetail']);
 $router->get('/reisen', [PageController::class, 'travels']);
 
+$router->get('/malibu-mirage', [PageController::class, 'malibuMirage']);
+$router->get('/malibu-mirage/{slug}', [PageController::class, 'malibuArchiveDetail']);
+
 $router->get('/verein', [PageController::class, 'verein']);
 $router->get('/impressum', [PageController::class, 'impressum']);
 $router->get('/datenschutz', [PageController::class, 'datenschutz']);

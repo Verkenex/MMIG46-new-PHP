@@ -65,6 +65,66 @@ class PageController
         return View::render('pages/verein');
     }
 
+    public function malibuMirage(): string
+{
+    return View::render('pages/malibu-mirage');
+}
+
+public function malibuArchiveDetail(string $slug = ''): string
+{
+    $articles = [
+        'ultimate-piston-single' => [
+            'title' => 'The Ultimate Piston Single?',
+            'subtitle' => 'By Jeff Schweitzer, Ph.D.',
+            'source_label' => 'Archivbeitrag der alten MMIG46-Website',
+            'file' => 'ultimate-piston-single.html',
+        ],
+        'pipers-perfection' => [
+            'title' => 'Piper’s Perfection?',
+            'subtitle' => 'By Dave Higdon',
+            'source_label' => 'Archivbeitrag der alten MMIG46-Website',
+            'file' => 'pipers-perfection.html',
+        ],
+        'optimum-flight-levels' => [
+            'title' => 'Optimum Flight Levels',
+            'subtitle' => 'By Marcus Bicknell',
+            'source_label' => 'Archivbeitrag der alten MMIG46-Website',
+            'file' => 'optimum-flight-levels.html',
+        ],
+        '100th-jetprop' => [
+            'title' => 'I picked up the 100th JetPROP',
+            'subtitle' => 'By Mac Lewis',
+            'source_label' => 'Archivbeitrag der alten MMIG46-Website',
+            'file' => '100th-jetprop.html',
+        ],
+    ];
+
+    if (!isset($articles[$slug])) {
+        http_response_code(404);
+        return View::render('errors/404');
+    }
+
+    $article = $articles[$slug];
+    $path = dirname(__DIR__, 2) . '/storage/malibu-archive/' . $article['file'];
+
+    if (!is_file($path)) {
+        http_response_code(404);
+        return View::render('errors/404');
+    }
+
+    $bodyHtml = file_get_contents($path);
+    if ($bodyHtml === false) {
+        http_response_code(404);
+        return View::render('errors/404');
+    }
+
+    return View::render('pages/malibu-archive-detail', [
+        'article' => $article,
+        'bodyHtml' => $bodyHtml,
+    ]);
+}
+
+
     public function impressum(): string
     {
         return View::render('pages/impressum');

@@ -51,6 +51,7 @@ function nav_active(string $path, string $currentPath): string
         <nav class="site-nav" aria-label="Hauptnavigation">
             <a class="<?= nav_active('/news', $currentPath) ?>" href="/news">News</a>
             <a class="<?= nav_active('/reisen', $currentPath) ?>" href="/reisen">Reisen</a>
+            <a class="<?= nav_active('/malibu-mirage', $currentPath) ?>" href="/malibu-mirage">Malibu Mirage</a>
             <a class="<?= nav_active('/verein', $currentPath) ?>" href="/verein">Verein</a>
             <a class="<?= nav_active('/mitglieder', $currentPath) ?>" href="/mitglieder">Mitglieder</a>
             <a class="<?= nav_active('/forum', $currentPath) ?>" href="/forum">Forum</a>
@@ -106,6 +107,7 @@ function nav_active(string $path, string $currentPath): string
 <footer class="site-footer">
     <div class="container site-footer__inner">
         <nav class="footer-links" aria-label="Rechtliches">
+            <a href="/malibu-mirage">Malibu Mirage</a>
             <a href="/impressum">Impressum</a>
             <a href="/datenschutz">Datenschutz</a>
             <a href="/agb">AGB</a>

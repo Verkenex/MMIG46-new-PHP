@@ -1,79 +1,40 @@
-<section class="verein-hero">
-    <div class="container verein-layout">
-        <div class="verein-main">
-            <p class="eyebrow">Verein</p>
-            <h1>MMIG46 e.V.</h1>
+<section class="section">
+  <div class="container prose">
+    <p class="eyebrow">Verein</p>
+    <h1>Die MMIG46</h1>
+    <h2>Malibu Mirage Interessengemeinschaft PA46 Europa</h2>
 
-            <p class="lead">
-                Die MMIG46 ist der Zusammenschluss von PA46 Malibu Mirage Piloten,
-                Eigentümern und Haltern in Europa. Im Mittelpunkt stehen Erfahrungsaustausch,
-                sicherer Flugbetrieb, technische Diskussionen und persönliche Kontakte.
-            </p>
+    <p>
+      Weltweit existieren mittlerweile über 1000 Flugzeuge des Typs PA46. Die MMIG46 wurde 1999 gegründet,
+      um Besitzern, Haltern und Piloten der Piper PA46 in Europa eine eigene Plattform für Austausch,
+      Erfahrung, Sicherheit und gemeinsame fliegerische Aktivitäten zu geben.
+    </p>
 
-            <div class="verein-card-stack">
-                <article class="verein-info-card">
-                    <h2>Einige Worte über uns</h2>
-                    <p>
-                        Die MMIG46 fördert den Austausch rund um die Piper PA46-Familie.
-                        Mitglieder teilen Erfahrungen aus Betrieb, Wartung, Ausbildung,
-                        Flugplanung und Reisen.
-                    </p>
-                </article>
+    <p>
+      Im Mittelpunkt stehen der Informationsaustausch, Erfahrungen im Betrieb der PA46,
+      technische Hinweise, Wartungs- und Werkstattthemen, Sicherheitstrainings und gemeinsame Fly-Ins.
+      Der beste Weg, die PA46 in Europa zusammenzuführen, ist, sie gemeinsam in die Luft zu bringen.
+    </p>
 
-                <article class="verein-info-card">
-                    <h2>Ziele des Vereins</h2>
-                    <p>
-                        Ziel ist ein aktives europäisches Netzwerk von PA46-Piloten und
-                        Eigentümern. Dazu gehören gemeinsame Veranstaltungen, technische
-                        Hinweise, Mitgliederkommunikation und der persönliche Austausch.
-                    </p>
-                </article>
+    <h3>Warum Mitglied werden?</h3>
+    <ul>
+      <li>Informationsaustausch auf breiter Basis</li>
+      <li>Erfahrungsaustausch im fliegerischen Umgang mit der PA46</li>
+      <li>Technische Hinweise und Wartungserfahrungen</li>
+      <li>Jährliche Fly-Ins und gemeinsame Reiseaktivitäten</li>
+      <li>Sicherheitstrainings und Lehrgänge</li>
+      <li>Mitgliederforum und Netzwerk innerhalb der europäischen PA46-Community</li>
+    </ul>
 
-                <article class="verein-info-card">
-                    <h2>Gemeinschaft und Praxisnähe</h2>
-                    <p>
-                        Der Verein verbindet fliegerische Praxis mit Vereinsleben:
-                        Fly-Ins, Diskussionen im Forum und Kontakte unter Mitgliedern
-                        schaffen einen konkreten Nutzen im Alltag.
-                    </p>
-                </article>
-            </div>
-        </div>
+    <p>
+      Es lohnt sich, Mitglied der MMIG46 zu werden. Eigner, Halter und Piloten der PA46 sind eingeladen,
+      aktiv oder passiv am Gelingen der Interessengemeinschaft mitzuwirken.
+    </p>
 
-        <aside class="verein-side" aria-label="Aktionen">
-            <a class="verein-action-card" href="#vorstand">
-                <span>
-                    <strong>Vorstand</strong>
-                    <small>Ansprechpartner und Vereinsstruktur</small>
-                </span>
-                <span aria-hidden="true">›</span>
-            </a>
-
-            <a class="verein-action-card" href="#satzung">
-                <span>
-                    <strong>Satzung / Beitragsordnung</strong>
-                    <small>Grundlagen der Mitgliedschaft</small>
-                </span>
-                <span aria-hidden="true">›</span>
-            </a>
-
-            <a class="verein-action-card" href="/mitgliedsantrag">
-                <span>
-                    <strong>Mitgliedsantrag</strong>
-                    <small>Formular ausfüllen und übermitteln</small>
-                </span>
-                <span aria-hidden="true">›</span>
-            </a>
-
-            <a class="verein-action-card" href="/forum">
-                <span>
-                    <strong>Forum</strong>
-                    <small>Austausch mit Mitgliedern</small>
-                </span>
-                <span aria-hidden="true">›</span>
-            </a>
-        </aside>
-    </div>
+    <p>
+      <a class="button" href="/mitgliedsantrag">Mitgliedsantrag öffnen</a>
+    </p>
+  </div>
 </section>
 
 <section class="section">
