@@ -16,10 +16,15 @@
       </article>
     <?php else: ?>
       <?php foreach ($items as $item): ?>
+        <?php
+          $detailUrl = '/reisen/' . rawurlencode($item['slug']);
+          $ctaLabel = !empty($item['cta_label']) ? $item['cta_label'] : 'Details ansehen';
+        ?>
+
         <article class="image-card">
           <?php if (!empty($item['image_path'])): ?>
             <div class="image-card__media">
-              <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="">
+              <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
               <span class="image-card__badge">
                 <?= htmlspecialchars($item['status']) ?>
                 <?php if (!empty($item['location'])): ?>
@@ -39,7 +44,11 @@
           <?php endif; ?>
 
           <div class="image-card__body">
-            <h2><?= htmlspecialchars($item['title']) ?></h2>
+            <h2>
+              <a class="image-card__title-link" href="<?= htmlspecialchars($detailUrl) ?>">
+                <?= htmlspecialchars($item['title']) ?>
+              </a>
+            </h2>
 
             <?php if (!empty($item['teaser'])): ?>
               <p><?= htmlspecialchars($item['teaser']) ?></p>
@@ -57,9 +66,9 @@
                 <span><?= htmlspecialchars($item['status']) ?></span>
               <?php endif; ?>
 
-              <?php if (!empty($item['cta_label'])): ?>
-                <span><?= htmlspecialchars($item['cta_label']) ?></span>
-              <?php endif; ?>
+              <a class="image-card__cta" href="<?= htmlspecialchars($detailUrl) ?>">
+                <?= htmlspecialchars($ctaLabel) ?>
+              </a>
             </div>
           </div>
         </article>

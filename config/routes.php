@@ -13,6 +13,7 @@ $router->get('/', [PageController::class, 'home']);
 $router->get('/news', [PageController::class, 'news']);
 $router->get('/news/{slug}', [PageController::class, 'newsDetail']);
 $router->get('/reisen', [PageController::class, 'travels']);
+$router->get('/reisen/{slug}', [PageController::class, 'travelDetail']);
 
 $router->get('/malibu-mirage', [PageController::class, 'malibuMirage']);
 $router->get('/malibu-mirage/{slug}', [PageController::class, 'malibuArchiveDetail']);

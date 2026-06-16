@@ -6,6 +6,8 @@
  */
 ?>
 
+<main class="malibu-page">
+
 <section class="section">
   <div class="container prose">
     <h1>Malibu Mirage</h1>
@@ -220,3 +222,5 @@
     </div>
   </div>
 </section>
+
+</main>

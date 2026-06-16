@@ -60,6 +60,28 @@ class PageController
         ]);
     }
 
+    public function travelDetail(string $slug = ''): string
+    {
+        if ($slug === '') {
+            $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            $slug = basename((string) $path);
+        }
+
+        $slug = rawurldecode($slug);
+
+        $item = TravelItem::findPublishedBySlug($slug);
+
+        if (!$item) {
+            http_response_code(404);
+            return View::render('errors/404');
+        }
+
+        return View::render('pages/reisen-detail', [
+            'item' => $item,
+            'bodyHtml' => Markdown::toHtml($item['body'] ?? ''),
+        ]);
+    }
+
     public function verein(): string
     {
         return View::render('pages/verein');
