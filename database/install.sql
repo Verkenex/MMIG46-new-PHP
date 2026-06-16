@@ -117,4 +117,7 @@ ALTER TABLE news_items
 
 ALTER TABLE travel_items
   ADD COLUMN image_path VARCHAR(255) NULL AFTER slug,
-  ADD COLUMN cta_label VARCHAR(80) NULL AFTER teaser;
+
+  ADD COLUMN cta_label VARCHAR(80) NULL AFTER teaser,
+
+  ADD COLUMN legacy_pdf_path VARCHAR(255) NULL AFTER cta_label;

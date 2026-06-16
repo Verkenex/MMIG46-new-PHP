@@ -12,8 +12,11 @@ $router->get('/', [PageController::class, 'home']);
 
 $router->get('/news', [PageController::class, 'news']);
 $router->get('/news/{slug}', [PageController::class, 'newsDetail']);
+$router->get('/aktuelles', [PageController::class, 'news']);
+
 $router->get('/reisen', [PageController::class, 'travels']);
-$router->get('/reisen/{slug}', [PageController::class, 'travelDetail']);
+$router->get('/reisen/fly-in-woerthersee-2026', [PageController::class, 'travelWoerthersee2026']);
+
 
 $router->get('/malibu-mirage', [PageController::class, 'malibuMirage']);
 $router->get('/malibu-mirage/{slug}', [PageController::class, 'malibuArchiveDetail']);

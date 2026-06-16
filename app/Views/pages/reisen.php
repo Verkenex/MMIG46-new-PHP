@@ -16,10 +16,25 @@
       </article>
     <?php else: ?>
       <?php foreach ($items as $item): ?>
-        <?php
-          $detailUrl = '/reisen/' . rawurlencode($item['slug']);
-          $ctaLabel = !empty($item['cta_label']) ? $item['cta_label'] : 'Details ansehen';
-        ?>
+    <?php
+    $staticTravelPages = [
+        'fly-in-woerthersee-2026',
+    ];
+
+    $isLegacyPdf = !empty($item['legacy_pdf_path']);
+    $hasStaticPage = in_array($item['slug'], $staticTravelPages, true);
+    $isAvailable = $isLegacyPdf || $hasStaticPage;
+
+    $detailUrl = $isLegacyPdf
+        ? $item['legacy_pdf_path']
+        : '/reisen/' . rawurlencode($item['slug']);
+
+    $ctaLabel = $isAvailable
+        ? (!empty($item['cta_label']) ? $item['cta_label'] : ($isLegacyPdf ? 'PDF ansehen' : 'Ansehen'))
+        : 'Noch nicht verfügbar';
+
+    $linkTarget = $isLegacyPdf ? ' target="_blank" rel="noopener noreferrer"' : '';
+    ?>
 
         <article class="image-card">
           <?php if (!empty($item['image_path'])): ?>
@@ -66,9 +81,15 @@
                 <span><?= htmlspecialchars($item['status']) ?></span>
               <?php endif; ?>
 
-              <a class="image-card__cta" href="<?= htmlspecialchars($detailUrl) ?>">
-                <?= htmlspecialchars($ctaLabel) ?>
-              </a>
+              <?php if ($isAvailable): ?>
+                  <a class="image-card__cta" href="<?= htmlspecialchars($detailUrl) ?>"<?= $linkTarget ?>>
+                      <?= htmlspecialchars($ctaLabel) ?>
+                  </a>
+              <?php else: ?>
+                  <span class="image-card__cta image-card__cta--disabled">
+                      <?= htmlspecialchars($ctaLabel) ?>
+                  </span>
+              <?php endif; ?>
             </div>
           </div>
         </article>

@@ -20,6 +20,9 @@ class TravelItem
                 status,
                 teaser,
                 cta_label,
+
+                legacy_pdf_path,
+
                 body,
                 is_published
             FROM travel_items
@@ -46,6 +49,7 @@ class TravelItem
                 status,
                 teaser,
                 cta_label,
+                legacy_pdf_path,
                 body,
                 is_published
             FROM travel_items
@@ -76,6 +80,9 @@ class TravelItem
                 status,
                 teaser,
                 cta_label,
+
+                legacy_pdf_path,
+
                 body,
                 is_published
             FROM travel_items

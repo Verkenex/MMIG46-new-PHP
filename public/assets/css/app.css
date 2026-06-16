@@ -2619,3 +2619,36 @@ td {
     grid-template-columns: 1fr;
   }
 }
+
+
+.image-card__cta--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: grayscale(1);
+}
+
+/* Verein: Farben an Malibu-Mirage-Seite angleichen */
+.prose h1,
+.prose h2,
+.prose h3 {
+    color: #002855;
+}
+
+.prose p,
+.prose li {
+    color: #5f6f89;
+}
+
+.prose .eyebrow,
+.verein-section-grid .eyebrow {
+    color: #9a5a24;
+}
+
+.verein-section-grid .card h2 {
+    color: #002855;
+}
+
+.verein-section-grid .card p {
+    color: #5f6f89;
+}

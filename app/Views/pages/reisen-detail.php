@@ -1,45 +1,32 @@
 <section class="page">
-  <p class="eyebrow">Fly-Ins & Reisen</p>
+    <p class="eyebrow">Fly-Ins & Reisen</p>
 
-  <p>
-    <a class="button button-outline" href="/reisen">← Zurück zu Reisen</a>
-  </p>
+    <h1><?= htmlspecialchars($item['title']) ?></h1>
 
-  <article class="image-card travel-detail">
+    <p class="meta">
+        <?php if (!empty($item['location'])): ?>
+            <?= htmlspecialchars($item['location']) ?>
+        <?php endif; ?>
+
+        <?php if (!empty($item['starts_on'])): ?>
+            · <?= htmlspecialchars(date('d.m.Y', strtotime($item['starts_on']))) ?>
+            <?php if (!empty($item['ends_on'])): ?>
+                – <?= htmlspecialchars(date('d.m.Y', strtotime($item['ends_on']))) ?>
+            <?php endif; ?>
+        <?php endif; ?>
+    </p>
+
     <?php if (!empty($item['image_path'])): ?>
-      <div class="image-card__media travel-detail__media">
-        <img
-          src="<?= htmlspecialchars($item['image_path']) ?>"
-          alt="<?= htmlspecialchars($item['title']) ?>"
-        >
-        <span class="image-card__badge">
-          <?= htmlspecialchars($item['status']) ?>
-          <?php if (!empty($item['location'])): ?>
-            · <?= htmlspecialchars($item['location']) ?>
-          <?php endif; ?>
-        </span>
-      </div>
+        <div class="hero-media">
+            <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+        </div>
     <?php endif; ?>
 
-    <div class="image-card__body">
-      <h1><?= htmlspecialchars($item['title']) ?></h1>
-
-      <?php if (!empty($item['starts_on'])): ?>
-        <p class="meta">
-          <?= htmlspecialchars(date('d.m.Y', strtotime($item['starts_on']))) ?>
-          <?php if (!empty($item['ends_on'])): ?>
-            – <?= htmlspecialchars(date('d.m.Y', strtotime($item['ends_on']))) ?>
-          <?php endif; ?>
-        </p>
-      <?php endif; ?>
-
-      <?php if (!empty($item['teaser'])): ?>
-        <p class="lead"><?= htmlspecialchars($item['teaser']) ?></p>
-      <?php endif; ?>
-
-      <div class="prose">
+    <article class="content-body">
         <?= $bodyHtml ?>
-      </div>
-    </div>
-  </article>
+    </article>
+
+    <p>
+        <a class="button button--secondary" href="/reisen">Zurück zu Reisen</a>
+    </p>
 </section>

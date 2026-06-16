@@ -60,6 +60,7 @@ class PageController
         ]);
     }
 
+
     public function travelDetail(string $slug = ''): string
     {
         if ($slug === '') {
@@ -69,17 +70,21 @@ class PageController
 
         $slug = rawurldecode($slug);
 
-        $item = TravelItem::findPublishedBySlug($slug);
+        $staticTravelViews = [
+            'fly-in-woerthersee-2026' => 'pages/reisen/fly-in-woerthersee-2026',
+        ];
 
-        if (!$item) {
-            http_response_code(404);
-            return View::render('errors/404');
+        if (isset($staticTravelViews[$slug])) {
+            return View::render($staticTravelViews[$slug]);
         }
 
-        return View::render('pages/reisen-detail', [
-            'item' => $item,
-            'bodyHtml' => Markdown::toHtml($item['body'] ?? ''),
-        ]);
+        http_response_code(404);
+        return View::render('errors/404');
+    }
+
+    public function travelWoerthersee2026(): string
+    {
+        return View::render('pages/reisen/fly-in-woerthersee-2026');
     }
 
     public function verein(): string

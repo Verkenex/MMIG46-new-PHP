@@ -2,33 +2,64 @@
 
 namespace MMIG46\Services;
 
-class Markdown
+final class Markdown
 {
-    public static function toHtml(string $text): string
+    public static function toHtml(string $markdown): string
     {
-        $text = trim($text);
+        $markdown = trim($markdown);
 
-        if ($text === '') {
+        if ($markdown === '') {
             return '';
         }
 
-        $escaped = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        $markdown = str_replace(["\r\n", "\r"], "\n", $markdown);
 
-        $paragraphs = preg_split("/\n\s*\n/", $escaped);
-
+        $blocks = preg_split("/\n{2,}/", $markdown);
         $html = [];
 
-        foreach ($paragraphs as $paragraph) {
-            $paragraph = trim($paragraph);
+        foreach ($blocks as $block) {
+            $block = trim($block);
 
-            if ($paragraph === '') {
+            if ($block === '') {
                 continue;
             }
 
-            $paragraph = nl2br($paragraph);
-            $html[] = '<p>' . $paragraph . '</p>';
+            if (str_starts_with($block, '### ')) {
+                $html[] = '<h3>' . self::inline(substr($block, 4)) . '</h3>';
+                continue;
+            }
+
+            if (str_starts_with($block, '## ')) {
+                $html[] = '<h2>' . self::inline(substr($block, 3)) . '</h2>';
+                continue;
+            }
+
+            if (str_starts_with($block, '# ')) {
+                $html[] = '<h1>' . self::inline(substr($block, 2)) . '</h1>';
+                continue;
+            }
+
+            $html[] = '<p>' . self::inline($block) . '</p>';
         }
 
         return implode("\n", $html);
+    }
+
+    private static function inline(string $text): string
+    {
+        $escaped = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+
+        $escaped = preg_replace_callback(
+            '/\[([^\]]+)\]\(([^)]+)\)/',
+            static function (array $matches): string {
+                $label = htmlspecialchars($matches[1], ENT_QUOTES, 'UTF-8');
+                $url = htmlspecialchars($matches[2], ENT_QUOTES, 'UTF-8');
+
+                return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $label . '</a>';
+            },
+            $escaped
+        );
+
+        return nl2br($escaped);
     }
 }
