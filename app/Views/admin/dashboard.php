@@ -1,11 +1,28 @@
-<section class="page">
-  <p class="eyebrow">Verwaltung</p>
-  <h1>Administration der MMIG46-Plattform</h1>
-  <p>Nutzerkonten, Mitgliederliste und Inhalte können hier vorbereitet und gepflegt werden.</p>
+<section class="page admin-shell">
+  <div class="admin-hero">
+      <div>
+          <p class="eyebrow">Verwaltung</p>
+          <h1>Administration der MMIG46-Plattform</h1>
+          <p>Nutzerkonten, Mitgliederliste, Beiträge und Reisen zentral pflegen.</p>
+      </div>
 
-  <section class="grid two">
-    <article>
-      <h2>Account anlegen</h2>
+      <div class="admin-hero-actions">
+          <a class="button ghost" href="/">Website ansehen</a>
+          <a class="button ghost" href="/news">News prüfen</a>
+          <a class="button ghost" href="/reisen">Reisen prüfen</a>
+      </div>
+  </div>
+
+  <section class="admin-card-grid">
+<article class="admin-card">
+
+  <div class="admin-card-header">
+      <span class="admin-icon">👤</span>
+      <div>
+          <h2>Account anlegen</h2>
+          <p>Neuen Nutzer mit Rolle erstellen.</p>
+      </div>
+  </div>
 
       <form method="post" action="/verwaltung/users">
         <?= \MMIG46\Core\Security::csrfField() ?>
@@ -38,8 +55,15 @@
       </form>
     </article>
 
-    <article>
-      <h2>Mitglied eintragen</h2>
+  <article class="admin-card">
+
+  <div class="admin-card-header">
+      <span class="admin-icon">✈</span>
+      <div>
+          <h2>Mitglied eintragen</h2>
+          <p>Öffentliches Mitgliedsprofil pflegen.</p>
+      </div>
+  </div>
 
       <form method="post" action="/verwaltung/members">
         <?= \MMIG46\Core\Security::csrfField() ?>
@@ -96,12 +120,16 @@
 
 
 
-<section class="admin-panel">
-    <h2>Beiträge verwalten</h2>
-    <p>
-        Bestehenden Slug erneut verwenden, um einen Beitrag zu aktualisieren.
-        Neuen Slug verwenden, um einen neuen Beitrag anzulegen.
-    </p>
+<section class="admin-panel admin-card admin-card-wide">
+
+  <div class="admin-card-header">
+      <span class="admin-icon">📰</span>
+      <div>
+          <h2>Beiträge verwalten</h2>
+          <p>News anlegen oder über bestehenden Slug aktualisieren.</p>
+      </div>
+  </div>
+
 
     <form method="post" action="/verwaltung/news" class="admin-form">
         <?= \MMIG46\Core\Security::csrfField() ?>
@@ -158,15 +186,26 @@
                     <td><?= htmlspecialchars($item['title']) ?></td>
                     <td><code><?= htmlspecialchars($item['slug']) ?></code></td>
                     <td><?= htmlspecialchars($item['published_at']) ?></td>
-                    <td><?= !empty($item['is_published']) ? 'online' : 'offline' ?></td>
+                    <td>
+                        <span class="status-badge <?= !empty($item['is_published']) ? 'is-online' : 'is-offline' ?>">
+                            <?= !empty($item['is_published']) ? 'online' : 'offline' ?>
+                        </span>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 </section>
 
-<section>
-  <h2>Reise bearbeiten</h2>
+<section class="admin-card admin-card-wide">
+
+  <div class="admin-card-header">
+      <span class="admin-icon">🧭</span>
+      <div>
+          <h2>Reise bearbeiten</h2>
+          <p>Reisen per Slug neu anlegen oder aktualisieren.</p>
+      </div>
+  </div>
 
   <form method="post" action="/verwaltung/travels">
     <?= \MMIG46\Core\Security::csrfField() ?>
@@ -234,8 +273,15 @@
   </form>
 </section>
 
-  <section>
-    <h2>Nutzer</h2>
+<section class="admin-card admin-card-wide">
+
+  <div class="admin-card-header">
+      <span class="admin-icon">🔐</span>
+      <div>
+          <h2>Nutzer</h2>
+          <p>Bestehende Logins und Rollen.</p>
+      </div>
+  </div>
 
     <div class="table">
       <table>
@@ -259,8 +305,15 @@
     </div>
   </section>
 
-  <section>
-    <h2>Mitglieder</h2>
+<section class="admin-card admin-card-wide">
+
+  <div class="admin-card-header">
+      <span class="admin-icon">🛩</span>
+      <div>
+          <h2>Mitglieder</h2>
+          <p>Öffentliche und interne Mitgliederprofile.</p>
+      </div>
+  </div>
 
     <div class="table">
       <table>
@@ -282,7 +335,11 @@
               <td><?= htmlspecialchars($member['base'] ?? '') ?></td>
               <td><?= htmlspecialchars($member['role_label'] ?? '') ?></td>
               <td><?= htmlspecialchars($member['member_type'] ?? '') ?></td>
-              <td><?= !empty($member['is_public']) ? 'Ja' : 'Nein' ?></td>
+              <td>
+                  <span class="status-badge <?= !empty($member['is_public']) ? 'is-online' : 'is-offline' ?>">
+                      <?= !empty($member['is_public']) ? 'Ja' : 'Nein' ?>
+                  </span>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>

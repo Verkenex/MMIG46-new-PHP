@@ -95,4 +95,19 @@ class TravelItem
 
         return $stmt->fetch() ?: null;
     }
+
+    public static function all(int $limit = 200): array
+    {
+        $stmt = DB::pdo()->prepare(
+            'SELECT id, title, slug, image_path, location, starts_on, ends_on, status, teaser, cta_label, body, is_published
+            FROM travel_items
+            ORDER BY starts_on DESC, id DESC
+            LIMIT ?'
+        );
+
+        $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
 }

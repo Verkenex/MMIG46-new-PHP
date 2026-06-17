@@ -28,7 +28,7 @@ class AdminController
         return View::render('admin/dashboard', [
             'users' => User::all(),
             'members' => Member::all(),
-            'news' => NewsItem::published(100),
+            'news' => NewsItem::all(200),
             'travels' => TravelItem::published(),
         ]);
     }
