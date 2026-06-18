@@ -138,6 +138,14 @@
             <input name="title" required>
         </label>
 
+        <label>
+          Sprache
+          <select name="lang">
+              <option value="de">Deutsch</option>
+              <option value="en">English</option>
+          </select>
+      </label>
+
         <label>Slug
             <input name="slug" required placeholder="fly-in-woerthersee-2026">
         </label>
@@ -221,6 +229,14 @@
     </label>
 
     <label>
+        Sprache
+        <select name="lang">
+            <option value="de">Deutsch</option>
+            <option value="en">English</option>
+        </select>
+    </label>
+
+    <label>
       Bildpfad
       <input name="image_path" placeholder="/assets/img/woerthersee.jpg">
     </label>
@@ -258,6 +274,24 @@
       CTA Label
       <input name="cta_label" placeholder="Details ansehen">
     </label>
+
+  <label>
+      Legacy-PDF-URL
+      <input
+          type="url"
+          name="legacy_pdf_url"
+          placeholder="https://www.mmig46.de/path/to/document.pdf"
+      >
+  </label>
+
+  <label>
+      Legacy-PDF-Pfad
+      <input
+          type="text"
+          name="legacy_pdf_path"
+          placeholder="/assets/docs/document.pdf"
+      >
+  </label>
 
     <label>
       Inhalt

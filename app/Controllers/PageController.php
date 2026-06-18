@@ -97,6 +97,7 @@ class PageController
         }
 
         $slug = rawurldecode($slug);
+        $lang = I18n::current();
 
         $staticTravelViews = [
             'fly-in-woerthersee-2026' => 'reisen/fly-in-woerthersee-2026',
@@ -106,8 +107,22 @@ class PageController
             return $this->renderStaticLocalized($staticTravelViews[$slug]);
         }
 
-        http_response_code(404);
-        return View::render('errors/404');
+        $item = TravelItem::findPublishedBySlug($slug, $lang);
+
+        if (!$item && $lang !== 'de') {
+            $item = TravelItem::findPublishedBySlug($slug, 'de');
+        }
+
+        if (!$item) {
+            http_response_code(404);
+            return View::render('errors/404');
+        }
+
+        return View::render('pages/travel-detail', [
+            'item' => $item,
+            'bodyHtml' => Markdown::toHtml($item['body'] ?? ''),
+            'lang' => $lang,
+        ]);
     }
 
     public function travelWoerthersee2026(): string
