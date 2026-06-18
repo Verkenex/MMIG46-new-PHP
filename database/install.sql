@@ -26,16 +26,17 @@ CREATE TABLE members (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE forum_posts (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  user_id INT UNSIGNED NOT NULL,
-  title VARCHAR(180) NOT NULL,
-  body MEDIUMTEXT NOT NULL,
-  pinned TINYINT(1) NOT NULL DEFAULT 0,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT fk_forum_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  INDEX idx_posts_created (created_at),
-  INDEX idx_posts_pinned (pinned)
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    title VARCHAR(180) NOT NULL,
+    body MEDIUMTEXT NOT NULL,
+    pinned TINYINT(1) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_forum_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_posts_created (created_at),
+    INDEX idx_posts_pinned (pinned),
+    FULLTEXT KEY ft_forum_search (title, body)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE contact_requests (
@@ -59,49 +60,62 @@ CREATE TABLE login_attempts (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE content_pages (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  slug VARCHAR(80) NOT NULL UNIQUE,
-  title VARCHAR(180) NOT NULL,
-  teaser TEXT NULL,
-  body MEDIUMTEXT NOT NULL,
-  meta_title VARCHAR(180) NULL,
-  meta_description VARCHAR(255) NULL,
-  is_published TINYINT(1) NOT NULL DEFAULT 1,
-  updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_content_slug (slug),
-  INDEX idx_content_published (is_published)
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    lang CHAR(2) NOT NULL DEFAULT 'de',
+    slug VARCHAR(80) NOT NULL,
+    title VARCHAR(180) NOT NULL,
+    teaser TEXT NULL,
+    body MEDIUMTEXT NOT NULL,
+    meta_title VARCHAR(180) NULL,
+    meta_description VARCHAR(255) NULL,
+    is_published TINYINT(1) NOT NULL DEFAULT 1,
+    updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_content_lang_slug (lang, slug),
+    INDEX idx_content_lang_published (lang, is_published),
+    FULLTEXT KEY ft_content_search (title, teaser, body)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE news_items (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(180) NOT NULL,
-  slug VARCHAR(100) NOT NULL UNIQUE,
-  teaser TEXT NULL,
-  body MEDIUMTEXT NOT NULL,
-  published_at DATETIME NOT NULL,
-  is_published TINYINT(1) NOT NULL DEFAULT 1,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
-  INDEX idx_news_published (is_published, published_at),
-  INDEX idx_news_slug (slug)
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    lang CHAR(2) NOT NULL DEFAULT 'de',
+    title VARCHAR(180) NOT NULL,
+    slug VARCHAR(100) NOT NULL,
+    category VARCHAR(80) NULL,
+    image_path VARCHAR(255) NULL,
+    comment_count INT UNSIGNED NOT NULL DEFAULT 0,
+    teaser TEXT NULL,
+    body MEDIUMTEXT NOT NULL,
+    published_at DATETIME NOT NULL,
+    is_published TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_news_lang_slug (lang, slug),
+    INDEX idx_news_lang_published (lang, is_published, published_at),
+    FULLTEXT KEY ft_news_search (title, teaser, body)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE travel_items (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(180) NOT NULL,
-  slug VARCHAR(100) NOT NULL UNIQUE,
-  location VARCHAR(180) NULL,
-  starts_on DATE NULL,
-  ends_on DATE NULL,
-  status ENUM('planned','completed','archived') NOT NULL DEFAULT 'planned',
-  teaser TEXT NULL,
-  body MEDIUMTEXT NOT NULL,
-  is_published TINYINT(1) NOT NULL DEFAULT 1,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
-  INDEX idx_travel_status_date (status, starts_on),
-  INDEX idx_travel_slug (slug)
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    lang CHAR(2) NOT NULL DEFAULT 'de',
+    title VARCHAR(180) NOT NULL,
+    slug VARCHAR(100) NOT NULL,
+    image_path VARCHAR(255) NULL,
+    location VARCHAR(180) NULL,
+    starts_on DATE NULL,
+    ends_on DATE NULL,
+    status ENUM('planned','completed','archived') NOT NULL DEFAULT 'planned',
+    teaser TEXT NULL,
+    cta_label VARCHAR(80) NULL,
+    legacy_pdf_url VARCHAR(500) NULL,
+    legacy_pdf_path VARCHAR(255) NULL,
+    body MEDIUMTEXT NOT NULL,
+    is_published TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_travel_lang_slug (lang, slug),
+    INDEX idx_travel_lang_published (lang, is_published, starts_on),
+    FULLTEXT KEY ft_travel_search (title, teaser, body)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE site_settings (
@@ -110,13 +124,3 @@ CREATE TABLE site_settings (
   updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE news_items
-  ADD COLUMN category VARCHAR(80) NULL AFTER slug,
-  ADD COLUMN image_path VARCHAR(255) NULL AFTER category,
-  ADD COLUMN comment_count INT UNSIGNED NOT NULL DEFAULT 0 AFTER image_path;
-
-ALTER TABLE travel_items
-  ADD COLUMN image_path VARCHAR(255) NULL AFTER slug,
-  ADD COLUMN cta_label VARCHAR(80) NULL AFTER teaser,
-  ADD COLUMN legacy_pdf_url VARCHAR(500) NULL AFTER cta_label,
-  ADD COLUMN legacy_pdf_path VARCHAR(255) NULL AFTER legacy_pdf_url;

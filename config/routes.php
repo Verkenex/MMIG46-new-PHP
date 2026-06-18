@@ -14,6 +14,10 @@ $router->get('/news', [PageController::class, 'news']);
 $router->get('/news/{slug}', [PageController::class, 'newsDetail']);
 $router->get('/aktuelles', [PageController::class, 'news']);
 
+$router->get('/suche', [PageController::class, 'search']);
+$router->get('/search', [PageController::class, 'search']);
+
+
 $router->get('/reisen', [PageController::class, 'travels']);
 $router->get('/reisen/fly-in-woerthersee-2026', [PageController::class, 'travelWoerthersee2026']);
 

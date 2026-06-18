@@ -12,22 +12,30 @@ use MMIG46\Models\SiteSetting;
 use MMIG46\Models\TravelItem;
 use MMIG46\Services\Mailer;
 use MMIG46\Services\Markdown;
+use MMIG46\Core\I18n;
+use MMIG46\Models\Search;
 
 class PageController
 {
     public function home(): string
     {
+        $lang = I18n::current();
+
         return View::render('pages/home', [
             'settings' => SiteSetting::allKeyValue(),
-            'latestNews' => NewsItem::latest(3),
-            'latestTravels' => TravelItem::latest(3),
+            'latestNews' => NewsItem::latest(3, $lang),
+            'latestTravels' => TravelItem::latest(3, $lang),
+            'lang' => $lang,
         ]);
     }
 
     public function news(): string
     {
+        $lang = I18n::current();
+
         return View::render('pages/news', [
-            'items' => NewsItem::published(50),
+            'items' => NewsItem::published(50, $lang),
+            'lang' => $lang,
         ]);
     }
 
@@ -39,8 +47,13 @@ class PageController
         }
 
         $slug = rawurldecode($slug);
+        $lang = I18n::current();
 
-        $item = NewsItem::findPublishedBySlug($slug);
+        $item = NewsItem::findPublishedBySlug($slug, $lang);
+
+        if (!$item && $lang !== 'de') {
+            $item = NewsItem::findPublishedBySlug($slug, 'de');
+        }
 
         if (!$item) {
             http_response_code(404);
@@ -50,15 +63,34 @@ class PageController
         return View::render('pages/news-detail', [
             'item' => $item,
             'bodyHtml' => Markdown::toHtml($item['body'] ?? ''),
+            'lang' => $lang,
         ]);
     }
 
     public function travels(): string
     {
+        $lang = I18n::current();
+
         return View::render('pages/reisen', [
-            'items' => TravelItem::published(),
+            'items' => TravelItem::published($lang),
+            'lang' => $lang,
         ]);
     }
+
+
+    public function search(): string
+    {
+        $lang = I18n::current();
+        $q = trim((string)($_GET['q'] ?? ''));
+
+        return View::render('pages/search', [
+            'q' => $q,
+            'results' => mb_strlen($q) >= 2 ? Search::query($q, $lang, 40) : [],
+            'lang' => $lang,
+        ]);
+    }
+
+
 
 
     public function travelDetail(string $slug = ''): string
@@ -89,13 +121,13 @@ class PageController
 
     public function verein(): string
     {
-        return View::render('pages/verein');
+        return $this->renderStaticLocalized('verein');
     }
 
     public function malibuMirage(): string
-{
-    return View::render('pages/malibu-mirage');
-}
+    {
+        return $this->renderStaticLocalized('malibu-mirage');
+    }
 
 public function malibuArchiveDetail(string $slug = ''): string
 {
@@ -154,17 +186,16 @@ public function malibuArchiveDetail(string $slug = ''): string
 
     public function impressum(): string
     {
-        return View::render('pages/impressum');
+        return $this->renderStaticLocalized('impressum');
     }
 
     public function datenschutz(): string
     {
-        return View::render('pages/datenschutz');
+        return $this->renderStaticLocalized('datenschutz');
     }
-
     public function agb(): string
     {
-        return View::render('pages/agb');
+        return $this->renderStaticLocalized('agb');
     }
 
     public function contentPage(): string
@@ -193,10 +224,9 @@ public function malibuArchiveDetail(string $slug = ''): string
     {
         $captchaLeft = random_int(3, 9);
         $captchaRight = random_int(1, 6);
-
         $_SESSION['captcha_answer'] = $captchaLeft + $captchaRight;
 
-        return View::render('pages/contact', [
+        return $this->renderStaticLocalized('contact', [
             'captchaQuestion' => $captchaLeft . ' + ' . $captchaRight,
         ]);
     }
@@ -229,7 +259,7 @@ public function malibuArchiveDetail(string $slug = ''): string
 
     public function membershipApplication(): string
     {
-        return View::render('pages/mitgliedsantrag');
+        return $this->renderStaticLocalized('mitgliedsantrag');
     }
 
     public function sendMembershipApplication(): string
@@ -288,5 +318,25 @@ public function malibuArchiveDetail(string $slug = ''): string
         Session::flash('success', 'Der Mitgliedsantrag wurde übermittelt. Sie können ihn zusätzlich ausdrucken.');
         header('Location:/mitgliedsantrag');
         exit;
+    }
+
+    private function renderStaticLocalized(string $view, array $data = []): string
+    {
+        $lang = I18n::current();
+
+        if ($lang === 'en') {
+            $englishView = 'pages/en/' . $view;
+            $englishPath = dirname(__DIR__) . '/Views/' . $englishView . '.php';
+
+            if (is_file($englishPath)) {
+                return View::render($englishView, array_merge($data, [
+                    'lang' => $lang,
+                ]));
+            }
+        }
+
+        return View::render('pages/' . $view, array_merge($data, [
+            'lang' => $lang,
+        ]));
     }
 }

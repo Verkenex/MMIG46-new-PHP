@@ -6,95 +6,59 @@ use MMIG46\Core\DB;
 
 class TravelItem
 {
-    public static function published(): array
+    public static function published(string $lang = 'de'): array
     {
-        $stmt = DB::pdo()->query(
-            "SELECT
-                id,
-                title,
-                slug,
-                image_path,
-                location,
-                starts_on,
-                ends_on,
-                status,
-                teaser,
-                cta_label,
-
-                legacy_pdf_path,
-
-                body,
-                is_published
+        $stmt = DB::pdo()->prepare(
+            'SELECT id, lang, title, slug, image_path, location, starts_on, ends_on, status,
+                    teaser, cta_label, legacy_pdf_url, legacy_pdf_path, body, is_published
             FROM travel_items
-            WHERE is_published = 1
+            WHERE is_published = 1 AND lang = ?
             ORDER BY
-                COALESCE(starts_on, ends_on, '1900-01-01') DESC,
-                title ASC"
+                CASE status
+                    WHEN "planned" THEN 1
+                    WHEN "completed" THEN 2
+                    ELSE 3
+                END,
+                starts_on DESC,
+                id DESC'
         );
+        $stmt->execute([$lang]);
 
         return $stmt->fetchAll();
     }
 
-    public static function latest(int $limit = 3): array
+    public static function latest(int $limit = 3, string $lang = 'de'): array
     {
         $stmt = DB::pdo()->prepare(
-            "SELECT
-                id,
-                title,
-                slug,
-                image_path,
-                location,
-                starts_on,
-                ends_on,
-                status,
-                teaser,
-                cta_label,
-                legacy_pdf_path,
-                body,
-                is_published
+            'SELECT id, lang, title, slug, image_path, location, starts_on, ends_on, status,
+                    teaser, cta_label, legacy_pdf_url, legacy_pdf_path, body, is_published
             FROM travel_items
-            WHERE is_published = 1
-            ORDER BY
-                COALESCE(starts_on, ends_on, '1900-01-01') DESC,
-                title ASC
-            LIMIT ?"
+            WHERE is_published = 1 AND lang = ?
+            ORDER BY starts_on DESC, id DESC
+            LIMIT ?'
         );
-
-        $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(1, $lang);
+        $stmt->bindValue(2, $limit, \PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll();
     }
 
-    public static function findPublishedBySlug(string $slug): ?array
+    public static function findPublishedBySlug(string $slug, string $lang = 'de'): ?array
     {
         $stmt = DB::pdo()->prepare(
-            "SELECT
-                id,
-                title,
-                slug,
-                image_path,
-                location,
-                starts_on,
-                ends_on,
-                status,
-                teaser,
-                cta_label,
-
-                legacy_pdf_path,
-
-                body,
-                is_published
+            'SELECT id, lang, title, slug, image_path, location, starts_on, ends_on, status,
+                    teaser, cta_label, legacy_pdf_url, legacy_pdf_path, body, is_published
             FROM travel_items
-            WHERE slug = ?
-              AND is_published = 1
-            LIMIT 1"
+            WHERE slug = ? AND lang = ? AND is_published = 1
+            LIMIT 1'
         );
-
-        $stmt->execute([$slug]);
+        $stmt->execute([$slug, $lang]);
 
         return $stmt->fetch() ?: null;
     }
+
+
 
     public static function all(int $limit = 200): array
     {
