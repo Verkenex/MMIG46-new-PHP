@@ -2,18 +2,18 @@
 
 namespace MMIG46\Controllers;
 
+use MMIG46\Core\I18n;
 use MMIG46\Core\Security;
 use MMIG46\Core\Session;
 use MMIG46\Core\View;
 use MMIG46\Models\ContactRequest;
 use MMIG46\Models\ContentPage;
 use MMIG46\Models\NewsItem;
+use MMIG46\Models\Search;
 use MMIG46\Models\SiteSetting;
 use MMIG46\Models\TravelItem;
 use MMIG46\Services\Mailer;
 use MMIG46\Services\Markdown;
-use MMIG46\Core\I18n;
-use MMIG46\Models\Search;
 
 class PageController
 {
@@ -43,7 +43,7 @@ class PageController
     {
         if ($slug === '') {
             $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-            $slug = basename((string)$path);
+            $slug = basename((string) $path);
         }
 
         $slug = rawurldecode($slug);
@@ -77,11 +77,10 @@ class PageController
         ]);
     }
 
-
     public function search(): string
     {
         $lang = I18n::current();
-        $q = trim((string)($_GET['q'] ?? ''));
+        $q = trim((string) ($_GET['q'] ?? ''));
 
         return View::render('pages/search', [
             'q' => $q,
@@ -89,9 +88,6 @@ class PageController
             'lang' => $lang,
         ]);
     }
-
-
-
 
     public function travelDetail(string $slug = ''): string
     {
@@ -103,11 +99,11 @@ class PageController
         $slug = rawurldecode($slug);
 
         $staticTravelViews = [
-            'fly-in-woerthersee-2026' => 'pages/reisen/fly-in-woerthersee-2026',
+            'fly-in-woerthersee-2026' => 'reisen/fly-in-woerthersee-2026',
         ];
 
         if (isset($staticTravelViews[$slug])) {
-            return View::render($staticTravelViews[$slug]);
+            return $this->renderStaticLocalized($staticTravelViews[$slug]);
         }
 
         http_response_code(404);
@@ -116,7 +112,7 @@ class PageController
 
     public function travelWoerthersee2026(): string
     {
-        return View::render('pages/reisen/fly-in-woerthersee-2026');
+        return $this->renderStaticLocalized('reisen/fly-in-woerthersee-2026');
     }
 
     public function verein(): string
@@ -129,60 +125,68 @@ class PageController
         return $this->renderStaticLocalized('malibu-mirage');
     }
 
-public function malibuArchiveDetail(string $slug = ''): string
-{
-    $articles = [
-        'ultimate-piston-single' => [
-            'title' => 'The Ultimate Piston Single?',
-            'subtitle' => 'By Jeff Schweitzer, Ph.D.',
-            'source_label' => 'Archivbeitrag der alten MMIG46-Website',
-            'file' => 'ultimate-piston-single.html',
-        ],
-        'pipers-perfection' => [
-            'title' => 'Piper’s Perfection?',
-            'subtitle' => 'By Dave Higdon',
-            'source_label' => 'Archivbeitrag der alten MMIG46-Website',
-            'file' => 'pipers-perfection.html',
-        ],
-        'optimum-flight-levels' => [
-            'title' => 'Optimum Flight Levels',
-            'subtitle' => 'By Marcus Bicknell',
-            'source_label' => 'Archivbeitrag der alten MMIG46-Website',
-            'file' => 'optimum-flight-levels.html',
-        ],
-        '100th-jetprop' => [
-            'title' => 'I picked up the 100th JetPROP',
-            'subtitle' => 'By Mac Lewis',
-            'source_label' => 'Archivbeitrag der alten MMIG46-Website',
-            'file' => '100th-jetprop.html',
-        ],
-    ];
+    public function malibuArchiveDetail(string $slug = ''): string
+    {
+        if ($slug === '') {
+            $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            $slug = basename((string) $path);
+        }
 
-    if (!isset($articles[$slug])) {
-        http_response_code(404);
-        return View::render('errors/404');
+        $slug = rawurldecode($slug);
+
+        $articles = [
+            'ultimate-piston-single' => [
+                'title' => 'The Ultimate Piston Single?',
+                'subtitle' => 'By Jeff Schweitzer, Ph.D.',
+                'source_label' => 'Archivbeitrag der alten MMIG46-Website',
+                'file' => 'ultimate-piston-single.html',
+            ],
+            'pipers-perfection' => [
+                'title' => 'Piper’s Perfection?',
+                'subtitle' => 'By Dave Higdon',
+                'source_label' => 'Archivbeitrag der alten MMIG46-Website',
+                'file' => 'pipers-perfection.html',
+            ],
+            'optimum-flight-levels' => [
+                'title' => 'Optimum Flight Levels',
+                'subtitle' => 'By Marcus Bicknell',
+                'source_label' => 'Archivbeitrag der alten MMIG46-Website',
+                'file' => 'optimum-flight-levels.html',
+            ],
+            '100th-jetprop' => [
+                'title' => 'I picked up the 100th JetPROP',
+                'subtitle' => 'By Mac Lewis',
+                'source_label' => 'Archivbeitrag der alten MMIG46-Website',
+                'file' => '100th-jetprop.html',
+            ],
+        ];
+
+        if (!isset($articles[$slug])) {
+            http_response_code(404);
+            return View::render('errors/404');
+        }
+
+        $article = $articles[$slug];
+        $path = dirname(__DIR__, 2) . '/storage/malibu-archive/' . $article['file'];
+
+        if (!is_file($path)) {
+            http_response_code(404);
+            return View::render('errors/404');
+        }
+
+        $bodyHtml = file_get_contents($path);
+
+        if ($bodyHtml === false) {
+            http_response_code(404);
+            return View::render('errors/404');
+        }
+
+        return View::render('pages/malibu-archive-detail', [
+            'article' => $article,
+            'bodyHtml' => $bodyHtml,
+            'lang' => I18n::current(),
+        ]);
     }
-
-    $article = $articles[$slug];
-    $path = dirname(__DIR__, 2) . '/storage/malibu-archive/' . $article['file'];
-
-    if (!is_file($path)) {
-        http_response_code(404);
-        return View::render('errors/404');
-    }
-
-    $bodyHtml = file_get_contents($path);
-    if ($bodyHtml === false) {
-        http_response_code(404);
-        return View::render('errors/404');
-    }
-
-    return View::render('pages/malibu-archive-detail', [
-        'article' => $article,
-        'bodyHtml' => $bodyHtml,
-    ]);
-}
-
 
     public function impressum(): string
     {
@@ -193,6 +197,7 @@ public function malibuArchiveDetail(string $slug = ''): string
     {
         return $this->renderStaticLocalized('datenschutz');
     }
+
     public function agb(): string
     {
         return $this->renderStaticLocalized('agb');
@@ -201,8 +206,23 @@ public function malibuArchiveDetail(string $slug = ''): string
     public function contentPage(): string
     {
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $slug = trim((string)$path, '/');
-                if (in_array($slug, ['verein', 'impressum', 'datenschutz', 'agb'], true)) {
+        $slug = trim((string) $path, '/');
+
+        $reservedStaticSlugs = [
+            'verein',
+            'malibu-mirage',
+            'impressum',
+            'datenschutz',
+            'agb',
+            'kontakt',
+            'mitgliedsantrag',
+            'reisen',
+            'suche',
+            'search',
+            'news',
+        ];
+
+        if (in_array($slug, $reservedStaticSlugs, true)) {
             http_response_code(404);
             return View::render('errors/404');
         }
@@ -217,6 +237,7 @@ public function malibuArchiveDetail(string $slug = ''): string
         return View::render('pages/content', [
             'page' => $page,
             'bodyHtml' => Markdown::toHtml($page['body'] ?? ''),
+            'lang' => I18n::current(),
         ]);
     }
 
@@ -224,6 +245,7 @@ public function malibuArchiveDetail(string $slug = ''): string
     {
         $captchaLeft = random_int(3, 9);
         $captchaRight = random_int(1, 6);
+
         $_SESSION['captcha_answer'] = $captchaLeft + $captchaRight;
 
         return $this->renderStaticLocalized('contact', [
@@ -235,25 +257,51 @@ public function malibuArchiveDetail(string $slug = ''): string
     {
         Security::verifyCsrf();
 
-        $expected = (int)($_SESSION['captcha_answer'] ?? 0);
-        $given = (int)($_POST['captcha'] ?? -1);
+        $lang = I18n::current();
+        $expected = (int) ($_SESSION['captcha_answer'] ?? 0);
+        $given = (int) ($_POST['captcha'] ?? -1);
 
         if ($expected !== $given) {
-            Session::flash('error', 'Captcha falsch.');
-            header('Location:/kontakt');
+            Session::flash(
+                'error',
+                $lang === 'en'
+                    ? 'The security answer is incorrect.'
+                    : 'Captcha falsch.'
+            );
+
+            header('Location: ' . I18n::url('/kontakt', $lang));
             exit;
         }
+
         unset($_SESSION['captcha_answer']);
 
-        $name = trim($_POST['name'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        $message = trim($_POST['message'] ?? '');
+        $name = trim((string) ($_POST['name'] ?? ''));
+        $email = trim((string) ($_POST['email'] ?? ''));
+        $message = trim((string) ($_POST['message'] ?? ''));
+
+        if ($name === '' || $email === '' || $message === '') {
+            Session::flash(
+                'error',
+                $lang === 'en'
+                    ? 'Please complete all required fields.'
+                    : 'Bitte alle Pflichtfelder ausfüllen.'
+            );
+
+            header('Location: ' . I18n::url('/kontakt', $lang));
+            exit;
+        }
 
         ContactRequest::create($name, $email, $message);
         Mailer::contact($name, $email, $message);
 
-        Session::flash('success', 'Danke, Ihre Anfrage wurde gespeichert.');
-        header('Location:/kontakt');
+        Session::flash(
+            'ok',
+            $lang === 'en'
+                ? 'Thank you. Your request has been saved.'
+                : 'Danke, Ihre Anfrage wurde gespeichert.'
+        );
+
+        header('Location: ' . I18n::url('/kontakt', $lang));
         exit;
     }
 
@@ -266,33 +314,35 @@ public function malibuArchiveDetail(string $slug = ''): string
     {
         Security::verifyCsrf();
 
+        $lang = I18n::current();
+
         $data = [
-            'membership_type' => trim($_POST['membership_type'] ?? ''),
-            'invoice_name' => trim($_POST['invoice_name'] ?? ''),
-            'street' => trim($_POST['street'] ?? ''),
-            'postal_city_country' => trim($_POST['postal_city_country'] ?? ''),
-            'last_name' => trim($_POST['last_name'] ?? ''),
-            'first_name' => trim($_POST['first_name'] ?? ''),
-            'birthday' => trim($_POST['birthday'] ?? ''),
-            'occupation' => trim($_POST['occupation'] ?? ''),
-            'copilot_spouse' => trim($_POST['copilot_spouse'] ?? ''),
-            'total_time' => trim($_POST['total_time'] ?? ''),
-            'time_in_type' => trim($_POST['time_in_type'] ?? ''),
-            'license_ratings' => trim($_POST['license_ratings'] ?? ''),
-            'flying_since' => trim($_POST['flying_since'] ?? ''),
-            'aviation_history' => trim($_POST['aviation_history'] ?? ''),
-            'registered_owner' => trim($_POST['registered_owner'] ?? ''),
-            'callsign' => trim($_POST['callsign'] ?? ''),
-            'model' => trim($_POST['model'] ?? ''),
-            'serial_number' => trim($_POST['serial_number'] ?? ''),
-            'aircraft_year' => trim($_POST['aircraft_year'] ?? ''),
-            'modifications' => trim($_POST['modifications'] ?? ''),
-            'home_base' => trim($_POST['home_base'] ?? ''),
-            'office_phone' => trim($_POST['office_phone'] ?? ''),
-            'office_email' => trim($_POST['office_email'] ?? ''),
-            'home_phone' => trim($_POST['home_phone'] ?? ''),
-            'private_email' => trim($_POST['private_email'] ?? ''),
-            'mobile' => trim($_POST['mobile'] ?? ''),
+            'membership_type' => trim((string) ($_POST['membership_type'] ?? '')),
+            'invoice_name' => trim((string) ($_POST['invoice_name'] ?? '')),
+            'street' => trim((string) ($_POST['street'] ?? '')),
+            'postal_city_country' => trim((string) ($_POST['postal_city_country'] ?? '')),
+            'last_name' => trim((string) ($_POST['last_name'] ?? '')),
+            'first_name' => trim((string) ($_POST['first_name'] ?? '')),
+            'birthday' => trim((string) ($_POST['birthday'] ?? '')),
+            'occupation' => trim((string) ($_POST['occupation'] ?? '')),
+            'copilot_spouse' => trim((string) ($_POST['copilot_spouse'] ?? '')),
+            'total_time' => trim((string) ($_POST['total_time'] ?? '')),
+            'time_in_type' => trim((string) ($_POST['time_in_type'] ?? '')),
+            'license_ratings' => trim((string) ($_POST['license_ratings'] ?? '')),
+            'flying_since' => trim((string) ($_POST['flying_since'] ?? '')),
+            'aviation_history' => trim((string) ($_POST['aviation_history'] ?? '')),
+            'registered_owner' => trim((string) ($_POST['registered_owner'] ?? '')),
+            'callsign' => trim((string) ($_POST['callsign'] ?? '')),
+            'model' => trim((string) ($_POST['model'] ?? '')),
+            'serial_number' => trim((string) ($_POST['serial_number'] ?? '')),
+            'aircraft_year' => trim((string) ($_POST['aircraft_year'] ?? '')),
+            'modifications' => trim((string) ($_POST['modifications'] ?? '')),
+            'home_base' => trim((string) ($_POST['home_base'] ?? '')),
+            'office_phone' => trim((string) ($_POST['office_phone'] ?? '')),
+            'office_email' => trim((string) ($_POST['office_email'] ?? '')),
+            'home_phone' => trim((string) ($_POST['home_phone'] ?? '')),
+            'private_email' => trim((string) ($_POST['private_email'] ?? '')),
+            'mobile' => trim((string) ($_POST['mobile'] ?? '')),
             'consent' => isset($_POST['consent']) ? 'yes' : 'no',
         ];
 
@@ -302,8 +352,14 @@ public function malibuArchiveDetail(string $slug = ''): string
             || $data['private_email'] === ''
             || $data['consent'] !== 'yes'
         ) {
-            Session::flash('error', 'Bitte Pflichtfelder ausfüllen und Einwilligung bestätigen.');
-            header('Location:/mitgliedsantrag');
+            Session::flash(
+                'error',
+                $lang === 'en'
+                    ? 'Please complete the required fields and confirm your consent.'
+                    : 'Bitte Pflichtfelder ausfüllen und Einwilligung bestätigen.'
+            );
+
+            header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
             exit;
         }
 
@@ -315,8 +371,14 @@ public function malibuArchiveDetail(string $slug = ''): string
             $message
         );
 
-        Session::flash('success', 'Der Mitgliedsantrag wurde übermittelt. Sie können ihn zusätzlich ausdrucken.');
-        header('Location:/mitgliedsantrag');
+        Session::flash(
+            'ok',
+            $lang === 'en'
+                ? 'The membership application has been submitted. You may also print it for your records.'
+                : 'Der Mitgliedsantrag wurde übermittelt. Sie können ihn zusätzlich ausdrucken.'
+        );
+
+        header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
         exit;
     }
 

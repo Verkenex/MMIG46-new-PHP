@@ -1,26 +1,104 @@
 <?php
 
+use MMIG46\Core\I18n;
 use MMIG46\Core\Security;
 
-$siteName = $settings['site_name'] ?? 'MMIG46 e.V.';
-$siteClaim = $settings['site_claim'] ?? 'Malibu Mirage Interessengemeinschaft 46';
-$siteDescription = $settings['site_description'] ?? 'Vereinigung von Besitzern, Haltern und Piloten der Piper PA46.';
+$lang = $lang ?? I18n::current();
+$isEn = $lang === 'en';
+
+$latestNews = $latestNews ?? [];
+$latestTravels = $latestTravels ?? [];
+
+$copy = [
+    'de' => [
+        'hero_eyebrow' => 'MMIG46 e.V.',
+        'hero_title' => 'Malibu Mirage Interessengemeinschaft 46',
+        'hero_lead' => 'Vereinigung von Besitzern, Haltern und Piloten der Piper PA46.',
+        'hero_travels' => 'Reisen ansehen',
+        'hero_club' => 'Mehr über den Verein',
+        'hero_contact' => 'Kontakt aufnehmen',
+
+        'feature_travels_title' => 'Fly-Ins & Reisen',
+        'feature_travels_text' => 'Gemeinsame Ausflüge, Fly-Ins und Reiseziele in Europa.',
+        'feature_members_title' => 'Mitgliederbereich',
+        'feature_members_text' => 'Exklusive Inhalte, interne Informationen und direkter Austausch.',
+        'feature_tech_title' => 'Technischer Austausch',
+        'feature_tech_text' => 'Erfahrungen teilen, Fragen stellen und von der Gemeinschaft profitieren.',
+        'feature_forum_title' => 'Forum & News',
+        'feature_forum_text' => 'Aktuelle News, Diskussionen und hilfreiche Beiträge aus der Community.',
+
+        'news_title' => 'Aktuelles',
+        'news_all' => 'Alle News anzeigen →',
+        'news_empty_title' => 'Noch keine veröffentlichten News',
+        'news_empty_text' => 'Neue Beiträge erscheinen hier, sobald sie im Adminbereich veröffentlicht wurden.',
+        'read_article' => 'Artikel lesen →',
+        'comments' => 'Kommentare',
+    ],
+    'en' => [
+        'hero_eyebrow' => 'MMIG46 e.V.',
+        'hero_title' => 'Malibu Mirage Interest Group 46',
+        'hero_lead' => 'Association of owners, operators and pilots of the Piper PA46.',
+        'hero_travels' => 'View travels',
+        'hero_club' => 'Learn more about the club',
+        'hero_contact' => 'Contact us',
+
+        'feature_travels_title' => 'Fly-ins & travels',
+        'feature_travels_text' => 'Joint trips, fly-ins and travel destinations across Europe.',
+        'feature_members_title' => 'Member area',
+        'feature_members_text' => 'Exclusive content, internal information and direct exchange.',
+        'feature_tech_title' => 'Technical exchange',
+        'feature_tech_text' => 'Share experience, ask questions and benefit from the community.',
+        'feature_forum_title' => 'Forum & news',
+        'feature_forum_text' => 'Current news, discussions and helpful contributions from the community.',
+
+        'news_title' => 'News',
+        'news_all' => 'View all news →',
+        'news_empty_title' => 'No published news yet',
+        'news_empty_text' => 'New posts will appear here once they have been published in the admin area.',
+        'read_article' => 'Read article →',
+        'comments' => 'comments',
+    ],
+];
+
+$t = $copy[$isEn ? 'en' : 'de'];
+
+function mmig_format_date(?string $date): string
+{
+    if (!$date) {
+        return '';
+    }
+
+    $timestamp = strtotime($date);
+
+    if (!$timestamp) {
+        return $date;
+    }
+
+    return date('d.m.Y', $timestamp);
+}
+
 ?>
 
 <section class="home-hero">
     <div class="home-hero__content">
-        <p class="eyebrow"><?= Security::e($siteName) ?></p>
+        <p class="eyebrow"><?= Security::e($t['hero_eyebrow']) ?></p>
 
-        <h1><?= Security::e($siteClaim) ?></h1>
+        <h1><?= Security::e($t['hero_title']) ?></h1>
 
-        <p>
-            <?= Security::e($siteDescription) ?>
-        </p>
+        <p><?= Security::e($t['hero_lead']) ?></p>
 
         <div class="actions">
-            <a class="btn primary" href="/reisen">Reisen ansehen</a>
-            <a class="btn" href="/verein">Mehr über den Verein</a>
-            <a class="btn" href="/kontakt">Kontakt aufnehmen</a>
+            <a class="button button--primary" href="<?= Security::e(I18n::url('/reisen', $lang)) ?>">
+                <?= Security::e($t['hero_travels']) ?>
+            </a>
+
+            <a class="button button--secondary" href="<?= Security::e(I18n::url('/verein', $lang)) ?>">
+                <?= Security::e($t['hero_club']) ?>
+            </a>
+
+            <a class="button button--secondary" href="<?= Security::e(I18n::url('/kontakt', $lang)) ?>">
+                <?= Security::e($t['hero_contact']) ?>
+            </a>
         </div>
     </div>
 </section>
@@ -29,95 +107,114 @@ $siteDescription = $settings['site_description'] ?? 'Vereinigung von Besitzern, 
     <article>
         <span aria-hidden="true">✈</span>
         <div>
-            <h2>Fly-Ins & Reisen</h2>
-            <p>Gemeinsame Ausflüge, Fly-Ins und Reiseziele in Europa.</p>
+            <h2><?= Security::e($t['feature_travels_title']) ?></h2>
+            <p><?= Security::e($t['feature_travels_text']) ?></p>
         </div>
     </article>
 
     <article>
         <span aria-hidden="true">♟</span>
         <div>
-            <h2>Mitgliederbereich</h2>
-            <p>Exklusive Inhalte, interne Informationen und direkter Austausch.</p>
+            <h2><?= Security::e($t['feature_members_title']) ?></h2>
+            <p><?= Security::e($t['feature_members_text']) ?></p>
         </div>
     </article>
 
     <article>
         <span aria-hidden="true">🔧</span>
         <div>
-            <h2>Technischer Austausch</h2>
-            <p>Erfahrungen teilen, Fragen stellen und von der Gemeinschaft profitieren.</p>
+            <h2><?= Security::e($t['feature_tech_title']) ?></h2>
+            <p><?= Security::e($t['feature_tech_text']) ?></p>
         </div>
     </article>
 
     <article>
         <span aria-hidden="true">💬</span>
         <div>
-            <h2>Forum & News</h2>
-            <p>Aktuelle News, Diskussionen und hilfreiche Beiträge aus der Community.</p>
+            <h2><?= Security::e($t['feature_forum_title']) ?></h2>
+            <p><?= Security::e($t['feature_forum_text']) ?></p>
         </div>
     </article>
 </section>
 
-<section class="page">
-    <div class="split">
-        <h2>Aktuelles</h2>
-        <a class="text-link" href="/news">Alle News anzeigen →</a>
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <h2><?= Security::e($t['news_title']) ?></h2>
+
+            <a href="<?= Security::e(I18n::url('/news', $lang)) ?>">
+                <?= Security::e($t['news_all']) ?>
+            </a>
+        </div>
+
+        <?php if (empty($latestNews)): ?>
+            <div class="empty-state">
+                <h2><?= Security::e($t['news_empty_title']) ?></h2>
+                <p><?= Security::e($t['news_empty_text']) ?></p>
+            </div>
+        <?php else: ?>
+            <div class="home-news-grid">
+                <?php foreach ($latestNews as $item): ?>
+                    <?php
+                    $title = (string)($item['title'] ?? '');
+                    $slug = (string)($item['slug'] ?? '');
+                    $category = trim((string)($item['category'] ?? ''));
+                    $image = trim((string)($item['image_path'] ?? ''));
+                    $teaser = trim((string)($item['teaser'] ?? ''));
+                    $publishedAt = mmig_format_date($item['published_at'] ?? null);
+                    $commentCount = (int)($item['comment_count'] ?? 0);
+
+                    $href = $slug !== ''
+                        ? I18n::url('/news/' . rawurlencode($slug), $lang)
+                        : I18n::url('/news', $lang);
+                    ?>
+
+                    <article class="home-news-card">
+                        <a class="home-news-card__link" href="<?= Security::e($href) ?>">
+                            <figure class="home-news-card__media">
+                                <?php if ($image !== ''): ?>
+                                    <img src="<?= Security::e($image) ?>" alt="<?= Security::e($title) ?>">
+                                <?php endif; ?>
+
+                                <?php if ($category !== ''): ?>
+                                    <span class="home-news-card__badge">
+                                        <?= Security::e($category) ?>
+                                    </span>
+                                <?php endif; ?>
+                            </figure>
+
+                            <div class="home-news-card__body">
+                                <h3><?= Security::e($title) ?></h3>
+
+                                <?php if ($teaser !== ''): ?>
+                                    <p class="home-news-card__teaser">
+                                        <?= Security::e($teaser) ?>
+                                    </p>
+                                <?php endif; ?>
+
+                                <?php if ($publishedAt !== '' || $commentCount > 0): ?>
+                                    <p class="home-news-card__meta">
+                                        <?php if ($publishedAt !== ''): ?>
+                                            <span><?= Security::e($publishedAt) ?></span>
+                                        <?php endif; ?>
+
+                                        <?php if ($commentCount > 0): ?>
+                                            <span>
+                                                <?= Security::e((string)$commentCount) ?>
+                                                <?= Security::e($t['comments']) ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </p>
+                                <?php endif; ?>
+
+                                <span class="home-news-card__more">
+                                    <?= Security::e($t['read_article']) ?>
+                                </span>
+                            </div>
+                        </a>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
-
-    <?php if (empty($latestNews)): ?>
-        <div class="empty-state">
-            <h2>Noch keine veröffentlichten News</h2>
-            <p>Neue Beiträge erscheinen hier, sobald sie im Adminbereich veröffentlicht wurden.</p>
-        </div>
-    <?php else: ?>
-        <div class="home-news-grid">
-            <?php foreach ($latestNews as $item): ?>
-                <?php
-                $newsSlug = trim((string)($item['slug'] ?? ''));
-                $newsUrl = $newsSlug !== ''
-                    ? '/news/' . rawurlencode($newsSlug)
-                    : '/news';
-
-                $newsTitle = Security::e($item['title'] ?? 'News');
-                $newsTeaser = Security::e($item['teaser'] ?? '');
-                $newsCategory = Security::e($item['category'] ?? 'News');
-
-                $publishedAt = (string)($item['published_at'] ?? '');
-                $timestamp = $publishedAt !== '' ? strtotime($publishedAt) : false;
-                $newsDate = $timestamp ? date('d.m.Y', $timestamp) : '';
-
-                $imagePath = trim((string)($item['image_path'] ?? ''));
-                ?>
-
-                <article class="home-news-card">
-                    <a class="home-news-card__link" href="<?= Security::e($newsUrl) ?>">
-                        <figure class="home-news-card__media">
-                            <?php if ($imagePath !== ''): ?>
-                                <img src="<?= Security::e($imagePath) ?>" alt="<?= $newsTitle ?>">
-                            <?php endif; ?>
-
-                            <span class="home-news-card__badge"><?= $newsCategory ?></span>
-                        </figure>
-
-                        <div class="home-news-card__body">
-                            <h3><?= $newsTitle ?></h3>
-
-                            <?php if ($newsTeaser !== ''): ?>
-                                <p class="home-news-card__teaser"><?= $newsTeaser ?></p>
-                            <?php endif; ?>
-
-                            <?php if ($newsDate !== ''): ?>
-                                <p class="home-news-card__meta"><?= Security::e($newsDate) ?></p>
-                            <?php endif; ?>
-
-                            <span class="home-news-card__more">
-                                <?= $newsSlug !== '' ? 'Artikel lesen →' : 'Alle News anzeigen →' ?>
-                            </span>
-                        </div>
-                    </a>
-                </article>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
 </section>

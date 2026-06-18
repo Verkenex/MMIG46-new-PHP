@@ -42,6 +42,7 @@ final class I18n
             'cookie.text' => 'Diese Website verwendet notwendige Session-Cookies. Mehr Informationen finden Sie in der Datenschutzerklärung.',
             'cookie.accept' => 'Verstanden',
         ],
+
         'en' => [
             'nav.news' => 'News',
             'nav.travels' => 'Travels',
@@ -71,26 +72,24 @@ final class I18n
             'language.de' => 'Deutsch',
             'language.en' => 'English',
 
-            'cookie.text' => 'This website uses necessary session cookies only. More information is available in the privacy policy.',
+            'cookie.text' => 'This website only uses necessary session cookies. More information is available in the privacy policy.',
             'cookie.accept' => 'Understood',
         ],
     ];
 
     public static function current(): string
     {
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            $requested = $_GET['lang'] ?? null;
+        $requested = $_GET['lang'] ?? null;
 
-            if (is_string($requested) && in_array($requested, self::SUPPORTED, true)) {
-                $_SESSION['lang'] = $requested;
-                return $requested;
-            }
+        if (is_string($requested) && in_array($requested, self::SUPPORTED, true)) {
+            self::set($requested);
+            return $requested;
+        }
 
-            $sessionLang = $_SESSION['lang'] ?? null;
+        $sessionLang = $_SESSION['lang'] ?? null;
 
-            if (is_string($sessionLang) && in_array($sessionLang, self::SUPPORTED, true)) {
-                return $sessionLang;
-            }
+        if (is_string($sessionLang) && in_array($sessionLang, self::SUPPORTED, true)) {
+            return $sessionLang;
         }
 
         return self::DEFAULT_LANG;
@@ -98,7 +97,11 @@ final class I18n
 
     public static function set(string $lang): void
     {
-        if (session_status() === PHP_SESSION_ACTIVE && in_array($lang, self::SUPPORTED, true)) {
+        if (!in_array($lang, self::SUPPORTED, true)) {
+            return;
+        }
+
+        if (session_status() === PHP_SESSION_ACTIVE) {
             $_SESSION['lang'] = $lang;
         }
     }
@@ -117,11 +120,36 @@ final class I18n
             ?? $key;
     }
 
-    public static function url(string $path, ?string $lang = null): string
+    public static function url(string $path, ?string $lang = null, array $extraQuery = []): string
     {
         $lang = $lang ?: self::current();
-        $separator = str_contains($path, '?') ? '&' : '?';
 
-        return $path . $separator . 'lang=' . rawurlencode($lang);
+        $parts = parse_url($path);
+        $cleanPath = (string)($parts['path'] ?? '/');
+
+        $query = [];
+        if (!empty($parts['query'])) {
+            parse_str($parts['query'], $query);
+        }
+
+        $query = array_merge($query, $extraQuery);
+        $query['lang'] = $lang;
+
+        return $cleanPath . '?' . http_build_query($query);
+    }
+
+    public static function languageUrl(string $targetLang): string
+    {
+        if (!in_array($targetLang, self::SUPPORTED, true)) {
+            $targetLang = self::DEFAULT_LANG;
+        }
+
+        $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+
+        $query = $_GET;
+        unset($query['lang']);
+        $query['lang'] = $targetLang;
+
+        return $path . '?' . http_build_query($query);
     }
 }

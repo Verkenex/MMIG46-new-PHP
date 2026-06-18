@@ -24,29 +24,22 @@ $title = I18n::t('search.title');
 
 <section class="section">
     <div class="container">
-        <form class="search-page-form" action="/suche" method="get">
-            <input
-                type="search"
-                name="q"
-                value="<?= Security::e($q) ?>"
-                placeholder="<?= Security::e(I18n::t('search.placeholder')) ?>"
-                minlength="2"
-                required
-            >
+    <form class="search-page-form" action="/suche" method="get">
+        <input type="hidden" name="lang" value="<?= Security::e($lang) ?>">
 
-            <select name="lang" aria-label="<?= Security::e(I18n::t('language.label')) ?>">
-                <option value="de" <?= $lang === 'de' ? 'selected' : '' ?>>
-                    <?= Security::e(I18n::t('language.de')) ?>
-                </option>
-                <option value="en" <?= $lang === 'en' ? 'selected' : '' ?>>
-                    <?= Security::e(I18n::t('language.en')) ?>
-                </option>
-            </select>
+        <input
+            type="search"
+            name="q"
+            value="<?= Security::e($q) ?>"
+            placeholder="<?= Security::e(I18n::t('search.placeholder')) ?>"
+            minlength="2"
+            required
+        >
 
-            <button type="submit">
-                <?= Security::e(I18n::t('search.button')) ?>
-            </button>
-        </form>
+        <button type="submit">
+            <?= Security::e(I18n::t('search.button')) ?>
+        </button>
+    </form>
 
         <?php if (mb_strlen($q) >= 2 && empty($results)): ?>
             <p class="muted"><?= Security::e(I18n::t('search.no_results')) ?></p>

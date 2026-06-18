@@ -89,29 +89,40 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                 <?= Security::e(I18n::t('nav.contact')) ?>
             </a>
 
-            <form class="site-search" action="/suche" method="get" role="search">
-                <input
-                    type="search"
-                    name="q"
-                    value="<?= Security::e($currentQuery) ?>"
-                    placeholder="<?= Security::e(I18n::t('search.placeholder')) ?>"
-                    minlength="2"
-                    aria-label="<?= Security::e(I18n::t('search.placeholder')) ?>"
-                >
+            <div class="site-tools">
+                <form class="site-search" action="/suche" method="get" role="search">
+                    <input type="hidden" name="lang" value="<?= Security::e($lang) ?>">
 
-                <select name="lang" aria-label="<?= Security::e(I18n::t('language.label')) ?>">
-                    <option value="de" <?= $lang === 'de' ? 'selected' : '' ?>>
-                        <?= Security::e(I18n::t('language.de')) ?>
-                    </option>
-                    <option value="en" <?= $lang === 'en' ? 'selected' : '' ?>>
-                        <?= Security::e(I18n::t('language.en')) ?>
-                    </option>
-                </select>
+                    <input
+                        type="search"
+                        name="q"
+                        value="<?= Security::e($currentQuery) ?>"
+                        placeholder="<?= Security::e(I18n::t('search.placeholder')) ?>"
+                        minlength="2"
+                        aria-label="<?= Security::e(I18n::t('search.placeholder')) ?>"
+                    >
 
-                <button type="submit">
-                    <?= Security::e(I18n::t('search.button')) ?>
-                </button>
-            </form>
+                    <button type="submit">
+                        <?= Security::e(I18n::t('search.button')) ?>
+                    </button>
+                </form>
+
+                <nav class="language-switch" aria-label="<?= Security::e(I18n::t('language.label')) ?>">
+                    <a
+                        class="<?= $lang === 'de' ? 'is-active' : '' ?>"
+                        href="<?= Security::e(I18n::languageUrl('de')) ?>"
+                        hreflang="de"
+                        lang="de"
+                    >DE</a>
+
+                    <a
+                        class="<?= $lang === 'en' ? 'is-active' : '' ?>"
+                        href="<?= Security::e(I18n::languageUrl('en')) ?>"
+                        hreflang="en"
+                        lang="en"
+                    >EN</a>
+                </nav>
+            </div>
         </nav>
 
         <div class="site-actions">

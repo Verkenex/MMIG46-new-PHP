@@ -1,11 +1,12 @@
 <?php
 
+use MMIG46\Core\I18n;
 use MMIG46\Core\Security;
 
 $membershipTypes = [
-    'corporate_supplier' => 'Corporate Supplier MMIG46 – 2.500 EUR Jahresbeitrag',
-    'owner_pilot' => 'Owner / Pilot – 250 EUR Jahresbeitrag',
-    'associate_pilot' => 'Associate Pilot – 250 EUR Jahresbeitrag',
+    'corporate_supplier' => 'Corporate Supplier MMIG46 – EUR 2,500 annual fee',
+    'owner_pilot' => 'Owner / Pilot – EUR 250 annual fee',
+    'associate_pilot' => 'Associate Pilot – EUR 250 annual fee',
 ];
 
 $aircraftModels = [
@@ -14,27 +15,29 @@ $aircraftModels = [
     'PA46R-350T',
     'PA46-500',
     'PA46-JETPROP',
-    'Andere',
+    'Other',
 ];
+
 ?>
 
 <section class="membership-page">
     <div class="container">
         <header class="membership-header">
             <p class="eyebrow">MMIG46 e.V.</p>
-            <h1>Mitgliedsantrag</h1>
-            <p>Digital ausfüllen, absenden oder als einseitiges Formular drucken.</p>
+            <h1>Membership Application</h1>
+
+            <p>Complete digitally, submit online or print as a one-page form.</p>
 
             <button class="button button--secondary print-button" type="button" onclick="window.print()">
-                Formular drucken
+                Print form
             </button>
         </header>
 
-        <form class="membership-form" method="post" action="/mitgliedsantrag">
+        <form class="membership-form" method="post" action="<?= Security::e(I18n::url('/mitgliedsantrag', 'en')) ?>">
             <?= Security::csrfField() ?>
 
             <fieldset class="membership-fieldset membership-status">
-                <legend>Mitgliedschaft</legend>
+                <legend>Membership</legend>
 
                 <div class="membership-options">
                     <?php foreach ($membershipTypes as $value => $label): ?>
@@ -52,106 +55,106 @@ $aircraftModels = [
             </fieldset>
 
             <fieldset class="membership-fieldset">
-                <legend>Rechnungsanschrift</legend>
+                <legend>Billing address</legend>
 
                 <div class="form-grid">
                     <label>
-                        Firma / Name
+                        Company / Name
                         <input name="invoice_name" autocomplete="organization">
                     </label>
 
                     <label>
-                        Straße
+                        Street
                         <input name="street" autocomplete="street-address">
                     </label>
 
                     <label class="span-2">
-                        PLZ, Ort, Land
+                        Postal code, city, country
                         <input name="postal_city_country" autocomplete="address-level2">
                     </label>
                 </div>
             </fieldset>
 
             <fieldset class="membership-fieldset">
-                <legend>Mitgliedsdaten</legend>
+                <legend>Member details</legend>
 
                 <div class="form-grid">
                     <label>
-                        Nachname *
+                        Last name *
                         <input name="last_name" required autocomplete="family-name">
                     </label>
 
                     <label>
-                        Vorname *
+                        First name *
                         <input name="first_name" required autocomplete="given-name">
                     </label>
 
                     <label>
-                        Geburtstag
-                        <input name="birthday" inputmode="numeric" placeholder="TT.MM.JJJJ" autocomplete="bday">
+                        Date of birth
+                        <input name="birthday" inputmode="numeric" placeholder="DD.MM.YYYY" autocomplete="bday">
                     </label>
 
                     <label>
-                        Beruf / Tätigkeit
+                        Profession / Occupation
                         <input name="occupation">
                     </label>
 
                     <label class="span-2">
-                        Co-Pilot / Partner
+                        Co-pilot / Partner
                         <input name="copilot_spouse">
                     </label>
                 </div>
             </fieldset>
 
             <fieldset class="membership-fieldset">
-                <legend>Fliegerische Angaben</legend>
+                <legend>Aviation information</legend>
 
                 <div class="form-grid">
                     <label>
-                        Gesamtflugzeit
+                        Total flight time
                         <input name="total_time">
                     </label>
 
                     <label>
-                        Flugzeit auf Muster
+                        Time on type
                         <input name="time_in_type">
                     </label>
 
                     <label>
-                        Lizenz / Ratings
+                        Licence / Ratings
                         <input name="license_ratings">
                     </label>
 
                     <label>
-                        Fliegerisch aktiv seit
+                        Actively flying since
                         <input name="flying_since">
                     </label>
 
                     <label class="span-2">
-                        Bisherige Muster / Erfahrung
+                        Previous aircraft types / Experience
                         <textarea name="aviation_history" rows="2"></textarea>
                     </label>
                 </div>
             </fieldset>
 
             <fieldset class="membership-fieldset">
-                <legend>Flugzeug</legend>
+                <legend>Aircraft</legend>
 
                 <div class="form-grid">
                     <label>
-                        Eingetragener Halter / Eigentümer
+                        Registered holder / Owner
                         <input name="registered_owner">
                     </label>
 
                     <label>
-                        Kennzeichen / Callsign
+                        Registration / Callsign
                         <input name="callsign">
                     </label>
 
                     <label class="print-line-field">
-                        Modell
+                        Model
                         <select name="model" class="screen-control">
-                            <option value="">Bitte wählen</option>
+                            <option value="">Please select</option>
                             <?php foreach ($aircraftModels as $model): ?>
                                 <option value="<?= Security::e($model) ?>"><?= Security::e($model) ?></option>
                             <?php endforeach; ?>
@@ -160,81 +163,81 @@ $aircraftModels = [
                     </label>
 
                     <label>
-                        Baujahr
+                        Year of manufacture
                         <input name="aircraft_year">
                     </label>
 
                     <label>
-                        Homebase
+                        Home base
                         <input name="home_base">
                     </label>
 
                     <label class="span-2">
-                        Relevante Modifikationen
+                        Relevant modifications
                         <textarea name="modifications" rows="2"></textarea>
                     </label>
                 </div>
             </fieldset>
 
             <fieldset class="membership-fieldset">
-                <legend>Kontakt</legend>
+                <legend>Contact</legend>
 
                 <div class="form-grid">
                     <label>
-                        Telefon geschäftlich
+                        Business phone
                         <input name="office_phone" autocomplete="tel">
                     </label>
 
                     <label>
-                        E-Mail geschäftlich
+                        Business email
                         <input name="office_email" type="email" autocomplete="email">
                     </label>
 
                     <label>
-                        Telefon privat
+                        Private phone
                         <input name="home_phone" autocomplete="tel">
                     </label>
 
                     <label>
-                        E-Mail privat *
+                        Private email *
                         <input name="private_email" type="email" required autocomplete="email">
                     </label>
 
                     <label class="span-2">
-                        Mobil
+                        Mobile
                         <input name="mobile" autocomplete="tel">
                     </label>
                 </div>
             </fieldset>
 
             <fieldset class="membership-fieldset consent-box">
-                <legend>Einwilligung</legend>
+                <legend>Consent</legend>
 
                 <p>
-                    Ich bestätige, die Satzung des MMIG46 e.V. gelesen zu haben und akzeptiere diese verbindlich.
+                    I confirm that I have read the articles of association of MMIG46 e.V.
+                    and accept them as binding.
                 </p>
 
                 <p>
-                    Ich bin damit einverstanden, dass meine personenbezogenen Daten durch den MMIG46 e.V.
-                    zur Mitgliederverwaltung und zur Zusendung vereinsbezogener Informationen verarbeitet werden.
+                    I consent to my personal data being processed by MMIG46 e.V. for
+                    membership administration and for sending association-related information.
                 </p>
 
-            <label class="checkbox consent-inline">
-                <input type="checkbox" name="consent" value="1" required>
-                <span>
-                    Ich stimme der Verarbeitung meiner Daten zum Zweck der Bearbeitung dieses Mitgliedsantrags zu.
-                </span>
-            </label>
+                <label class="consent-check">
+                    <input type="checkbox" name="consent" required>
+                    <span class="print-check" aria-hidden="true"></span>
+                    <span>I consent to the processing of my data and to the information stated above.</span>
+                </label>
             </fieldset>
 
             <div class="membership-signature">
-                <p>Ort, Datum: __________________________________________</p>
-                <p>Unterschrift: _________________________________________</p>
+                <p>Place, date: __________________________________________</p>
+                <p>Signature: ___________________________________________</p>
             </div>
 
             <div class="membership-actions">
-                <button class="button button--primary" type="submit">Mitgliedsantrag absenden</button>
-                <button class="button button--secondary" type="button" onclick="window.print()">Drucken</button>
+                <button class="button button--primary" type="submit">Submit membership application</button>
+                <button class="button button--secondary" type="button" onclick="window.print()">Print</button>
             </div>
         </form>
     </div>
