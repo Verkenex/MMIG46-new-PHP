@@ -57,18 +57,47 @@ VALUES
 ON DUPLICATE KEY UPDATE
   setting_value = VALUES(setting_value);
 
-INSERT INTO forum_posts (user_id, title, body, pinned)
+INSERT INTO forum_topics (
+  user_id,
+  title,
+  slug,
+  is_pinned,
+  is_public,
+  updated_at
+)
 SELECT
   u.id,
   'Willkommen im MMIG46-Forum: Regeln und Hinweise',
-  'Dieses Forum ist öffentlich lesbar. Schreiben dürfen nur registrierte Vereinsmitglieder. Bitte sachlich bleiben, personenbezogene Daten vermeiden und technische Hinweise nachvollziehbar formulieren.',
-  1
+  'willkommen-im-mmig46-forum-regeln-und-hinweise',
+  1,
+  1,
+  NOW()
 FROM users u
 WHERE u.email = 'max.mustermann@example.org'
   AND NOT EXISTS (
     SELECT 1
+    FROM forum_topics ft
+    WHERE ft.slug = 'willkommen-im-mmig46-forum-regeln-und-hinweise'
+  );
+
+INSERT INTO forum_posts (
+  topic_id,
+  user_id,
+  body
+)
+SELECT
+  ft.id,
+  u.id,
+  'Dieses Forum ist öffentlich lesbar.
+Schreiben dürfen nur registrierte Vereinsmitglieder.
+Bitte sachlich bleiben, personenbezogene Daten vermeiden und technische Hinweise nachvollziehbar formulieren.'
+FROM forum_topics ft
+JOIN users u ON u.email = 'max.mustermann@example.org'
+WHERE ft.slug = 'willkommen-im-mmig46-forum-regeln-und-hinweise'
+  AND NOT EXISTS (
+    SELECT 1
     FROM forum_posts fp
-    WHERE fp.title = 'Willkommen im MMIG46-Forum: Regeln und Hinweise'
+    WHERE fp.topic_id = ft.id
   );
 
 INSERT INTO news_items (title, slug, category, image_path, comment_count, teaser, body, published_at, is_published)
@@ -114,10 +143,10 @@ VALUES
     'Wörthersee',
     NULL,
     NULL,
-    'planned',
-    'Geplantes Fly-In der MMIG46-Community.',
-    'Details ansehen',
-    'Details zu Termin, Anflug, Programm, Unterkunft und Anmeldung bitte nach Freigabe ergänzen.',
+    'completed',
+    'Fly-In der MMIG46-Community.',
+    'Impressionen und Nachbericht',
+    'Programm und Rückblick zum Fly-In Wörthersee 2026.',
     1
   ),
   (

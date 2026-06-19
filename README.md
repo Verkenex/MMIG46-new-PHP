@@ -53,8 +53,10 @@ Datenbank lokal anlegen und danach importieren:
 
 ```bash
 mysql -u USER -p DATENBANK < database/install.sql
-mysql -u USER -p DATENBANK < database/seeds/demo.sql
+mysql -u USER -p DATENBANK < database/seeds/final_content_launch.sql
+mysql -u USER -p DATENBANK < database/seeds/admin_live.sql
 ```
+Hinweis: `database/seeds/demo.sql` ist nur für lokale Tests gedacht und darf nicht auf Produktion importiert werden.
 
 Die Seed-Datei enthält nur Demo-/Startdaten für Nutzer, Mitglieder, Forum, News, Reisen und Site-Settings. Statische Kernseiten wie Verein, Impressum, Datenschutz und AGB werden nicht aus `content_pages` befüllt, sondern als PHP-Views gepflegt.
 

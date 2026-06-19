@@ -341,16 +341,16 @@ VALUES
 'Wörthersee, Österreich',
 '2026-06-12',
 '2026-06-14',
-'planned',
-'Das kommende MMIG46 Fly-In führt an den Wörthersee. Mitglieder und Freunde der PA-46-Familie treffen sich zu Fliegen, Austausch und gemeinsamem Programm.',
-'Details ansehen',
+'completed',
+'Das abgeschlossene MMIG46 Fly-In führte an den Wörthersee. Mitglieder und Freunde der PA-46-Familie trafen sich zu Austausch und gemeinsamem Programm.',
+'Impressionen und Nachbericht',
 NULL,
 '/downloads/travels/woerthersee-2026.pdf',
 '# Fly-In Wörthersee 2026
 
-Das MMIG46 Fly-In 2026 führt an den Wörthersee. Die Region verbindet eine attraktive fliegerische Destination mit guter Erreichbarkeit und einem passenden Rahmen für Austausch und Gemeinschaft.
+Das MMIG46 Fly-In 2026 führte an den Wörthersee. Die Region verbindet eine attraktive fliegerische Destination mit guter Erreichbarkeit und einem passenden Rahmen für Austausch und Gemeinschaft.
 
-## Geplanter Ablauf
+## Ablauf
 
 - Individuelle Anreise
 - Begrüßung und gemeinsames Abendessen
@@ -370,16 +370,16 @@ Details zu Flugplatz, Hotel, Anmeldung und finalem Programm werden über die Ver
 'Lake Wörthersee, Austria',
 '2026-06-12',
 '2026-06-14',
-'planned',
-'The upcoming MMIG46 fly-in will take place at Lake Wörthersee. Members and friends of the PA-46 family meet for flying, exchange and a shared programme.',
+'completed',
+'The completed MMIG46 fly-in took place at Lake Wörthersee. Members and friends of the PA-46 family met for flying, exchange and a shared programme.',
 'View details',
 NULL,
 '/downloads/travels/woerthersee-2026.pdf',
 '# Fly-In Wörthersee 2026
 
-The MMIG46 Fly-In 2026 will take place at Lake Wörthersee. The region combines an attractive aviation destination with good accessibility and a suitable setting for exchange and community.
+The MMIG46 Fly-In 2026 took place at Lake Wörthersee. The region combines an attractive aviation destination with good accessibility and a suitable setting for exchange and community.
 
-## Planned schedule
+## Schedule
 
 - Individual arrivals
 - Welcome and joint dinner
