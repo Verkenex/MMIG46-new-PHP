@@ -1,30 +1,30 @@
-<section class="page page--narrow">
+<section class="hero hero-compact">
     <div class="container">
-        <header class="page-hero">
-            <p class="page-kicker">Forum</p>
-            <h1 class="page-title">Neuer Beitrag</h1>
-            <p class="page-lead">
-                Erstellen Sie einen neuen Beitrag. Markdown kann für einfache Formatierungen verwendet werden.
-            </p>
-        </header>
+        <p class="eyebrow">Forum</p>
+        <h1>Neuer Beitrag</h1>
+        <p>Erstellen Sie einen neuen Beitrag. Markdown kann für einfache Formatierungen verwendet werden.</p>
+    </div>
+</section>
 
-        <form class="content-card form-stack" method="post" action="/forum/neu">
-            <input type="hidden" name="_csrf" value="<?= \MMIG46\Core\Security::csrf() ?>">
+<section class="section">
+    <div class="container">
+        <div class="card forum-form-card">
+            <form method="post" action="/forum/neu" class="form-stack">
+                <div class="form-field">
+                    <label for="title">Titel</label>
+                    <input id="title" name="title" type="text" maxlength="180" required>
+                </div>
 
-            <div class="form-field">
-                <label for="title">Titel</label>
-                <input id="title" name="title" type="text" required>
-            </div>
+                <div class="form-field">
+                    <label for="body">Text / Markdown</label>
+                    <textarea id="body" name="body" rows="10" required></textarea>
+                </div>
 
-            <div class="form-field">
-                <label for="body">Text / Markdown</label>
-                <textarea id="body" name="body" required></textarea>
-            </div>
-
-            <div class="action-row">
-                <button class="button button--primary" type="submit">Veröffentlichen</button>
-                <a class="button button--secondary" href="/forum">Abbrechen</a>
-            </div>
-        </form>
+                <div class="form-actions">
+                    <button class="button" type="submit">Veröffentlichen</button>
+                    <a class="button button-outline" href="/forum">Abbrechen</a>
+                </div>
+            </form>
+        </div>
     </div>
 </section>

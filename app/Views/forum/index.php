@@ -1,61 +1,78 @@
-<section class="page">
-    <div class="container">
-        <header class="page-hero">
-            <p class="page-kicker">Forum</p>
-            <h1 class="page-title">Austausch für Mitglieder und PA46-Interessierte.</h1>
-            <p class="page-lead">
-                Fragen, Erfahrungsberichte und Hinweise rund um Reisen, Betrieb, Technik und Vereinsleben.
-            </p>
-        </header>
+<?php
 
-        <article class="table-card">
-            <div class="table-card__header">
+$topics = $topics ?? [];
+$canWrite = (bool) ($canWrite ?? false);
+
+$e = static function ($value): string {
+    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+};
+
+$formatDate = static function ($value): string {
+    if (!$value) {
+        return '-';
+    }
+
+    $timestamp = strtotime((string) $value);
+
+    if (!$timestamp) {
+        return (string) $value;
+    }
+
+    return date('d.m.Y', $timestamp);
+};
+?>
+
+<section class="hero hero-compact">
+    <div class="container">
+        <p class="eyebrow">Forum</p>
+        <h1>Austausch für Mitglieder und PA46-Interessierte.</h1>
+        <p>Fragen, Erfahrungsberichte und Hinweise rund um Reisen, Betrieb, Technik und Vereinsleben.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="card">
+            <div class="section-head">
                 <h2>Aktuelle Themen</h2>
-                <a class="small-button" href="/forum/neu">Beitrag erstellen</a>
+
+                <?php if ($canWrite): ?>
+                    <a class="button button-outline" href="/forum/neu">Beitrag erstellen</a>
+                <?php else: ?>
+                    <a class="button button-outline" href="/login">Einloggen zum Schreiben</a>
+                <?php endif; ?>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Thema</th>
-                        <th>Autor</th>
-                        <th>Antworten</th>
-                        <th>Letzter Beitrag</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Garmin GFC 600 – Erfahrungen?</td>
-                        <td>ChrisM</td>
-                        <td>14</td>
-                        <td>15. Mai 2025</td>
-                    </tr>
-                    <tr>
-                        <td>Ölverbrauch – normal?</td>
-                        <td>PilotTom</td>
-                        <td>7</td>
-                        <td>14. Mai 2025</td>
-                    </tr>
-                    <tr>
-                        <td>Empfehlung: Headset für PA46</td>
-                        <td>SkyTrack</td>
-                        <td>11</td>
-                        <td>13. Mai 2025</td>
-                    </tr>
-                    <tr>
-                        <td>Fly-In Wörthersee – Wer ist dabei?</td>
-                        <td>MMIG46-Team</td>
-                        <td>23</td>
-                        <td>12. Mai 2025</td>
-                    </tr>
-                    <tr>
-                        <td>RNP Approaches – Erfahrungen</td>
-                        <td>Aviator</td>
-                        <td>5</td>
-                        <td>11. Mai 2025</td>
-                    </tr>
-                </tbody>
-            </table>
-        </article>
+            <?php if (empty($topics)): ?>
+                <p>Es gibt aktuell noch keine Themen.</p>
+            <?php else: ?>
+                <div class="table-wrap">
+                    <table class="forum-table">
+                        <thead>
+                            <tr>
+                                <th>Thema</th>
+                                <th>Autor</th>
+                                <th>Antworten</th>
+                                <th>Letzter Beitrag</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($topics as $topic): ?>
+                                <tr>
+                                    <td>
+                                        <a href="/forum/<?= $e($topic['slug']) ?>">
+                                            <?= $e($topic['title']) ?>
+                                        </a>
+                                    </td>
+                                    <td><?= $e($topic['author'] ?? 'Unbekannt') ?></td>
+                                    <td><?= max(0, (int) ($topic['reply_count'] ?? 1) - 1) ?></td>
+                                    <td><?= $e($formatDate($topic['updated_at'] ?: $topic['created_at'])) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </section>
