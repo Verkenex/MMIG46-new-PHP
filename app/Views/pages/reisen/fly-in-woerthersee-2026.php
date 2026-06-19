@@ -1,3 +1,9 @@
+<?php
+
+use MMIG46\Core\I18n;
+
+?>
+
 <section class="page">
     <div class="split">
         <div>
@@ -13,7 +19,7 @@
         <h2>Place to be!</h2>
 
         <p>
-            Das Fly-In Wörthersee 2026 findet von Donnerstag, 11. Juni,
+            Das Fly-In Wörthersee 2026 fand von Donnerstag, 11. Juni,
             bis Sonntag, 14. Juni 2026 statt.
         </p>
 
@@ -33,18 +39,13 @@
         <h2>Programm</h2>
 
         <p>
-            Das detaillierte Programm wird hier direkt auf der Website gepflegt.
-            Diese Seite verweist bewusst nicht mehr auf ein PDF der alten Website.
+            Der Rückblick wird ergänzt.
         </p>
 
-        <h2>Anmeldung</h2>
+
 
         <p>
-            Informationen zur Anmeldung werden ergänzt.
-        </p>
-
-        <p>
-            <a class="button button--secondary" href="/reisen">
+            <a class="button button--secondary" href="<?= I18n::url('/reisen', $lang ?? 'de') ?>">
                 Zurück zu Reisen
             </a>
         </p>

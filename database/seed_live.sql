@@ -190,7 +190,7 @@ VALUES
 'Fly-In Wörthersee 2026',
 'fly-in-woerthersee-2026',
 'Event',
-'/assets/img/travels/woerthersee-2026.jpg',
+'/assets/img/travel-woerthersee-2026.jpg',
 0,
 'Das nächste MMIG46 Fly-In führt an den Wörthersee. Informationen zu Programm, Anmeldung und organisatorischen Details werden auf der Reiseseite gebündelt.',
 '# Fly-In Wörthersee 2026
@@ -209,7 +209,7 @@ Weitere Details zu Anmeldung, Hotelkontingenten, Flugplatzinformationen und Prog
 'Fly-In Wörthersee 2026',
 'fly-in-woerthersee-2026',
 'Event',
-'/assets/img/travels/woerthersee-2026.jpg',
+'/assets/img/travel-woerthersee-2026.jpg',
 0,
 'The next MMIG46 fly-in will take place at Lake Wörthersee. Programme, registration and organisational details are collected on the travel page.',
 '# Fly-In Wörthersee 2026
@@ -335,67 +335,39 @@ INSERT INTO travel_items
 VALUES
 
 ('de',
-'Fly-In Wörthersee 2026',
-'fly-in-woerthersee-2026',
-'/assets/img/travels/woerthersee-2026.jpg',
-'Wörthersee, Österreich',
-'2026-06-12',
-'2026-06-14',
-'completed',
-'Das abgeschlossene MMIG46 Fly-In führte an den Wörthersee. Mitglieder und Freunde der PA-46-Familie trafen sich zu Austausch und gemeinsamem Programm.',
-'Impressionen und Nachbericht',
-NULL,
-'/downloads/travels/woerthersee-2026.pdf',
-'# Fly-In Wörthersee 2026
-
-Das MMIG46 Fly-In 2026 führte an den Wörthersee. Die Region verbindet eine attraktive fliegerische Destination mit guter Erreichbarkeit und einem passenden Rahmen für Austausch und Gemeinschaft.
-
-## Ablauf
-
-- Individuelle Anreise
-- Begrüßung und gemeinsames Abendessen
-- Austausch zu PA-46-Betrieb, Technik und Reiseerfahrungen
-- Rahmenprogramm in der Region
-- Individuelle Rückreise
-
-## Hinweise
-
-Details zu Flugplatz, Hotel, Anmeldung und finalem Programm werden über die Vereinskommunikation und diese Seite bereitgestellt. Operative Informationen sind vor dem Flug anhand offizieller Quellen zu prüfen.',
-1),
+ 'Fly-In Wörthersee 2026',
+ 'fly-in-woerthersee-2026',
+ '/assets/img/travel-woerthersee-2026.jpg',
+ 'Wörthersee / Klagenfurt',
+ '2026-06-11',
+ '2026-06-14',
+ 'completed',
+ 'Das Fly-In Wörthersee 2026 fand von Donnerstag, 11. Juni, bis Sonntag, 14. Juni 2026 statt.',
+ 'Details ansehen',
+ NULL,
+ NULL,
+ 'Statischer Detailinhalt: app/Views/pages/reisen/fly-in-woerthersee-2026.php',
+ 1),
 
 ('en',
-'Fly-In Wörthersee 2026',
-'fly-in-woerthersee-2026',
-'/assets/img/travels/woerthersee-2026.jpg',
-'Lake Wörthersee, Austria',
-'2026-06-12',
-'2026-06-14',
-'completed',
-'The completed MMIG46 fly-in took place at Lake Wörthersee. Members and friends of the PA-46 family met for flying, exchange and a shared programme.',
-'View details',
-NULL,
-'/downloads/travels/woerthersee-2026.pdf',
-'# Fly-In Wörthersee 2026
-
-The MMIG46 Fly-In 2026 took place at Lake Wörthersee. The region combines an attractive aviation destination with good accessibility and a suitable setting for exchange and community.
-
-## Schedule
-
-- Individual arrivals
-- Welcome and joint dinner
-- Exchange on PA-46 operations, maintenance and travel experience
-- Regional programme
-- Individual departures
-
-## Notes
-
-Details on airfield, hotel, registration and final programme will be provided via club communication and this page. Operational information must be checked against official sources before flight.',
-1),
+ 'Fly-In Wörthersee 2026',
+ 'fly-in-woerthersee-2026',
+ '/assets/img/travel-woerthersee-2026.jpg',
+ 'Lake Wörthersee / Klagenfurt',
+ '2026-06-11',
+ '2026-06-14',
+ 'completed',
+ 'The Fly-In Wörthersee 2026 took place from Thursday, 11 June to Sunday, 14 June 2026.',
+ 'View details',
+ NULL,
+ NULL,
+ 'Static detail content: app/Views/pages/reisen/fly-in-woerthersee-2026.php',
+ 1),
 
 ('de',
 'Fly-In Wörthersee 2025',
 'fly-in-woerthersee-2025',
-'/assets/img/travels/woerthersee-2025.jpg',
+'/assets/img/travel-woerthersee-2025.jpg',
 'Wörthersee, Österreich',
 '2025-06-13',
 '2025-06-15',
@@ -421,7 +393,7 @@ Der Rückblick bleibt als Archivbeitrag erhalten.',
 ('en',
 'Fly-In Wörthersee 2025',
 'fly-in-woerthersee-2025',
-'/assets/img/travels/woerthersee-2025.jpg',
+'/assets/img/travel-woerthersee-2025.jpg',
 'Lake Wörthersee, Austria',
 '2025-06-13',
 '2025-06-15',
@@ -447,7 +419,7 @@ The review remains available as an archive entry.',
 ('de',
 'Fly-In Venedig 2024',
 'fly-in-venedig-2024',
-'/assets/img/travels/venice-2024.jpg',
+'/assets/img/travel-venedig.jpg',
 'Venedig, Italien',
 '2024-06-07',
 '2024-06-09',
