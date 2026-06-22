@@ -198,30 +198,47 @@ class AdminController
         ]);
     }
 
-    public function storeUser(): string
-    {
+    public function storeUser(): string {
         $this->guard();
         Security::verifyCsrf();
 
-        $password = $_POST['password'] ?? '';
+        $name = $this->required((string) ($_POST['name'] ?? ''), 'Name');
+        $email = $this->requiredEmail((string) ($_POST['email'] ?? ''));
 
-        if (!Security::passwordOk($password)) {
-            Session::flash('error', 'Passwort muss mindestens 8 Zeichen haben.');
+        $role = strtolower(trim((string) ($_POST['role'] ?? 'member')));
+        $allowedRoles = ['admin', 'member'];
+
+        if (!in_array($role, $allowedRoles, true)) {
+            Session::flash('error', 'Ungültige Benutzerrolle.');
+            header('Location:/verwaltung');
+            exit;
+        }
+
+        $password = (string) ($_POST['password'] ?? '');
+
+        if (strlen($password) < 12) {
+            Session::flash('error', 'Passwort muss mindestens 12 Zeichen haben.');
             header('Location:/verwaltung');
             exit;
         }
 
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        DB::pdo()
-            ->prepare('INSERT INTO users(name, email, password_hash, role, email_verified_at) VALUES (?, ?, ?, ?, ?)')
-            ->execute([
-                trim($_POST['name'] ?? ''),
-                trim($_POST['email'] ?? ''),
-                $hash,
-                $_POST['role'] ?? 'member',
-                date('Y-m-d H:i:s'),
-            ]);
+        try {
+            DB::pdo()
+                ->prepare('INSERT INTO users(name, email, password_hash, role, email_verified_at) VALUES (?, ?, ?, ?, ?)')
+                ->execute([
+                    $name,
+                    $email,
+                    $hash,
+                    $role,
+                    date('Y-m-d H:i:s'),
+                ]);
+
+            Session::flash('success', 'Benutzer wurde angelegt.');
+        } catch (\PDOException $e) {
+            Session::flash('error', 'Benutzer konnte nicht angelegt werden. Möglicherweise existiert die E-Mail-Adresse bereits.');
+        }
 
         header('Location:/verwaltung');
         exit;

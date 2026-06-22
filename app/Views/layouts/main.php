@@ -4,6 +4,7 @@ use MMIG46\Core\Security;
 use MMIG46\Core\Session;
 use MMIG46\Core\I18n;
 use MMIG46\Models\SiteSetting;
+use MMIG46\Core\Seo;
 
 $lang = I18n::current();
 $currentQuery = isset($_GET['q']) ? (string) $_GET['q'] : '';
@@ -20,6 +21,8 @@ try {
 } catch (Throwable $e) {
     // Fallback, falls die site_settings-Tabelle lokal noch nicht installiert ist.
 }
+
+$seo = Seo::metaForCurrentRequest($seo ?? []);
 
 function nav_active(string $path, string $currentPath): string
 {
@@ -44,7 +47,25 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= Security::e($siteName) ?></title>
+
+    <title><?= Security::e($seo['title']) ?></title>
+    <meta name="description" content="<?= Security::e($seo['description']) ?>">
+    <meta name="robots" content="<?= Security::e($seo['robots']) ?>">
+    <link rel="canonical" href="<?= Security::e($seo['canonical']) ?>">
+
+    <meta property="og:locale" content="<?= $lang === 'en' ? 'en_US' : 'de_DE' ?>">
+    <meta property="og:site_name" content="<?= Security::e($siteName) ?>">
+    <meta property="og:type" content="<?= Security::e($seo['og_type']) ?>">
+    <meta property="og:title" content="<?= Security::e($seo['title']) ?>">
+    <meta property="og:description" content="<?= Security::e($seo['description']) ?>">
+    <meta property="og:url" content="<?= Security::e($seo['canonical']) ?>">
+    <meta property="og:image" content="<?= Security::e($seo['og_image']) ?>">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= Security::e($seo['title']) ?>">
+    <meta name="twitter:description" content="<?= Security::e($seo['description']) ?>">
+    <meta name="twitter:image" content="<?= Security::e($seo['og_image']) ?>">
+
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/assets/css/app.css">
     <script defer src="/assets/js/app.js"></script>

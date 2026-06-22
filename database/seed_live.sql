@@ -375,7 +375,7 @@ VALUES
 'Rückblick auf das MMIG46 Fly-In 2025 am Wörthersee.',
 'Rückblick ansehen',
 NULL,
-'/downloads/travels/woerthersee-2025.pdf',
+'/assets/reisen/pdf/fly-in-woerthersee-2025.pdf',
 '# Fly-In Wörthersee 2025
 
 Das Fly-In 2025 brachte Mitglieder und Freunde der MMIG46 am Wörthersee zusammen. Im Mittelpunkt standen persönliche Begegnungen, fliegerischer Austausch und Gespräche über den praktischen Betrieb der PA-46-Familie.
@@ -401,7 +401,7 @@ Der Rückblick bleibt als Archivbeitrag erhalten.',
 'Review of the MMIG46 Fly-In 2025 at Lake Wörthersee.',
 'View review',
 NULL,
-'/downloads/travels/woerthersee-2025.pdf',
+'/assets/reisen/pdf/fly-in-woerthersee-2025.pdf',
 '# Fly-In Wörthersee 2025
 
 The 2025 fly-in brought together members and friends of MMIG46 at Lake Wörthersee. The focus was on personal contact, operational exchange and discussions about practical PA-46 operations.
@@ -427,7 +427,7 @@ The review remains available as an archive entry.',
 'Das MMIG46 Fly-In 2024 führte nach Venedig und verband eine besondere Destination mit fliegerischem Austausch.',
 'Rückblick ansehen',
 NULL,
-'/downloads/travels/venice-2024.pdf',
+'/assets/reisen/pdf/fly-in-venedig-2024.pdf',
 '# Fly-In Venedig 2024
 
 Das Fly-In 2024 führte die MMIG46 nach Venedig. Die Veranstaltung verband eine außergewöhnliche Destination mit dem bewährten persönlichen und fachlichen Austausch der PA-46-Community.
@@ -453,7 +453,7 @@ Der Beitrag bleibt als Reise-Archiv erhalten.',
 'The MMIG46 Fly-In 2024 took place in Venice, combining a special destination with operational exchange.',
 'View review',
 NULL,
-'/downloads/travels/venice-2024.pdf',
+'/assets/reisen/pdf/fly-in-venedig-2024.pdf',
 '# Fly-In Venice 2024
 
 The 2024 fly-in took MMIG46 to Venice. The event combined an exceptional destination with the proven personal and technical exchange of the PA-46 community.
@@ -479,7 +479,7 @@ This entry remains available in the travel archive.',
 'Rückblick auf das MMIG46 Fly-In 2023 in Verona.',
 'Rückblick ansehen',
 NULL,
-'/downloads/travels/verona-2023.pdf',
+'/assets/reisen/pdf/fly-in-verona-2023.pdf',
 '# Fly-In Verona 2023
 
 Das MMIG46 Fly-In 2023 fand in Verona statt. Die Veranstaltung bot Gelegenheit für Austausch, Reiseerfahrungen und persönliche Gespräche innerhalb der PA-46-Gemeinschaft.
@@ -505,7 +505,7 @@ Der Beitrag bleibt als Archivseite verfügbar.',
 'Review of the MMIG46 Fly-In 2023 in Verona.',
 'View review',
 NULL,
-'/downloads/travels/verona-2023.pdf',
+'/assets/reisen/pdf/fly-in-verona-2023.pdf',
 '# Fly-In Verona 2023
 
 The MMIG46 Fly-In 2023 took place in Verona. The event offered opportunities for exchange, travel experience and personal conversations within the PA-46 community.

@@ -57,3 +57,6 @@ $router->post('/verwaltung/travels', [AdminController::class, 'storeTravel']);
 
 $router->get('/mitgliedsantrag', [PageController::class, 'membershipApplication']);
 $router->post('/mitgliedsantrag', [PageController::class, 'sendMembershipApplication']);
+
+$router->get('/robots.txt', [\MMIG46\Controllers\SeoController::class, 'robots']);
+$router->get('/sitemap.xml', [\MMIG46\Controllers\SeoController::class, 'sitemap']);

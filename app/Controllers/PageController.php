@@ -306,6 +306,12 @@ class PageController
             exit;
         }
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Session::flash('error', $lang === 'en' ? 'Please enter a valid email address.' : 'Bitte eine gültige E-Mail-Adresse eingeben.');
+            header('Location: ' . I18n::url('/kontakt', $lang));
+            exit;
+        }
+
         ContactRequest::create($name, $email, $message);
         Mailer::contact($name, $email, $message);
 

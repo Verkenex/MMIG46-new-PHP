@@ -1,14 +1,20 @@
 Options -Indexes
+
 RewriteEngine On
 
 # HTTPS erzwingen, sobald SSL aktiv ist
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
+# Alte Joomla-/CMS-Pfade mit Query-String korrekt mappen
+RewriteCond %{QUERY_STRING} ^language=de$ [NC]
+RewriteRule ^index\.php$ /? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^language=en$ [NC]
+RewriteRule ^index\.php$ /? [R=301,L]
+
 # Alte Joomla-/CMS-Pfade auf neue Struktur mappen
 RedirectMatch 301 ^/index\.php/?$ /
-RedirectMatch 301 ^/index\.php\?language=de$ /
-RedirectMatch 301 ^/index\.php\?language=en$ /
 RedirectMatch 301 ^/index\.php/willkommen/reisen/?$ /reisen
 RedirectMatch 301 ^/index\.php/welcome/travels/?$ /reisen
 RedirectMatch 301 ^/index\.php/willkommen/verein/?$ /verein
@@ -20,15 +26,15 @@ RedirectMatch 301 ^/index\.php/willkommen/impressum/?$ /impressum
 RedirectMatch 301 ^/index\.php/welcome/legal-notice/?$ /impressum
 RedirectMatch 301 ^/index\.php/willkommen/datenschutz/?$ /datenschutz
 RedirectMatch 301 ^/index\.php/welcome/privacy-policy/?$ /datenschutz
+
+# Forum bleibt Forum
 RedirectMatch 301 ^/forum/?$ /forum
 
+# Malibu Mirage Hauptseite
 RedirectMatch 301 ^/index\.php/welcome/malibu-mirage/?$ /malibu-mirage
 RedirectMatch 301 ^/index\.php/willkommen/malibu-mirage/?$ /malibu-mirage
 
-RedirectMatch 301 ^/com/malibumirage/ultimatepiston/index\.html$ /malibu-mirage
-RedirectMatch 301 ^/org/malibumirage/ultimatepiston/index\.html$ /malibu-mirage
-
-
+# Malibu Mirage Detailseiten
 RedirectMatch 301 ^/org/malibumirage/ultimatepiston/index\.html$ /malibu-mirage/ultimate-piston-single
 RedirectMatch 301 ^/com/malibumirage/ultimatepiston/index\.html$ /malibu-mirage/ultimate-piston-single
 
@@ -41,7 +47,8 @@ RedirectMatch 301 ^/com/malibumirage/optimumflightlevels/index\.html$ /malibu-mi
 RedirectMatch 301 ^/org/malibumirage/100th/index\.html$ /malibu-mirage/100th-jetprop
 RedirectMatch 301 ^/com/malibumirage/100th/index\.html$ /malibu-mirage/100th-jetprop
 
-# Falls KAS nicht direkt auf /public zeigt: Frontend an public weiterreichen
+# Falls KAS nicht direkt auf /public zeigt:
+# Frontend an public weiterreichen
 RewriteRule ^$ public/ [L]
 
 RewriteCond %{REQUEST_URI} !^/public/
