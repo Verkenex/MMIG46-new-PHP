@@ -186,43 +186,14 @@ INSERT INTO news_items
 (lang, title, slug, category, image_path, comment_count, teaser, body, published_at, is_published)
 VALUES
 
-('de',
-'Fly-In Wörthersee 2026',
-'fly-in-woerthersee-2026',
-'Event',
-'/assets/img/travel-woerthersee-2026.jpg',
-0,
-'Das nächste MMIG46 Fly-In führt an den Wörthersee. Informationen zu Programm, Anmeldung und organisatorischen Details werden auf der Reiseseite gebündelt.',
-'# Fly-In Wörthersee 2026
+('de', 'Fly-In Wörthersee 2026', 'fly-in-woerthersee-2026', 'Event', '/assets/img/travels/woerthersee-2026.jpg', 0, 'Das MMIG46 Fly-In Wörthersee 2026 ist abgeschlossen.
+Der Rückblick folgt.', '# Fly-In Wörthersee 2026
 
-Das nächste MMIG46 Fly-In führt an den Wörthersee. Die Veranstaltung bringt Mitglieder, PA-46-Piloten und Freunde der MMIG46 für ein Wochenende mit Fliegen, Austausch und gemeinsamem Programm zusammen.
+Das MMIG46 Fly-In Wörthersee 2026 ist abgeschlossen.
 
-## Inhalt
+Die Veranstaltung führte Mitglieder, PA-46-Piloten und Freunde der MMIG46 an den Wörthersee und bot Gelegenheit für persönlichen Austausch, fliegerische Gespräche und gemeinsames Programm.
 
-Geplant sind Anreise, gemeinsames Abendprogramm, Austausch zu technischen und fliegerischen Themen sowie ein Rahmenprogramm in der Region.
-
-Weitere Details zu Anmeldung, Hotelkontingenten, Flugplatzinformationen und Programm werden auf der Reiseseite gepflegt.',
-'2026-01-15 09:00:00',
-1),
-
-('en',
-'Fly-In Wörthersee 2026',
-'fly-in-woerthersee-2026',
-'Event',
-'/assets/img/travel-woerthersee-2026.jpg',
-0,
-'The next MMIG46 fly-in will take place at Lake Wörthersee. Programme, registration and organisational details are collected on the travel page.',
-'# Fly-In Wörthersee 2026
-
-The next MMIG46 fly-in will take place at Lake Wörthersee. The event brings together members, PA-46 pilots and friends of MMIG46 for a weekend of flying, exchange and shared activities.
-
-## Content
-
-The programme is expected to include arrival, a joint evening event, exchange on technical and operational topics and activities in the region.
-
-Further details on registration, hotel arrangements, airfield information and programme will be maintained on the travel page.',
-'2026-01-15 09:00:00',
-1),
+Weitere Informationen und Rückblickinhalte werden auf der Reiseseite gebündelt.', '2026-06-22 09:00:00', 1),
 
 ('de',
 'Willkommen auf der neuen MMIG46-Website',

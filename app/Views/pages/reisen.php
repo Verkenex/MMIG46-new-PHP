@@ -77,7 +77,20 @@ function travel_date_range(?string $start, ?string $end): string
                     $location = (string)($item['location'] ?? '');
                     $teaser = (string)($item['teaser'] ?? '');
                     $status = (string)($item['status'] ?? '');
+
+                    $endsOn = trim((string)($item['ends_on'] ?? ''));
+                    $startsOn = trim((string)($item['starts_on'] ?? ''));
+                    $compareDate = $endsOn !== '' ? $endsOn : $startsOn;
+
+                    if ($status === 'planned' && $compareDate !== '') {
+                    $eventTimestamp = strtotime($compareDate . ' 23:59:59');
+                    if ($eventTimestamp !== false && $eventTimestamp < time()) {
+                    $status = 'completed';
+                    }
+                    }
+
                     $statusLabel = $statusLabels[$status] ?? ucfirst($status);
+
                     $dateRange = travel_date_range($item['starts_on'] ?? null, $item['ends_on'] ?? null);
 
                     $ctaLabel = trim((string)($item['cta_label'] ?? ''));
