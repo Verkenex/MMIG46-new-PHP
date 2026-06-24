@@ -56,18 +56,18 @@ $aircraftModels = [
 
                 <div class="form-grid">
                     <label>
-                        Firma / Name
-                        <input name="invoice_name" autocomplete="organization">
+                        Firma / Name *
+                        <input name="invoice_name" autocomplete="organization" required>
                     </label>
 
                     <label>
-                        Straße
-                        <input name="street" autocomplete="street-address">
+                        Straße *
+                        <input name="street" autocomplete="street-address" required>
                     </label>
 
                     <label class="span-2">
-                        PLZ, Ort, Land
-                        <input name="postal_city_country" autocomplete="address-level2">
+                        PLZ, Ort, Land *
+                        <input name="postal_city_country" autocomplete="address-level2" required>
                     </label>
                 </div>
             </fieldset>
@@ -201,8 +201,8 @@ $aircraftModels = [
                     </label>
 
                     <label class="span-2">
-                        Mobil
-                        <input name="mobile" autocomplete="tel">
+                        Mobil *
+                        <input name="mobile" autocomplete="tel" required>
                     </label>
                 </div>
             </fieldset>

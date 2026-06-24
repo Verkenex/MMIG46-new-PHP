@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(120) NOT NULL,
   email VARCHAR(190) NOT NULL UNIQUE,
@@ -11,7 +11,7 @@ CREATE TABLE users (
   updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE members (
+CREATE TABLE IF NOT EXISTS members (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(120) NOT NULL,
   email VARCHAR(190) NULL,
@@ -25,7 +25,7 @@ CREATE TABLE members (
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE forum_topics (
+CREATE TABLE IF NOT EXISTS forum_topics (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id INT UNSIGNED NOT NULL,
   title VARCHAR(180) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE forum_topics (
   FULLTEXT KEY ft_forum_topics_search (title)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE forum_posts (
+CREATE TABLE IF NOT EXISTS forum_posts (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   topic_id INT UNSIGNED NOT NULL,
   user_id INT UNSIGNED NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE forum_posts (
   FULLTEXT KEY ft_forum_posts_search (body)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE contact_requests (
+CREATE TABLE IF NOT EXISTS contact_requests (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(160) NOT NULL,
   email VARCHAR(190) NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE contact_requests (
   handled_at DATETIME NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE login_attempts (
+CREATE TABLE IF NOT EXISTS login_attempts (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(190) NULL,
   ip_address VARCHAR(64) NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE login_attempts (
   INDEX idx_login_email_time (email, attempted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE content_pages (
+CREATE TABLE IF NOT EXISTS content_pages (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     lang CHAR(2) NOT NULL DEFAULT 'de',
     slug VARCHAR(80) NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE content_pages (
     FULLTEXT KEY ft_content_search (title, teaser, body)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE news_items (
+CREATE TABLE IF NOT EXISTS news_items (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     lang CHAR(2) NOT NULL DEFAULT 'de',
     title VARCHAR(180) NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE news_items (
     FULLTEXT KEY ft_news_search (title, teaser, body)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE travel_items (
+CREATE TABLE IF NOT EXISTS travel_items (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     lang CHAR(2) NOT NULL DEFAULT 'de',
     title VARCHAR(180) NOT NULL,
@@ -135,9 +135,55 @@ CREATE TABLE travel_items (
     FULLTEXT KEY ft_travel_search (title, teaser, body)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE site_settings (
+CREATE TABLE IF NOT EXISTS site_settings (
   setting_key VARCHAR(80) PRIMARY KEY,
   setting_value TEXT NOT NULL,
   updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS membership_applications (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    membership_type VARCHAR(100) NULL,
+
+    invoice_name VARCHAR(255) NOT NULL,
+    street VARCHAR(255) NOT NULL,
+    postal_city_country VARCHAR(255) NOT NULL,
+
+    last_name VARCHAR(150) NOT NULL,
+    first_name VARCHAR(150) NOT NULL,
+    birthday VARCHAR(50) NULL,
+    occupation VARCHAR(255) NULL,
+    copilot_spouse VARCHAR(255) NULL,
+
+    total_time VARCHAR(100) NULL,
+    time_in_type VARCHAR(100) NULL,
+    license_ratings TEXT NULL,
+    flying_since VARCHAR(100) NULL,
+    aviation_history TEXT NULL,
+
+    registered_owner VARCHAR(255) NULL,
+    callsign VARCHAR(100) NULL,
+    model VARCHAR(150) NULL,
+    serial_number VARCHAR(150) NULL,
+    aircraft_year VARCHAR(50) NULL,
+    modifications TEXT NULL,
+    home_base VARCHAR(255) NULL,
+
+    office_phone VARCHAR(100) NULL,
+    office_email VARCHAR(255) NULL,
+    home_phone VARCHAR(100) NULL,
+    private_email VARCHAR(255) NOT NULL,
+    mobile VARCHAR(100) NOT NULL,
+
+    consent TINYINT(1) NOT NULL DEFAULT 0,
+
+    ip_address VARCHAR(64) NULL,
+    payload_json LONGTEXT NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_membership_applications_created_at (created_at),
+    INDEX idx_membership_applications_private_email (private_email),
+    INDEX idx_membership_applications_last_name (last_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -16,6 +16,7 @@ use MMIG46\Models\SiteSetting;
 use MMIG46\Models\TravelItem;
 use MMIG46\Services\Mailer;
 use MMIG46\Services\Markdown;
+use MMIG46\Models\MembershipApplication;
 
 class PageController
 {
@@ -358,19 +359,23 @@ class PageController
 
         $data = [
             'membership_type' => trim((string) ($_POST['membership_type'] ?? '')),
+
             'invoice_name' => trim((string) ($_POST['invoice_name'] ?? '')),
             'street' => trim((string) ($_POST['street'] ?? '')),
             'postal_city_country' => trim((string) ($_POST['postal_city_country'] ?? '')),
+
             'last_name' => trim((string) ($_POST['last_name'] ?? '')),
             'first_name' => trim((string) ($_POST['first_name'] ?? '')),
             'birthday' => trim((string) ($_POST['birthday'] ?? '')),
             'occupation' => trim((string) ($_POST['occupation'] ?? '')),
             'copilot_spouse' => trim((string) ($_POST['copilot_spouse'] ?? '')),
+
             'total_time' => trim((string) ($_POST['total_time'] ?? '')),
             'time_in_type' => trim((string) ($_POST['time_in_type'] ?? '')),
             'license_ratings' => trim((string) ($_POST['license_ratings'] ?? '')),
             'flying_since' => trim((string) ($_POST['flying_since'] ?? '')),
             'aviation_history' => trim((string) ($_POST['aviation_history'] ?? '')),
+
             'registered_owner' => trim((string) ($_POST['registered_owner'] ?? '')),
             'callsign' => trim((string) ($_POST['callsign'] ?? '')),
             'model' => trim((string) ($_POST['model'] ?? '')),
@@ -378,11 +383,13 @@ class PageController
             'aircraft_year' => trim((string) ($_POST['aircraft_year'] ?? '')),
             'modifications' => trim((string) ($_POST['modifications'] ?? '')),
             'home_base' => trim((string) ($_POST['home_base'] ?? '')),
+
             'office_phone' => trim((string) ($_POST['office_phone'] ?? '')),
             'office_email' => trim((string) ($_POST['office_email'] ?? '')),
             'home_phone' => trim((string) ($_POST['home_phone'] ?? '')),
             'private_email' => trim((string) ($_POST['private_email'] ?? '')),
             'mobile' => trim((string) ($_POST['mobile'] ?? '')),
+
             'consent' => isset($_POST['consent']) ? 'yes' : 'no',
         ];
 
@@ -390,13 +397,17 @@ class PageController
             $data['first_name'] === ''
             || $data['last_name'] === ''
             || $data['private_email'] === ''
+            || $data['invoice_name'] === ''
+            || $data['street'] === ''
+            || $data['postal_city_country'] === ''
+            || $data['mobile'] === ''
             || $data['consent'] !== 'yes'
         ) {
             Session::flash(
                 'error',
                 $lang === 'en'
-                    ? 'Please complete the required fields and confirm your consent.'
-                    : 'Bitte Pflichtfelder ausfüllen und Einwilligung bestätigen.'
+                    ? 'Please complete all required fields, including billing address and mobile number, and confirm your consent.'
+                    : 'Bitte alle Pflichtfelder ausfüllen, einschließlich Rechnungsanschrift und Mobilnummer, und die Einwilligung bestätigen.'
             );
 
             header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
@@ -407,8 +418,43 @@ class PageController
             Session::flash(
                 'error',
                 $lang === 'en'
-                    ? 'Please enter a valid email address.'
-                    : 'Bitte eine gültige E-Mail-Adresse eingeben.'
+                    ? 'Please enter a valid private email address.'
+                    : 'Bitte eine gültige private E-Mail-Adresse eingeben.'
+            );
+
+            header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
+            exit;
+        }
+
+        if ($data['office_email'] !== '' && !filter_var($data['office_email'], FILTER_VALIDATE_EMAIL)) {
+            Session::flash(
+                'error',
+                $lang === 'en'
+                    ? 'Please enter a valid office email address or leave the field empty.'
+                    : 'Bitte eine gültige Büro-E-Mail-Adresse eingeben oder das Feld leer lassen.'
+            );
+
+            header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
+            exit;
+        }
+
+        try {
+            MembershipApplication::create($data);
+        } catch (\Throwable $e) {
+            error_log(
+                sprintf(
+                    '[MMIG46] Membership application database insert failed: %s in %s:%d',
+                    $e->getMessage(),
+                    $e->getFile(),
+                    $e->getLine()
+                )
+            );
+
+            Session::flash(
+                'error',
+                $lang === 'en'
+                    ? 'The membership application could not be saved. Please try again later.'
+                    : 'Der Mitgliedsantrag konnte nicht gespeichert werden. Bitte später erneut versuchen.'
             );
 
             header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
@@ -432,10 +478,10 @@ class PageController
 
         if (!$mailSent) {
             Session::flash(
-                'error',
+                'ok',
                 $lang === 'en'
-                    ? 'The membership application could not be sent by email. Please try again later or contact MMIG46 directly.'
-                    : 'Der Mitgliedsantrag konnte nicht per E-Mail versendet werden. Bitte später erneut versuchen oder MMIG46 direkt kontaktieren.'
+                    ? 'The membership application has been saved. Email notification is currently unavailable.'
+                    : 'Der Mitgliedsantrag wurde gespeichert. Die E-Mail-Benachrichtigung ist derzeit nicht verfügbar.'
             );
 
             header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
@@ -453,16 +499,12 @@ class PageController
                     $e->getLine()
                 )
             );
-        }
 
-        $copySent = $this->sendMembershipCopySafely($data);
-
-        if (!$copySent) {
             Session::flash(
                 'ok',
                 $lang === 'en'
-                    ? 'The membership application has been submitted. However, the confirmation copy could not be sent to your private email address.'
-                    : 'Der Mitgliedsantrag wurde übermittelt. Die Kopie an Ihre private E-Mail-Adresse konnte jedoch nicht versendet werden.'
+                    ? 'The membership application has been saved and submitted. However, the confirmation copy could not be sent.'
+                    : 'Der Mitgliedsantrag wurde gespeichert und übermittelt. Die Kopie konnte jedoch nicht versendet werden.'
             );
 
             header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
@@ -472,8 +514,8 @@ class PageController
         Session::flash(
             'ok',
             $lang === 'en'
-                ? 'The membership application has been submitted. A copy has been sent to your private email address.'
-                : 'Der Mitgliedsantrag wurde übermittelt. Eine Kopie wurde an Ihre private E-Mail-Adresse gesendet.'
+                ? 'The membership application has been saved and submitted. A copy has been sent to your private email address.'
+                : 'Der Mitgliedsantrag wurde gespeichert und übermittelt. Eine Kopie wurde an Ihre private E-Mail-Adresse gesendet.'
         );
 
         header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
@@ -500,77 +542,6 @@ class PageController
         }
     }
 
-    private function sendMembershipCopySafely(array $data): bool
-    {
-        $to = trim((string) ($data['private_email'] ?? ''));
-
-        if ($to === '' || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
-            return false;
-        }
-
-        $subject = 'Kopie Ihres MMIG46-Mitgliedsantrags';
-
-        $body = implode("\n", [
-            'Sehr geehrte Antragstellerin, sehr geehrter Antragsteller,',
-            '',
-            'vielen Dank für Ihren Mitgliedsantrag bei MMIG46 e.V.',
-            '',
-            'Nachfolgend erhalten Sie eine Kopie der übermittelten Angaben:',
-            '',
-            'Mitgliedschaft: ' . ($data['membership_type'] ?? ''),
-            'Rechnungsempfänger: ' . ($data['invoice_name'] ?? ''),
-            'Straße: ' . ($data['street'] ?? ''),
-            'PLZ/Ort/Land: ' . ($data['postal_city_country'] ?? ''),
-            '',
-            'Nachname: ' . ($data['last_name'] ?? ''),
-            'Vorname: ' . ($data['first_name'] ?? ''),
-            'Geburtsdatum: ' . ($data['birthday'] ?? ''),
-            'Beruf: ' . ($data['occupation'] ?? ''),
-            'Copilot/Ehepartner: ' . ($data['copilot_spouse'] ?? ''),
-            '',
-            'Gesamtflugzeit: ' . ($data['total_time'] ?? ''),
-            'Zeit auf Muster: ' . ($data['time_in_type'] ?? ''),
-            'Lizenz/Ratings: ' . ($data['license_ratings'] ?? ''),
-            'Fliegt seit: ' . ($data['flying_since'] ?? ''),
-            'Aviation History: ' . ($data['aviation_history'] ?? ''),
-            '',
-            'Eingetragener Halter: ' . ($data['registered_owner'] ?? ''),
-            'Rufzeichen: ' . ($data['callsign'] ?? ''),
-            'Modell: ' . ($data['model'] ?? ''),
-            'Seriennummer: ' . ($data['serial_number'] ?? ''),
-            'Baujahr: ' . ($data['aircraft_year'] ?? ''),
-            'Modifikationen: ' . ($data['modifications'] ?? ''),
-            'Homebase: ' . ($data['home_base'] ?? ''),
-            '',
-            'Telefon Büro: ' . ($data['office_phone'] ?? ''),
-            'E-Mail Büro: ' . ($data['office_email'] ?? ''),
-            'Telefon privat: ' . ($data['home_phone'] ?? ''),
-            'E-Mail privat: ' . ($data['private_email'] ?? ''),
-            'Mobil: ' . ($data['mobile'] ?? ''),
-            '',
-            'Einwilligung: ' . (($data['consent'] ?? '') === 'yes' ? 'Ja' : 'Nein'),
-            '',
-            'Diese E-Mail wurde automatisch erzeugt.',
-            '',
-            'MMIG46 e.V.',
-        ]);
-
-        try {
-            \MMIG46\Services\Mailer::send($to, $subject, $body);
-            return true;
-        } catch (\Throwable $e) {
-            error_log(
-                sprintf(
-                    '[MMIG46] Membership copy mail failed: %s in %s:%d',
-                    $e->getMessage(),
-                    $e->getFile(),
-                    $e->getLine()
-                )
-            );
-
-            return false;
-        }
-    }
 
     private function renderStaticLocalized(string $view, array $data = []): string
     {

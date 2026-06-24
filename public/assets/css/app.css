@@ -1158,3 +1158,682 @@ td { color: #2f3948; }
         font-size: 1rem;
     }
 }
+
+
+    /* ==========================================================================
+    Mobile stabilization patch
+    --------------------------------------------------------------------------
+    Ziel:
+    - bestehende Desktop-/Tablet-CSS unveraendert lassen
+    - horizontales Ueberlaufen auf Handys verhindern
+    - Header-Menue, Karten, Formulare, Tabellen und Artikel mobil stabilisieren
+    - nur additive Overrides am Dateiende
+    ========================================================================== */
+
+
+    /* --------------------------------------------------------------------------
+    1) Globaler Overflow-Schutz
+    --------------------------------------------------------------------------
+    Grund:
+    Einzelne Grid-/Flex-Kinder, lange Links, Tabellen oder Badge-Texte koennen
+    auf kleinen Viewports breiter als der Bildschirm werden.
+    -------------------------------------------------------------------------- */
+
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    body {
+        overflow-wrap: break-word;
+    }
+
+    main,
+    .container,
+    .page,
+    .dynamic-hero,
+    .home-hero__content,
+    .site-header__inner,
+    .site-nav,
+    .site-tools,
+    .site-actions,
+    .card,
+    .story-card,
+    .travel-card,
+    .image-card,
+    .content-card,
+    .content-body,
+    .table-card,
+    .form-card,
+    .auth-card,
+    .info-card,
+    .sidebar-card,
+    .contact-form,
+    .contact-aside,
+    .article-shell,
+    .article-body,
+    .forum-card,
+    .forum-post,
+    .forum-form-card {
+        min-width: 0;
+    }
+
+    a,
+    p,
+    li,
+    h1,
+    h2,
+    h3,
+    h4,
+    td,
+    th,
+    span,
+    strong {
+        overflow-wrap: anywhere;
+    }
+
+
+    /* --------------------------------------------------------------------------
+    2) Header / Mobile-Menue robuster machen
+    --------------------------------------------------------------------------
+    Grund:
+    Der Header enthaelt Brand, Navigation, Suche, Sprachumschalter und Actions.
+    Auf Mobile muss alles eindeutig untereinander laufen, sonst entstehen
+    gequetschte oder abgeschnittene Elemente.
+    -------------------------------------------------------------------------- */
+
+    @media (max-width: 1400px) {
+        .site-header {
+            position: sticky;
+        }
+
+        .site-header__inner {
+            width: min(var(--container), calc(100% - 28px));
+            margin: 0 auto;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 10px;
+        }
+
+        .brand {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-toggle {
+            min-height: 42px;
+            white-space: nowrap;
+        }
+
+        .site-header.open .site-nav,
+        .site-header.open .site-tools,
+        .site-header.open .site-actions {
+            min-width: 0;
+        }
+
+        .site-header.open .site-nav {
+            max-height: calc(100vh - 76px);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .site-header.open .site-nav a {
+            width: 100%;
+            min-width: 0;
+            white-space: normal;
+            line-height: 1.35;
+        }
+
+        .site-header.open .site-tools {
+            width: 100%;
+        }
+
+        .site-header.open .site-search {
+            min-width: 0;
+        }
+
+        .site-header.open .site-actions {
+            width: 100%;
+        }
+
+        .site-header.open .admin-action,
+        .site-header.open .plain-action {
+            max-width: 100%;
+            white-space: normal;
+        }
+    }
+
+
+    /* --------------------------------------------------------------------------
+    3) Mobile-Grids konsequent auf eine Spalte setzen
+    --------------------------------------------------------------------------
+    Grund:
+    Ein Teil der Layouts wird bereits bei 1400px auf 2 Spalten reduziert.
+    Auf echten Handys muessen aber alle Card-, Content-, Admin-, Contact-,
+    Vereins- und Malibu-Grids eindeutig einspaltig laufen.
+    -------------------------------------------------------------------------- */
+
+    @media (max-width: 900px) {
+        .card-grid,
+        .card-grid--three,
+        .travel-grid,
+        .split-grid,
+        .image-card-grid,
+        .cards,
+        .page-grid,
+        .admin-grid,
+        .content-card-grid,
+        .home-news-grid,
+        .news-card-grid,
+        .image-card-grid.home-news-grid,
+        .admin-card-grid,
+        .verein-layout,
+        .verein-section-grid,
+        .contact-layout,
+        .contact-form__grid,
+        .form-grid,
+        .malibu-model-grid,
+        .article-downloads {
+            grid-template-columns: 1fr !important;
+        }
+
+        .page-grid {
+            gap: 24px;
+        }
+
+        .contact-aside {
+            order: 0;
+        }
+    }
+
+
+    /* --------------------------------------------------------------------------
+    4) Handy-Breakpoint: Abstaende, Hero, Buttons und Cards kompakter machen
+    --------------------------------------------------------------------------
+    Grund:
+    Viele Desktop-Abstaende sind optisch hochwertig, aber auf 360-430px zu breit.
+    Dieser Block reduziert Padding, Hero-Hoehen und Card-Abstaende.
+    -------------------------------------------------------------------------- */
+
+    @media (max-width: 700px) {
+        .container,
+        .page,
+        .dynamic-hero,
+        .home-hero__content,
+        .feature-strip {
+            width: calc(100% - 28px);
+        }
+
+        .site-header__inner {
+            width: calc(100% - 28px);
+        }
+
+        .page {
+            padding-top: 40px;
+            padding-bottom: 56px;
+        }
+
+        .section {
+            padding: 24px 0;
+        }
+
+        .section-heading {
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .section-heading h2,
+        .split h2 {
+            font-size: clamp(1.45rem, 8vw, 1.9rem);
+            line-height: 1.1;
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 12vw, 3rem);
+            line-height: 0.98;
+        }
+
+        .page-lead {
+            font-size: 1rem;
+        }
+
+        .home-hero {
+            padding: 44px 0 54px;
+            background-position: center right;
+        }
+
+        .home-hero h1 {
+            max-width: 100%;
+            font-size: clamp(2.25rem, 13vw, 3.45rem);
+            line-height: 0.98;
+            letter-spacing: -0.055em;
+        }
+
+        .home-hero p {
+            max-width: 100%;
+            font-size: 1rem;
+            line-height: 1.55;
+        }
+
+        .actions,
+        .action-row,
+        .membership-actions,
+        .form-actions {
+            width: 100%;
+            gap: 10px;
+        }
+
+        .actions .button,
+        .actions .btn,
+        .action-row .button,
+        .action-row .btn,
+        .membership-actions .button,
+        .membership-actions .btn,
+        .form-actions .button,
+        .form-actions .btn {
+            width: 100%;
+        }
+
+        .button,
+        .btn {
+            width: auto;
+            max-width: 100%;
+            padding-left: 18px;
+            padding-right: 18px;
+            text-align: center;
+        }
+
+        .feature-strip {
+            margin-top: -22px;
+            border-radius: 10px;
+        }
+
+        .feature-strip article {
+            padding: 20px;
+            gap: 14px;
+        }
+
+        .feature-strip span {
+            flex-basis: 38px;
+            width: 38px;
+            height: 38px;
+            font-size: 1rem;
+        }
+
+        .card-body,
+        .story-card__body,
+        .travel-card__body,
+        .image-card__body,
+        .content-card,
+        .content-body,
+        .form-card,
+        .auth-card,
+        .info-card,
+        .sidebar-card,
+        .table-card,
+        .contact-form,
+        .contact-aside,
+        .membership-fieldset,
+        .forum-card,
+        .forum-post,
+        .forum-form-card,
+        .forum-reply-card {
+            padding: 20px;
+        }
+
+        .home-news-card__media {
+            height: clamp(180px, 58vw, 260px);
+        }
+
+        .home-news-card__badge {
+            top: 14px;
+            left: 14px;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+        }
+
+        .home-news-card__body {
+            padding: 20px;
+        }
+
+        .home-news-card__body h3 {
+            font-size: clamp(1.25rem, 7vw, 1.65rem);
+            line-height: 1.12;
+        }
+
+        .travel-card__image {
+            height: clamp(190px, 58vw, 255px);
+        }
+
+        .image-card__media {
+            height: clamp(160px, 52vw, 220px);
+        }
+
+        .community-panel {
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+
+        .contact-cta {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .link-panel a {
+            padding: 18px 42px 18px 18px;
+        }
+
+        .site-footer__inner {
+            min-height: auto;
+            padding-top: 24px;
+            padding-bottom: 24px;
+            gap: 18px;
+        }
+
+        .footer-links {
+            gap: 12px;
+        }
+    }
+
+
+    /* --------------------------------------------------------------------------
+    5) Sehr kleine Handys: Header-Suche, Brand, Forms und Artikel weiter
+        entschärfen
+    --------------------------------------------------------------------------
+    Grund:
+    Bei 320-390px Breite sind selbst normale Desktop-Komponenten zu breit,
+    besonders Search-Button, Tabellen, Artikel-Shells und Fieldsets.
+    -------------------------------------------------------------------------- */
+
+    @media (max-width: 560px) {
+        :root {
+            --header-height: 64px;
+        }
+
+        .brand {
+            font-size: clamp(1.35rem, 8vw, 1.6rem);
+            letter-spacing: -0.055em;
+        }
+
+        .nav-toggle {
+            padding: 8px 11px;
+            font-size: 0.9rem;
+        }
+
+        .site-header.open .site-nav {
+            padding-top: 10px;
+        }
+
+        .site-header.open .site-nav a {
+            padding: 12px 0;
+        }
+
+        .site-header.open .site-search {
+            border-radius: 18px;
+        }
+
+        .site-header.open .site-search input[type="search"] {
+            min-height: 42px;
+            padding: 0 14px;
+        }
+
+        .site-header.open .site-search button {
+            min-height: 42px;
+            border-radius: 0 0 18px 18px;
+        }
+
+        .site-header.open .language-switch a {
+            min-width: 44px;
+            min-height: 36px;
+        }
+
+        .admin-action {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .page,
+        .dynamic-hero,
+        .membership-page,
+        .contact-page,
+        .article-page {
+            padding-top: 34px;
+            padding-bottom: 48px;
+        }
+
+        .auth-shell {
+            padding: 34px 0;
+        }
+
+        .auth-card h1 {
+            font-size: clamp(1.75rem, 10vw, 2.15rem);
+        }
+
+        .contact-header h1,
+        .membership-header h1,
+        .verein-main h1 {
+            font-size: clamp(2rem, 12vw, 3rem);
+        }
+
+        .contact-header,
+        .membership-header {
+            margin-bottom: 28px;
+        }
+
+        .contact-form__actions {
+            width: 100%;
+        }
+
+        .contact-form__actions .button,
+        .contact-form__actions .btn {
+            width: 100%;
+        }
+
+        .form-field--captcha,
+        .captcha-field {
+            max-width: 100%;
+        }
+
+        .checkbox-row {
+            align-items: flex-start;
+        }
+
+        .article-header,
+        .article-body,
+        .article-footer {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .article-header h1 {
+            font-size: clamp(1.8rem, 11vw, 2.65rem);
+        }
+
+        .article-author {
+            font-size: clamp(1.05rem, 6vw, 1.35rem);
+        }
+
+        .article-body {
+            font-size: 1rem;
+            line-height: 1.68;
+        }
+
+        .article-hero {
+            padding-left: 14px;
+            padding-right: 14px;
+        }
+
+        .article-hero img {
+            max-height: 300px;
+            border-radius: 14px;
+        }
+
+        .travel-detail__media {
+            height: clamp(210px, 62vw, 300px);
+        }
+
+        .malibu-model-grid > div {
+            padding: 1rem;
+        }
+    }
+
+
+    /* --------------------------------------------------------------------------
+    6) Tabellen mobil scrollbar kapseln
+    --------------------------------------------------------------------------
+    Grund:
+    HTML-Tabellen koennen nicht sinnvoll auf 320px zusammengedrueckt werden.
+    Deshalb bekommen Karten mit Tabellen horizontalen Scroll, ohne die Seite
+    selbst breiter zu machen.
+    -------------------------------------------------------------------------- */
+
+    @media (max-width: 700px) {
+        .table-card,
+        .admin-shell,
+        .malibu-article-card,
+        .content-body {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-card table,
+        .admin-shell table,
+        .malibu-article-card table {
+            min-width: 560px;
+        }
+
+        .forum-table {
+            min-width: 560px;
+        }
+    }
+
+
+    /* --------------------------------------------------------------------------
+    7) Admin-Bereich mobil stabilisieren
+    --------------------------------------------------------------------------
+    Grund:
+    Admin-Buttons, Tabellen und Hero-Actions sind desktoplastig und koennen
+    auf Mobile aus dem Viewport laufen.
+    -------------------------------------------------------------------------- */
+
+    @media (max-width: 700px) {
+        .admin-hero {
+            padding: 1rem;
+            border-radius: 18px;
+        }
+
+        .admin-hero-actions {
+            width: 100%;
+        }
+
+        .admin-hero-actions .button,
+        .admin-hero-actions .btn,
+        .admin-shell .button,
+        .admin-shell .primary,
+        .admin-shell button {
+            max-width: 100%;
+            white-space: normal;
+            text-align: center;
+        }
+
+        .admin-card,
+        .admin-panel.admin-card {
+            padding: 1rem;
+            border-radius: 18px;
+        }
+
+        .admin-card-header {
+            flex-direction: column;
+        }
+    }
+
+
+    /* --------------------------------------------------------------------------
+    8) Forum mobil stabilisieren
+    --------------------------------------------------------------------------
+    Grund:
+    Forum-Posts enthalten potentiell lange Texte, Links oder Code. Der Content
+    darf nicht horizontal ausbrechen.
+    -------------------------------------------------------------------------- */
+
+    @media (max-width: 700px) {
+        .forum-page,
+        .forum-page-narrow {
+            max-width: 100%;
+        }
+
+        .forum-post-body {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        .forum-login-callout {
+            width: 100%;
+        }
+    }
+
+
+    /* --------------------------------------------------------------------------
+    9) Letzter Sicherheitsgurt fuer 360px und kleiner
+    --------------------------------------------------------------------------
+    Grund:
+    Kleine Android-/iPhone-SE-Viewports brauchen noch engere Innenabstaende.
+    -------------------------------------------------------------------------- */
+
+    @media (max-width: 390px) {
+        .container,
+        .page,
+        .dynamic-hero,
+        .home-hero__content,
+        .feature-strip,
+        .site-header__inner {
+            width: calc(100% - 22px);
+        }
+
+        .card-body,
+        .story-card__body,
+        .travel-card__body,
+        .image-card__body,
+        .content-card,
+        .content-body,
+        .form-card,
+        .auth-card,
+        .info-card,
+        .sidebar-card,
+        .table-card,
+        .contact-form,
+        .contact-aside,
+        .membership-fieldset,
+        .forum-card,
+        .forum-post,
+        .forum-form-card,
+        .forum-reply-card {
+            padding: 16px;
+        }
+
+        .button,
+        .btn {
+            min-height: 44px;
+            padding-left: 14px;
+            padding-right: 14px;
+        }
+
+        .home-hero {
+            padding-top: 36px;
+            padding-bottom: 44px;
+        }
+
+        .home-hero h1 {
+            font-size: clamp(2rem, 14vw, 2.85rem);
+        }
+
+        .page-title {
+            font-size: clamp(1.85rem, 13vw, 2.55rem);
+        }
+
+        .feature-strip article {
+            padding: 16px;
+        }
+    }
