@@ -306,88 +306,136 @@ $aircraftModels = [
             <fieldset class="programme-options">
                 <legend>Gewünschte Programmpunkte *</legend>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="fire_training">
-                    Feuerlöschübung am Freitag
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="fire_training"
+                    >
+                    <span class="programme-option__text">
+                        Feuerlöschübung am Freitag
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="water_flying_lecture">
-                    Vortrag „Wasserfliegen in Deutschland“
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="water_flying_lecture"
+                    >
+                    <span class="programme-option__text">
+                        Vortrag „Wasserfliegen in Deutschland“
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="dinner">
-                    Gemeinsames Abendessen
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="dinner"
+                    >
+                    <span class="programme-option__text">
+                        Gemeinsames Abendessen
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="ifr_refresher">
-                    IFR-Refresher
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="ifr_refresher"
+                    >
+                    <span class="programme-option__text">
+                        IFR-Refresher
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="ifr_meteorology">
-                    IFR-Meteorologie
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="ifr_meteorology"
+                    >
+                    <span class="programme-option__text">
+                        IFR-Meteorologie
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="avionics_lecture">
-                    Avionik und PA46-Nachrüstung
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="avionics_lecture"
+                    >
+                    <span class="programme-option__text">
+                        Avionik und PA46-Nachrüstung
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="hands_on_training">
-                    Hands-on-Training im eigenen Flugzeug
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="hands_on_training"
+                    >
+                    <span class="programme-option__text">
+                        Hands-on-Training im eigenen Flugzeug
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="simulator_training">
-                    Simulatortraining
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="simulator_training"
+                    >
+                    <span class="programme-option__text">
+                        Simulatortraining
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="ifr_check_flight">
-                    IFR-Checkflug
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="ifr_check_flight"
+                    >
+                    <span class="programme-option__text">
+                        IFR-Checkflug
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="set_check_flight">
-                    SET-Checkflug
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="set_check_flight"
+                    >
+                    <span class="programme-option__text">
+                        SET-Checkflug
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="garmin_consultation">
-                    Persönliche Garmin-Beratung
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="garmin_consultation"
+                    >
+                    <span class="programme-option__text">
+                        Persönliche Garmin-Beratung
+                    </span>
                 </label>
 
-                <label>
-                    <input type="checkbox"
-                           name="elements[]"
-                           value="ras_career_event">
-                    Interesse am RAS-Karriereevent
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="ras_career_event"
+                    >
+                    <span class="programme-option__text">
+                        Interesse am RAS-Karriereevent
+                    </span>
                 </label>
             </fieldset>
 

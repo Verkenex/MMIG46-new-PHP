@@ -726,8 +726,8 @@ final class PageController
         Security::verifyCsrf();
 
         /*
-         * Unsichtbares Honeypot-Feld gegen einfache Formular-Bots.
-         */
+        * Unsichtbares Honeypot-Feld gegen einfache Formular-Bots.
+        */
         if (
             trim((string) ($_POST['website'] ?? '')) !== ''
         ) {
@@ -737,10 +737,10 @@ final class PageController
         }
 
         /*
-         * Die Sprache wird zusätzlich aus dem Formular übernommen.
-         * Das ist wichtig, falls beim POST kein lang-Parameter in der
-         * URL enthalten ist.
-         */
+        * Die Sprache wird zusätzlich aus dem Formular übernommen.
+        * Das ist wichtig, falls beim POST kein lang-Parameter in der
+        * URL enthalten ist.
+        */
         $postedLanguage = strtolower(
             trim((string) ($_POST['language'] ?? ''))
         );
@@ -819,6 +819,9 @@ final class PageController
             )
         );
 
+        /*
+        * Pflichtfelder prüfen.
+        */
         if (
             $name === ''
             || $email === ''
@@ -838,8 +841,6 @@ final class PageController
             );
 
             $this->redirectToTrainingWeekend($lang);
-
-            exit;
         }
 
         $registrationData = [
@@ -854,6 +855,9 @@ final class PageController
             'language' => $lang,
         ];
 
+        /*
+        * Hauptnachricht an den Organisator senden.
+        */
         try {
             $mailSent =
                 Mailer::trainingWeekendRegistration(
@@ -868,6 +872,10 @@ final class PageController
             $mailSent = false;
         }
 
+        /*
+        * Wenn die Hauptnachricht nicht versendet wurde,
+        * darf keine erfolgreiche Anmeldung angezeigt werden.
+        */
         if (!$mailSent) {
             Session::flash(
                 'error',
@@ -877,24 +885,45 @@ final class PageController
             );
 
             $this->redirectToTrainingWeekend($lang);
-
-            exit;
         }
 
         /*
-         * Das Layout liest Erfolgsmeldungen unter dem Key "ok" aus.
-         * "success" würde in der aktuellen main.php nicht angezeigt.
-         */
-        Session::flash(
-            'ok',
-            $lang === 'en'
-                ? 'Thank you. Your registration request has been sent to the organiser. You will be contacted regarding availability.'
-                : 'Vielen Dank. Ihre Anmeldeanfrage wurde an den Organisator übermittelt. Sie erhalten eine Rückmeldung zur Verfügbarkeit.'
-        );
+        * Bestätigungskopie an den Anmeldenden senden.
+        *
+        * Ein Fehler bei der Kopie soll die bereits erfolgreich
+        * versendete Hauptanmeldung nicht rückgängig machen.
+        */
+        try {
+            $copySent =
+                Mailer::trainingWeekendCopy(
+                    $registrationData
+                );
+        } catch (\Throwable $exception) {
+            $this->logException(
+                'Training weekend confirmation copy failed',
+                $exception
+            );
+
+            $copySent = false;
+        }
+
+        if ($copySent) {
+            Session::flash(
+                'ok',
+                $lang === 'en'
+                    ? 'Thank you. Your registration request has been sent to the organiser. A confirmation copy has been sent to your email address.'
+                    : 'Vielen Dank. Ihre Anmeldeanfrage wurde an den Organisator übermittelt. Eine Bestätigungskopie wurde an Ihre E-Mail-Adresse gesendet.'
+            );
+        } else {
+            Session::flash(
+                'ok',
+                $lang === 'en'
+                    ? 'Thank you. Your registration request has been sent to the organiser. However, the confirmation copy could not be sent.'
+                    : 'Vielen Dank. Ihre Anmeldeanfrage wurde an den Organisator übermittelt. Die Bestätigungskopie konnte jedoch nicht versendet werden.'
+            );
+        }
 
         $this->redirectToTrainingWeekend($lang);
-
-        exit;
     }
 
     private function sendMailSafely(

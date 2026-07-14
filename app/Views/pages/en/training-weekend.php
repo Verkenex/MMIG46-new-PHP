@@ -4,7 +4,7 @@ use MMIG46\Core\Security;
 use MMIG46\Core\Session;
 
 $error = Session::flash('error');
-$success = Session::flash('ok');
+$success = Session::flash('success');
 
 $aircraftModels = [
     'PA46-310',
@@ -386,128 +386,138 @@ $aircraftModels = [
             </div>
 
             <fieldset class="programme-options">
-                <legend>
-                    Requested programme items *
-                </legend>
+                <legend>Requested programme items *</legend>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="fire_training"
                     >
-
-                    Fire-extinguishing exercise on Friday
+                    <span class="programme-option__text">
+                        Fire-extinguishing exercise on Friday
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="water_flying_lecture"
                     >
-
-                    Presentation “Seaplane Flying in Germany”
+                    <span class="programme-option__text">
+                        Presentation “Seaplane Flying in Germany”
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="dinner"
                     >
-
-                    Group dinner at Landgut Ramshof
+                    <span class="programme-option__text">
+                        Group dinner at Landgut Ramshof
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="ifr_refresher"
                     >
-
-                    IFR refresher
+                    <span class="programme-option__text">
+                        IFR refresher
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="ifr_meteorology"
                     >
-
-                    IFR meteorology
+                    <span class="programme-option__text">
+                        IFR meteorology
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="avionics_lecture"
                     >
-
-                    Avionics and PA46 retrofit solutions
+                    <span class="programme-option__text">
+                        Avionics and PA46 retrofit solutions
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="hands_on_training"
                     >
-
-                    Hands-on training in your own aircraft
+                    <span class="programme-option__text">
+                        Hands-on training in your own aircraft
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="simulator_training"
                     >
-
-                    Flight simulator training
+                    <span class="programme-option__text">
+                        Flight simulator training
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="ifr_check_flight"
                     >
-
-                    IFR proficiency check flight
+                    <span class="programme-option__text">
+                        IFR proficiency check flight
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="set_check_flight"
                     >
-
-                    SET proficiency check flight
+                    <span class="programme-option__text">
+                        SET proficiency check flight
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="garmin_consultation"
                     >
-
-                    Individual Garmin avionics consultation
+                    <span class="programme-option__text">
+                        Individual Garmin avionics consultation
+                    </span>
                 </label>
 
-                <label>
+                <label class="programme-option">
                     <input
                         type="checkbox"
                         name="elements[]"
                         value="ras_career_event"
                     >
-
-                    Interest in the RAS career event or hangar visit
+                    <span class="programme-option__text">
+                        Interest in the RAS career event or hangar visit
+                    </span>
                 </label>
             </fieldset>
 

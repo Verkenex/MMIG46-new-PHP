@@ -240,13 +240,149 @@ final class Mailer
             'Zeitpunkt: ' . date('d.m.Y H:i:s'),
         ]);
 
+        $recipient = Env::get(
+            'TRAINING_WEEKEND_TO',
+            'dr.gerecht@mmig46.org'
+        );
+
         return self::send(
-            'dr.gerecht@mmig46.org',
+            $recipient,
             $subject,
             $html,
             $text,
             $email !== '' ? $email : null,
             $name !== '' ? $name : null
+        );
+    }
+
+    /**
+     * Sendet dem Anmeldenden eine Bestätigungskopie.
+     */
+    public static function trainingWeekendCopy(array $data): bool
+    {
+        $name = trim((string) ($data['name'] ?? ''));
+        $email = trim((string) ($data['email'] ?? ''));
+        $callsign = strtoupper(
+            trim((string) ($data['callsign'] ?? ''))
+        );
+        $aircraftModel = trim(
+            (string) ($data['aircraft_model'] ?? '')
+        );
+        $participants = max(
+            1,
+            min(4, (int) ($data['participants'] ?? 1))
+        );
+        $notes = trim((string) ($data['notes'] ?? ''));
+
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \RuntimeException(
+                'Invalid email for training weekend copy.'
+            );
+        }
+
+        $selectedElements = $data['elements'] ?? [];
+
+        if (!is_array($selectedElements)) {
+            $selectedElements = [];
+        }
+
+        $elementLabels = self::trainingElementLabels();
+        $selectedLabels = [];
+
+        foreach ($selectedElements as $element) {
+            $element = (string) $element;
+
+            if (isset($elementLabels[$element])) {
+                $selectedLabels[] = $elementLabels[$element];
+            }
+        }
+
+        $programmeHtml = $selectedLabels !== []
+            ? '<ul style="margin:0;padding-left:20px;">'
+                . implode(
+                    '',
+                    array_map(
+                        static fn (string $label): string =>
+                            '<li style="margin:4px 0;">'
+                            . self::e($label)
+                            . '</li>',
+                        $selectedLabels
+                    )
+                )
+                . '</ul>'
+            : 'Keine Programmpunkte ausgewählt';
+
+        $programmeText = $selectedLabels !== []
+            ? '- ' . implode("\n- ", $selectedLabels)
+            : 'Keine Programmpunkte ausgewählt';
+
+        $subject = 'Bestätigung Ihrer Anmeldung zum '
+            . 'MMIG46-Trainingswochenende 2026';
+
+        $html = self::htmlMail(
+            'Ihre Anmeldung zum Trainingswochenende',
+            'Vielen Dank für Ihre Anmeldung beziehungsweise '
+            . 'Buchungsanfrage. Nachfolgend erhalten Sie eine Kopie '
+            . 'Ihrer übermittelten Angaben. Die Teilnahme wird erst '
+            . 'nach einer gesonderten Bestätigung verbindlich.',
+            [
+                'Veranstaltung' => [
+                    'Termin' => '25.–26. September 2026',
+                    'Ort' => 'RAS-Seminarraum, EDLN',
+                ],
+                'Ihre Angaben' => [
+                    'Name' => $name,
+                    'E-Mail' => $email,
+                    'Flugzeugkennung' => $callsign,
+                    'Flugzeugtyp' => $aircraftModel,
+                    'Teilnehmerzahl' => (string) $participants,
+                ],
+                'Gewünschte Programmpunkte' => [
+                    'Auswahl' => $programmeHtml,
+                ],
+                'Weitere Angaben' => [
+                    'Anmerkungen' => $notes,
+                ],
+            ]
+        );
+
+        $text = implode("\n", [
+            'Ihre Anmeldung zum MMIG46-Trainingswochenende',
+            '================================================',
+            '',
+            'Vielen Dank für Ihre Anmeldung beziehungsweise Buchungsanfrage.',
+            'Die Teilnahme wird erst nach einer gesonderten Bestätigung verbindlich.',
+            '',
+            'Veranstaltung: 25.–26. September 2026',
+            'Ort: RAS-Seminarraum, EDLN',
+            '',
+            'Name: ' . self::plain($name),
+            'E-Mail: ' . self::plain($email),
+            'Flugzeugkennung: ' . self::plain($callsign),
+            'Flugzeugtyp: ' . self::plain(
+                $aircraftModel !== ''
+                    ? $aircraftModel
+                    : 'nicht angegeben'
+            ),
+            'Teilnehmerzahl: ' . $participants,
+            '',
+            'Gewünschte Programmpunkte:',
+            $programmeText,
+            '',
+            'Anmerkungen: ' . self::plain(
+                $notes !== ''
+                    ? $notes
+                    : 'keine'
+            ),
+        ]);
+
+        return self::send(
+            $email,
+            $subject,
+            $html,
+            $text,
+            'dr.gerecht@mmig46.org',
+            'MMIG46 e.V.'
         );
     }
 

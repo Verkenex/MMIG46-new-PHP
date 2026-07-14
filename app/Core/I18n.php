@@ -52,6 +52,13 @@ final class I18n
 
             'auth.member_only' =>
                 'Dieser Bereich ist ausschließlich für eingeloggte Mitglieder verfügbar.',
+            'auth.title' => 'Mitglieder-Login',
+            'auth.intro' => 'Melden Sie sich mit Ihrer E-Mail-Adresse und Ihrem Passwort an.',
+            'auth.email' => 'E-Mail-Adresse',
+            'auth.password' => 'Passwort',
+            'auth.submit' => 'Einloggen',
+            'auth.invalid' => 'E-Mail-Adresse oder Passwort ist nicht korrekt.',
+            'auth.rate_limited' => 'Zu viele fehlgeschlagene Anmeldeversuche. Bitte versuchen Sie es später erneut.',
 
             'form.required_fields' =>
                 'Bitte füllen Sie alle Pflichtfelder aus.',
@@ -123,6 +130,13 @@ final class I18n
 
             'auth.member_only' =>
                 'This area is only available to logged-in members.',
+            'auth.title' => 'Member login',
+            'auth.intro' => 'Sign in using your email address and password.',
+            'auth.email' => 'Email address',
+            'auth.password' => 'Password',
+            'auth.submit' => 'Sign in',
+            'auth.invalid' => 'The email address or password is incorrect.',
+            'auth.rate_limited' => 'Too many failed login attempts. Please try again later.',
 
             'form.required_fields' =>
                 'Please complete all required fields.',

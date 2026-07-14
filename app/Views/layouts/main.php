@@ -76,8 +76,28 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
     <meta name="twitter:image" content="<?= Security::e($seo['og_image']) ?>">
 
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/css/app.css">
-    <script defer src="/assets/js/app.js"></script>
+    <?php
+    $cssPath = dirname(__DIR__, 3) . '/public/assets/css/app.css';
+    $jsPath = dirname(__DIR__, 3) . '/public/assets/js/app.js';
+
+    $cssVersion = is_file($cssPath)
+        ? (string) filemtime($cssPath)
+        : '20260714';
+
+    $jsVersion = is_file($jsPath)
+        ? (string) filemtime($jsPath)
+        : '20260714';
+    ?>
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/app.css?v=<?= Security::e($cssVersion) ?>"
+    >
+
+    <script
+        defer
+        src="/assets/js/app.js?v=<?= Security::e($jsVersion) ?>"
+    ></script>
 </head>
 <body>
 <header class="site-header">

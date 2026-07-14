@@ -123,7 +123,19 @@ function mmig_format_date(?string $date): string
     <div class="home-hero__content">
         <p class="eyebrow"><?= Security::e($t['hero_eyebrow']) ?></p>
 
-        <h1><?= Security::e($t['hero_title']) ?></h1>
+    <h1 class="home-hero__title">
+        <?php if ($isEn): ?>
+            Malibu Mirage<br>
+            <span class="home-hero__association">
+                Interest Group 46
+            </span>
+        <?php else: ?>
+            Malibu Mirage<br>
+            <span class="home-hero__association">
+                Interessen<wbr>gemeinschaft 46
+            </span>
+        <?php endif; ?>
+    </h1>
 
         <p><?= Security::e($t['hero_lead']) ?></p>
 
