@@ -24,6 +24,16 @@ final class I18n
             'nav.privacy' => 'Datenschutz',
             'nav.terms' => 'AGB',
 
+            'members.title' => 'Mitgliederverzeichnis',
+            'members.intro' => 'Übersicht der Mitglieder, Piloten und Flugzeuge der MMIG46.',
+            'members.empty_title' => 'Noch keine Mitglieder eingetragen',
+            'members.empty_text' => 'Sobald Mitglieder für die öffentliche Anzeige freigegeben wurden, erscheinen sie hier.',
+            'members.aircraft' => 'Flugzeug',
+            'members.base' => 'Heimatflugplatz',
+            'members.role' => 'Rolle',
+            'members.membership' => 'Mitgliedschaft',
+            'common.website' => 'Website',
+
             'search.placeholder' => 'Website durchsuchen',
             'search.button' => 'Suchen',
             'search.title' => 'Suche',
@@ -101,6 +111,16 @@ final class I18n
             'nav.legal' => 'Legal Notice',
             'nav.privacy' => 'Privacy Policy',
             'nav.terms' => 'Terms & Conditions',
+
+            'members.title' => 'Member Directory',
+            'members.intro' => 'Directory of MMIG46 members, pilots and aircraft.',
+            'members.empty_title' => 'No members listed yet',
+            'members.empty_text' => 'Members will appear here once their profiles have been approved for public display.',
+            'members.aircraft' => 'Aircraft',
+            'members.base' => 'Home base',
+            'members.role' => 'Role',
+            'members.membership' => 'Membership',
+            'common.website' => 'Website',
 
             'search.placeholder' => 'Search website',
             'search.button' => 'Search',

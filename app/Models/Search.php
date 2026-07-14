@@ -8,8 +8,11 @@ use MMIG46\Core\Database as DB;
 
 final class Search
 {
-    public static function query(string $term, string $lang = 'de', int $limit = 30): array
-    {
+    public static function query(
+        string $term,
+        string $lang = 'de',
+        int $limit = 30
+    ): array {
         $term = trim($term);
 
         if (mb_strlen($term) < 2) {
@@ -19,85 +22,114 @@ final class Search
         $like = '%' . self::escapeLike($term) . '%';
 
         $sql = "
-            SELECT 'news' AS type,
-                   title,
-                   slug,
-                   teaser AS excerpt,
-                   published_at AS item_date,
-                   CONCAT('/news/', slug) AS url
+            SELECT
+                'news' AS type,
+                title,
+                slug,
+                teaser AS excerpt,
+                published_at AS item_date,
+                CONCAT('/news/', slug) AS url
             FROM news_items
             WHERE is_published = 1
-              AND lang = :lang_news
-              AND (title LIKE :like_news ESCAPE '\\\\'
-                   OR teaser LIKE :like_news ESCAPE '\\\\'
-                   OR body LIKE :like_news ESCAPE '\\\\')
+            AND lang = ?
+            AND (
+                title LIKE ? ESCAPE '\\\\'
+                OR teaser LIKE ? ESCAPE '\\\\'
+                OR body LIKE ? ESCAPE '\\\\'
+            )
 
             UNION ALL
 
-            SELECT 'travel' AS type,
-                   title,
-                   slug,
-                   teaser AS excerpt,
-                   starts_on AS item_date,
-                   CONCAT('/reisen/', slug) AS url
+            SELECT
+                'travel' AS type,
+                title,
+                slug,
+                teaser AS excerpt,
+                starts_on AS item_date,
+                CONCAT('/reisen/', slug) AS url
             FROM travel_items
             WHERE is_published = 1
-              AND lang = :lang_travel
-              AND (title LIKE :like_travel ESCAPE '\\\\'
-                   OR location LIKE :like_travel ESCAPE '\\\\'
-                   OR teaser LIKE :like_travel ESCAPE '\\\\'
-                   OR body LIKE :like_travel ESCAPE '\\\\')
+            AND lang = ?
+            AND (
+                title LIKE ? ESCAPE '\\\\'
+                OR location LIKE ? ESCAPE '\\\\'
+                OR teaser LIKE ? ESCAPE '\\\\'
+                OR body LIKE ? ESCAPE '\\\\'
+            )
 
             UNION ALL
 
-            SELECT 'page' AS type,
-                   title,
-                   slug,
-                   teaser AS excerpt,
-                   updated_at AS item_date,
-                   CONCAT('/', slug) AS url
+            SELECT
+                'page' AS type,
+                title,
+                slug,
+                teaser AS excerpt,
+                updated_at AS item_date,
+                CONCAT('/', slug) AS url
             FROM content_pages
             WHERE is_published = 1
-              AND lang = :lang_page
-              AND (title LIKE :like_page ESCAPE '\\\\'
-                   OR teaser LIKE :like_page ESCAPE '\\\\'
-                   OR body LIKE :like_page ESCAPE '\\\\')
-
-            UNION ALL
-
-            SELECT 'forum' AS type,
-                   title,
-                   CAST(id AS CHAR) AS slug,
-                   LEFT(body, 240) AS excerpt,
-                   created_at AS item_date,
-                   '/forum' AS url
-            FROM forum_posts
-            WHERE title LIKE :like_forum ESCAPE '\\\\'
-               OR body LIKE :like_forum ESCAPE '\\\\'
+            AND lang = ?
+            AND (
+                title LIKE ? ESCAPE '\\\\'
+                OR teaser LIKE ? ESCAPE '\\\\'
+                OR body LIKE ? ESCAPE '\\\\'
+            )
 
             ORDER BY item_date DESC
-            LIMIT :limit
+            LIMIT ?
         ";
 
         $stmt = DB::pdo()->prepare($sql);
 
-        $stmt->bindValue(':lang_news', $lang);
-        $stmt->bindValue(':lang_travel', $lang);
-        $stmt->bindValue(':lang_page', $lang);
+        /*
+        * News:
+        * 1 Sprache
+        * 2–4 Suchbegriff
+        */
+        $stmt->bindValue(1, $lang);
+        $stmt->bindValue(2, $like);
+        $stmt->bindValue(3, $like);
+        $stmt->bindValue(4, $like);
 
-        $stmt->bindValue(':like_news', $like);
-        $stmt->bindValue(':like_travel', $like);
-        $stmt->bindValue(':like_page', $like);
-        $stmt->bindValue(':like_forum', $like);
+        /*
+        * Reisen:
+        * 5 Sprache
+        * 6–9 Suchbegriff
+        */
+        $stmt->bindValue(5, $lang);
+        $stmt->bindValue(6, $like);
+        $stmt->bindValue(7, $like);
+        $stmt->bindValue(8, $like);
+        $stmt->bindValue(9, $like);
 
-        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        /*
+        * Inhaltsseiten:
+        * 10 Sprache
+        * 11–13 Suchbegriff
+        */
+        $stmt->bindValue(10, $lang);
+        $stmt->bindValue(11, $like);
+        $stmt->bindValue(12, $like);
+        $stmt->bindValue(13, $like);
+
+        /*
+        * Ergebnislimit ausdrücklich als Integer binden.
+        */
+        $stmt->bindValue(14, $limit, \PDO::PARAM_INT);
+
         $stmt->execute();
 
-        $results = $stmt->fetchAll();
+        $databaseResults = $stmt->fetchAll();
+
+        if (!is_array($databaseResults)) {
+            $databaseResults = [];
+        }
+
+        $staticResults = self::searchStaticPages($term, $lang);
 
         $results = array_merge(
-            $results,
-            self::searchStaticPages($term, $lang)
+            $databaseResults,
+            $staticResults
         );
 
         return array_slice($results, 0, $limit);
