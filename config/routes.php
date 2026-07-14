@@ -60,3 +60,13 @@ $router->post('/mitgliedsantrag', [PageController::class, 'sendMembershipApplica
 
 $router->get('/robots.txt', [\MMIG46\Controllers\SeoController::class, 'robots']);
 $router->get('/sitemap.xml', [\MMIG46\Controllers\SeoController::class, 'sitemap']);
+
+$router->get(
+    '/trainingswochenende-2026',
+    [PageController::class, 'trainingWeekend']
+);
+
+$router->post(
+    '/trainingswochenende-2026/anmeldung',
+    [PageController::class, 'sendTrainingWeekendRegistration']
+);

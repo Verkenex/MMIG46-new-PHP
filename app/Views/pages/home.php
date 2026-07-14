@@ -79,6 +79,46 @@ function mmig_format_date(?string $date): string
 
 ?>
 
+
+<section class="training-banner">
+    <div class="container training-banner__inner">
+        <div>
+            <p class="training-banner__eyebrow">
+                <?= $isEn
+                    ? '25–26 September 2026 · EDLN'
+                    : '25.–26. September 2026 · EDLN' ?>
+            </p>
+
+            <h2>
+                <?= $isEn
+                    ? 'MMIG46 Training Weekend'
+                    : 'MMIG46 Trainingswochenende' ?>
+            </h2>
+
+            <p>
+                <?= $isEn
+                    ? 'Use it or lose it: IFR refresher training, fire-safety exercises, avionics, simulator training, hands-on sessions and proficiency check flights.'
+                    : 'Use it or lose it: IFR-Refresher, Feuerlöschübungen, Avionik, Simulatortraining, praktische Übungen und Checkflüge.' ?>
+            </p>
+
+            <p class="training-banner__limited">
+                <?= $isEn
+                    ? 'Limited capacity – first come, first served.'
+                    : 'Begrenzte Kapazitäten – first come, first served.' ?>
+            </p>
+        </div>
+
+        <a class="button button--light"
+           href="<?= $isEn
+               ? '/trainingswochenende-2026?lang=en'
+               : '/trainingswochenende-2026?lang=de' ?>">
+            <?= $isEn
+                ? 'View programme and register'
+                : 'Programm ansehen und anmelden' ?>
+        </a>
+    </div>
+</section>
+
 <section class="home-hero">
     <div class="home-hero__content">
         <p class="eyebrow"><?= Security::e($t['hero_eyebrow']) ?></p>

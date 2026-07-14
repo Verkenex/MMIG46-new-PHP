@@ -41,21 +41,59 @@ final class I18n
 
             'cookie.text' => 'Diese Website verwendet notwendige Session-Cookies. Mehr Informationen finden Sie in der Datenschutzerklärung.',
             'cookie.accept' => 'Verstanden',
+
+            'common.read_more' => 'Mehr erfahren',
+            'common.back' => 'Zurück',
+            'common.submit' => 'Absenden',
+            'common.cancel' => 'Abbrechen',
+            'common.required' => 'Pflichtfeld',
+            'common.yes' => 'Ja',
+            'common.no' => 'Nein',
+
+            'auth.member_only' =>
+                'Dieser Bereich ist ausschließlich für eingeloggte Mitglieder verfügbar.',
+
+            'form.required_fields' =>
+                'Bitte füllen Sie alle Pflichtfelder aus.',
+
+            'form.invalid_email' =>
+                'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+
+            'form.invalid_csrf' =>
+                'Die Sitzung ist abgelaufen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.',
+
+            'form.sent' =>
+                'Ihre Nachricht wurde erfolgreich übermittelt.',
+
+            'form.send_failed' =>
+                'Die Nachricht konnte nicht versendet werden. Bitte versuchen Sie es später erneut.',
+
+            'training.title' =>
+                'MMIG46 Trainingswochenende',
+
+            'training.registration_success' =>
+                'Vielen Dank. Ihre Anmeldung wurde an den Organisator übermittelt.',
+
+            'training.registration_error' =>
+                'Die Anmeldung konnte nicht übermittelt werden. Bitte versuchen Sie es erneut.',
+
+            'training.capacity_notice' =>
+                'Die Kapazitäten sind begrenzt. Es gilt: First come, first served.',
         ],
 
         'en' => [
             'nav.news' => 'News',
-            'nav.travels' => 'Travels',
+            'nav.travels' => 'Fly-Ins & Trips',
             'nav.malibu' => 'Malibu Mirage',
-            'nav.club' => 'Club',
-            'nav.members' => 'Members',
+            'nav.club' => 'About MMIG46',
+            'nav.members' => 'Member Directory',
             'nav.forum' => 'Forum',
             'nav.contact' => 'Contact',
             'nav.login' => 'Login',
             'nav.logout' => 'Logout',
             'nav.legal' => 'Legal Notice',
             'nav.privacy' => 'Privacy Policy',
-            'nav.terms' => 'Terms',
+            'nav.terms' => 'Terms & Conditions',
 
             'search.placeholder' => 'Search website',
             'search.button' => 'Search',
@@ -73,7 +111,45 @@ final class I18n
             'language.en' => 'English',
 
             'cookie.text' => 'This website only uses necessary session cookies. More information is available in the privacy policy.',
-            'cookie.accept' => 'Understood',
+            'cookie.accept' => 'Got it',
+
+            'common.read_more' => 'Read more',
+            'common.back' => 'Back',
+            'common.submit' => 'Submit',
+            'common.cancel' => 'Cancel',
+            'common.required' => 'Required field',
+            'common.yes' => 'Yes',
+            'common.no' => 'No',
+
+            'auth.member_only' =>
+                'This area is only available to logged-in members.',
+
+            'form.required_fields' =>
+                'Please complete all required fields.',
+
+            'form.invalid_email' =>
+                'Please enter a valid email address.',
+
+            'form.invalid_csrf' =>
+                'Your session has expired. Please reload the page and try again.',
+
+            'form.sent' =>
+                'Your message has been submitted successfully.',
+
+            'form.send_failed' =>
+                'The message could not be sent. Please try again later.',
+
+            'training.title' =>
+                'MMIG46 Training Weekend',
+
+            'training.registration_success' =>
+                'Thank you. Your registration has been sent to the organiser.',
+
+            'training.registration_error' =>
+                'Your registration could not be submitted. Please try again.',
+
+            'training.capacity_notice' =>
+                'Capacity is limited. First come, first served.',
         ],
     ];
 

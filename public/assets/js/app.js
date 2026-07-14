@@ -25,3 +25,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('training-weekend-popup');
+
+    if (!popup) {
+        return;
+    }
+
+    const storageKey = 'mmig46_training_weekend_popup_2026';
+
+    try {
+        if (sessionStorage.getItem(storageKey) === 'closed') {
+            return;
+        }
+    } catch (error) {
+        // Das Popup funktioniert auch ohne Web Storage.
+    }
+
+    popup.hidden = false;
+    document.body.classList.add('has-modal');
+
+    const closePopup = () => {
+        popup.hidden = true;
+        document.body.classList.remove('has-modal');
+
+        try {
+            sessionStorage.setItem(storageKey, 'closed');
+        } catch (error) {
+            // Keine weitere Aktion erforderlich.
+        }
+    };
+
+    popup
+        .querySelectorAll('[data-close-training-popup]')
+        .forEach((element) => {
+            element.addEventListener('click', closePopup);
+        });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !popup.hidden) {
+            closePopup();
+        }
+    });
+});

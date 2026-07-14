@@ -1837,3 +1837,244 @@ td { color: #2f3948; }
             padding: 16px;
         }
     }
+
+    /* Trainingswochenende. */
+
+    .training-banner {
+    background: #8b1e2d;
+    color: #ffffff;
+    padding: 1.4rem 0;
+}
+
+.training-banner__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.training-banner__eyebrow,
+.event-kicker,
+.section-eyebrow,
+.event-popup__eyebrow {
+    margin: 0 0 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.training-banner h2 {
+    margin: 0 0 0.45rem;
+    color: inherit;
+}
+
+.training-banner p {
+    margin-top: 0;
+}
+
+.training-banner__limited {
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.event-hero {
+    padding: clamp(4rem, 9vw, 8rem) 0;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(20, 28, 36, 0.96),
+            rgba(61, 74, 87, 0.88)
+        );
+    color: #ffffff;
+}
+
+.event-hero__inner {
+    max-width: 880px;
+}
+
+.event-hero h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    color: inherit;
+}
+
+.event-hero__date {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.event-hero__lead {
+    max-width: 760px;
+    font-size: 1.15rem;
+    line-height: 1.7;
+}
+
+.event-alert {
+    margin: 1.5rem 0;
+    padding: 1rem 1.2rem;
+    border-left: 4px solid currentColor;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.event-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.event-fact {
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+}
+
+.event-fact__label {
+    display: block;
+    margin-bottom: 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.event-content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 6vw, 5rem);
+}
+
+.event-schedule {
+    display: grid;
+    gap: 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.event-schedule li {
+    display: grid;
+    grid-template-columns: 125px 1fr;
+    gap: 1.25rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.event-schedule time {
+    font-weight: 700;
+}
+
+.event-schedule h3 {
+    margin-top: 0;
+}
+
+.event-registration {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 6vw, 5rem);
+}
+
+.event-form {
+    display: grid;
+    gap: 1.5rem;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    background: #ffffff;
+    color: #161b20;
+    border-radius: 1rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.programme-options {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.25rem;
+}
+
+.programme-options label,
+.consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+}
+
+.form-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.event-popup[hidden] {
+    display: none;
+}
+
+.event-popup {
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+
+.event-popup__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 15, 20, 0.72);
+    backdrop-filter: blur(4px);
+}
+
+.event-popup__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(560px, 100%);
+    padding: clamp(1.5rem, 5vw, 3rem);
+    background: #ffffff;
+    border-radius: 1.25rem;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+}
+
+.event-popup__close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.9rem;
+    border: 0;
+    background: transparent;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.has-modal {
+    overflow: hidden;
+}
+
+@media (max-width: 800px) {
+    .training-banner__inner,
+    .event-content,
+    .event-registration {
+        grid-template-columns: 1fr;
+    }
+
+    .training-banner__inner {
+        display: grid;
+    }
+
+    .event-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-schedule li {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+    }
+}

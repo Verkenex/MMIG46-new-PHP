@@ -10,8 +10,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 final class Mailer
 {
-    public static function contact(string $name, string $email, string $message): bool
-    {
+    public static function contact(
+        string $name,
+        string $email,
+        string $message
+    ): bool {
         $subject = 'Neue Kontaktanfrage über MMIG46';
 
         $rows = [
@@ -30,13 +33,16 @@ final class Mailer
             ]
         );
 
-        $text = self::textBlock('Neue Kontaktanfrage über die MMIG46-Website', [
-            'Name' => $name,
-            'E-Mail' => $email,
-            'Nachricht' => $message,
-            'IP-Adresse' => $_SERVER['REMOTE_ADDR'] ?? 'unbekannt',
-            'Zeitpunkt' => date('d.m.Y H:i:s'),
-        ]);
+        $text = self::textBlock(
+            'Neue Kontaktanfrage über die MMIG46-Website',
+            [
+                'Name' => $name,
+                'E-Mail' => $email,
+                'Nachricht' => $message,
+                'IP-Adresse' => $_SERVER['REMOTE_ADDR'] ?? 'unbekannt',
+                'Zeitpunkt' => date('d.m.Y H:i:s'),
+            ]
+        );
 
         return self::send(
             Env::get('CONTACT_TO', Env::get('MAIL_FROM', '')),
@@ -50,8 +56,14 @@ final class Mailer
 
     public static function membershipApplication(array $data): bool
     {
-        $name = trim(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''));
-        $subject = 'Neuer MMIG46-Mitgliedsantrag: ' . ($name !== '' ? $name : 'ohne Namen');
+        $name = trim(
+            ($data['first_name'] ?? '')
+            . ' '
+            . ($data['last_name'] ?? '')
+        );
+
+        $subject = 'Neuer MMIG46-Mitgliedsantrag: '
+            . ($name !== '' ? $name : 'ohne Namen');
 
         $html = self::membershipHtml($data, false);
         $text = self::membershipText($data, false);
@@ -68,10 +80,12 @@ final class Mailer
 
     public static function membershipCopy(array $data): bool
     {
-        $to = trim((string)($data['private_email'] ?? ''));
+        $to = trim((string) ($data['private_email'] ?? ''));
 
         if ($to === '' || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
-            throw new \RuntimeException('Invalid private_email for membership copy.');
+            throw new \RuntimeException(
+                'Invalid private_email for membership copy.'
+            );
         }
 
         $subject = 'Kopie Ihres MMIG46-Mitgliedsantrags';
@@ -84,6 +98,158 @@ final class Mailer
         );
     }
 
+    /**
+     * Sendet eine Anmeldung beziehungsweise Buchungsanfrage für das
+     * MMIG46-Trainingswochenende an Dr. Gerecht.
+     */
+    public static function trainingWeekendRegistration(array $data): bool
+    {
+        $name = trim((string) ($data['name'] ?? ''));
+        $email = trim((string) ($data['email'] ?? ''));
+        $callsign = strtoupper(
+            trim((string) ($data['callsign'] ?? ''))
+        );
+
+        $aircraftModel = trim(
+            (string) ($data['aircraft_model'] ?? '')
+        );
+
+        $participants = max(
+            1,
+            min(4, (int) ($data['participants'] ?? 1))
+        );
+
+        $notes = trim((string) ($data['notes'] ?? ''));
+
+        $selectedElements = $data['elements'] ?? [];
+
+        if (!is_array($selectedElements)) {
+            $selectedElements = [];
+        }
+
+        $elementLabels = self::trainingElementLabels();
+
+        $selectedLabels = [];
+
+        foreach ($selectedElements as $element) {
+            $element = (string) $element;
+
+            if (isset($elementLabels[$element])) {
+                $selectedLabels[] = $elementLabels[$element];
+            }
+        }
+
+        $programmeHtml = $selectedLabels !== []
+            ? '<ul style="margin:0;padding-left:20px;">'
+                . implode(
+                    '',
+                    array_map(
+                        static fn (string $label): string =>
+                            '<li style="margin:0 0 6px;">'
+                            . self::e($label)
+                            . '</li>',
+                        $selectedLabels
+                    )
+                )
+                . '</ul>'
+            : 'Keine Programmpunkte ausgewählt';
+
+        $programmeText = $selectedLabels !== []
+            ? '- ' . implode("\n- ", $selectedLabels)
+            : 'Keine Programmpunkte ausgewählt';
+
+        $subject = sprintf(
+            'Anmeldung Trainingswochenende 2026 – %s – %s',
+            $callsign !== '' ? $callsign : 'ohne Kennung',
+            $name !== '' ? $name : 'ohne Namen'
+        );
+
+        $html = self::htmlMail(
+            'Neue Anmeldung zum Trainingswochenende',
+            'Über die MMIG46-Website wurde eine neue Anmeldung beziehungsweise Buchungsanfrage für das Trainingswochenende am 25. und 26. September 2026 übermittelt.',
+            [
+                'Teilnehmer' => [
+                    'Name' => $name,
+                    'E-Mail' => $email,
+                    'Flugzeugkennung' => $callsign,
+                    'Flugzeugtyp' => $aircraftModel,
+                    'Teilnehmerzahl' => (string) $participants,
+                ],
+                'Gewünschte Programmpunkte' => [
+                    'Auswahl' => $programmeHtml,
+                ],
+                'Weitere Angaben' => [
+                    'Anmerkungen' => $notes,
+                    'Sprache des Formulars' =>
+                        strtoupper(
+                            (string) ($data['language'] ?? 'de')
+                        ),
+                    'Datenschutzeinwilligung' =>
+                        !empty($data['privacy_consent'])
+                            ? 'Ja'
+                            : 'Nein',
+                    'IP-Adresse' =>
+                        $_SERVER['REMOTE_ADDR'] ?? 'unbekannt',
+                    'Zeitpunkt' => date('d.m.Y H:i:s'),
+                ],
+            ]
+        );
+
+        $text = implode("\n", [
+            'Neue Anmeldung zum MMIG46-Trainingswochenende',
+            '================================================',
+            '',
+            'Veranstaltung: 25.–26. September 2026',
+            'Ort: RAS-Seminarraum, EDLN',
+            '',
+            'TEILNEHMER',
+            '----------',
+            'Name: ' . self::plain($name),
+            'E-Mail: ' . self::plain($email),
+            'Flugzeugkennung: ' . self::plain($callsign),
+            'Flugzeugtyp: '
+                . self::plain(
+                    $aircraftModel !== ''
+                        ? $aircraftModel
+                        : 'nicht angegeben'
+                ),
+            'Teilnehmerzahl: ' . $participants,
+            '',
+            'GEWÜNSCHTE PROGRAMMPUNKTE',
+            '-------------------------',
+            $programmeText,
+            '',
+            'WEITERE ANGABEN',
+            '---------------',
+            'Anmerkungen: '
+                . self::plain(
+                    $notes !== ''
+                        ? $notes
+                        : 'keine'
+                ),
+            'Sprache des Formulars: '
+                . strtoupper(
+                    (string) ($data['language'] ?? 'de')
+                ),
+            'Datenschutzeinwilligung: '
+                . (!empty($data['privacy_consent'])
+                    ? 'Ja'
+                    : 'Nein'),
+            'IP-Adresse: '
+                . ($_SERVER['REMOTE_ADDR'] ?? 'unbekannt'),
+            'Zeitpunkt: ' . date('d.m.Y H:i:s'),
+        ]);
+
+        return self::send(
+            'dr.gerecht@mmig46.org',
+            $subject,
+            $html,
+            $text,
+            $email !== '' ? $email : null,
+            $name !== '' ? $name : null
+        );
+    }
+
     public static function send(
         string $to,
         string $subject,
@@ -92,13 +258,29 @@ final class Mailer
         ?string $replyToEmail = null,
         ?string $replyToName = null
     ): bool {
-        $driver = strtolower(trim(Env::get('MAIL_DRIVER', 'mail')));
+        $driver = strtolower(
+            trim(Env::get('MAIL_DRIVER', 'mail'))
+        );
 
         if ($driver === 'smtp') {
-            return self::sendViaSmtp($to, $subject, $htmlBody, $textBody, $replyToEmail, $replyToName);
+            return self::sendViaSmtp(
+                $to,
+                $subject,
+                $htmlBody,
+                $textBody,
+                $replyToEmail,
+                $replyToName
+            );
         }
 
-        return self::sendViaPhpMail($to, $subject, $htmlBody, $textBody, $replyToEmail, $replyToName);
+        return self::sendViaPhpMail(
+            $to,
+            $subject,
+            $htmlBody,
+            $textBody,
+            $replyToEmail,
+            $replyToName
+        );
     }
 
     private static function sendViaSmtp(
@@ -120,43 +302,84 @@ final class Mailer
             $mail->Username = Env::get('MAIL_USERNAME', '');
             $mail->Password = Env::get('MAIL_PASSWORD', '');
 
-            $encryption = strtolower(trim(Env::get('MAIL_ENCRYPTION', 'ssl')));
+            $encryption = strtolower(
+                trim(Env::get('MAIL_ENCRYPTION', 'ssl'))
+            );
 
-            if ($encryption === 'ssl' || $encryption === 'smtps') {
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            } elseif ($encryption === 'tls' || $encryption === 'starttls') {
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            if (
+                $encryption === 'ssl'
+                || $encryption === 'smtps'
+            ) {
+                $mail->SMTPSecure =
+                    PHPMailer::ENCRYPTION_SMTPS;
+            } elseif (
+                $encryption === 'tls'
+                || $encryption === 'starttls'
+            ) {
+                $mail->SMTPSecure =
+                    PHPMailer::ENCRYPTION_STARTTLS;
             } else {
                 $mail->SMTPSecure = false;
             }
 
-            $mail->Port = (int) Env::get('MAIL_PORT', '465');
+            $mail->Port = (int) Env::get(
+                'MAIL_PORT',
+                '465'
+            );
 
             $from = Env::get('MAIL_FROM', '');
-            $fromName = Env::get('MAIL_FROM_NAME', 'MMIG46 e.V.');
+            $fromName = Env::get(
+                'MAIL_FROM_NAME',
+                'MMIG46 e.V.'
+            );
 
             if ($from === '') {
-                throw new \RuntimeException('MAIL_FROM is not configured.');
+                throw new \RuntimeException(
+                    'MAIL_FROM is not configured.'
+                );
             }
 
             $mail->setFrom($from, $fromName);
 
-            foreach (self::parseRecipients($to) as $recipient) {
+            foreach (
+                self::parseRecipients($to)
+                as $recipient
+            ) {
                 $mail->addAddress($recipient);
             }
 
-            if ($replyToEmail && filter_var($replyToEmail, FILTER_VALIDATE_EMAIL)) {
-                $mail->addReplyTo($replyToEmail, $replyToName ?: $replyToEmail);
+            if (
+                $replyToEmail
+                && filter_var(
+                    $replyToEmail,
+                    FILTER_VALIDATE_EMAIL
+                )
+            ) {
+                $mail->addReplyTo(
+                    $replyToEmail,
+                    $replyToName ?: $replyToEmail
+                );
             }
 
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body = $htmlBody;
-            $mail->AltBody = $textBody ?: strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $htmlBody));
+            $mail->AltBody = $textBody
+                ?: strip_tags(
+                    str_replace(
+                        ['<br>', '<br/>', '<br />'],
+                        "\n",
+                        $htmlBody
+                    )
+                );
 
             return $mail->send();
         } catch (PHPMailerException $e) {
-            throw new \RuntimeException('PHPMailer error: ' . $e->getMessage(), 0, $e);
+            throw new \RuntimeException(
+                'PHPMailer error: ' . $e->getMessage(),
+                0,
+                $e
+            );
         }
     }
 
@@ -168,16 +391,40 @@ final class Mailer
         ?string $replyToEmail,
         ?string $replyToName
     ): bool {
-        $from = Env::get('MAIL_FROM', 'no-reply@mmig46.org');
-        $fromName = Env::get('MAIL_FROM_NAME', 'MMIG46 e.V.');
+        $from = Env::get(
+            'MAIL_FROM',
+            'no-reply@mmig46.org'
+        );
+
+        $fromName = Env::get(
+            'MAIL_FROM_NAME',
+            'MMIG46 e.V.'
+        );
 
         $headers = [];
-        $headers[] = 'From: ' . self::encodeHeader($fromName) . ' <' . $from . '>';
+        $headers[] = 'From: '
+            . self::encodeHeader($fromName)
+            . ' <'
+            . $from
+            . '>';
+
         $headers[] = 'MIME-Version: 1.0';
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
 
-        if ($replyToEmail && filter_var($replyToEmail, FILTER_VALIDATE_EMAIL)) {
-            $headers[] = 'Reply-To: ' . self::encodeHeader($replyToName ?: $replyToEmail) . ' <' . $replyToEmail . '>';
+        if (
+            $replyToEmail
+            && filter_var(
+                $replyToEmail,
+                FILTER_VALIDATE_EMAIL
+            )
+        ) {
+            $headers[] = 'Reply-To: '
+                . self::encodeHeader(
+                    $replyToName ?: $replyToEmail
+                )
+                . ' <'
+                . $replyToEmail
+                . '>';
         }
 
         return mail(
@@ -188,119 +435,201 @@ final class Mailer
         );
     }
 
-    private static function membershipHtml(array $data, bool $isCopy): string
-    {
+    private static function membershipHtml(
+        array $data,
+        bool $isCopy
+    ): string {
         $intro = $isCopy
             ? 'Vielen Dank für Ihren Mitgliedsantrag bei MMIG46 e.V. Nachfolgend erhalten Sie eine Kopie Ihrer übermittelten Angaben.'
             : 'Über die MMIG46-Website wurde ein neuer Mitgliedsantrag übermittelt.';
 
         return self::htmlMail(
-            $isCopy ? 'Kopie Ihres Mitgliedsantrags' : 'Neuer Mitgliedsantrag',
+            $isCopy
+                ? 'Kopie Ihres Mitgliedsantrags'
+                : 'Neuer Mitgliedsantrag',
             $intro,
             [
                 'Mitgliedschaft und Rechnung' => [
-                    'Mitgliedschaft' => self::labelMembershipType($data['membership_type'] ?? ''),
-                    'Rechnungsempfänger' => $data['invoice_name'] ?? '',
-                    'Straße' => $data['street'] ?? '',
-                    'PLZ / Ort / Land' => $data['postal_city_country'] ?? '',
+                    'Mitgliedschaft' =>
+                        self::labelMembershipType(
+                            $data['membership_type'] ?? ''
+                        ),
+                    'Rechnungsempfänger' =>
+                        $data['invoice_name'] ?? '',
+                    'Straße' =>
+                        $data['street'] ?? '',
+                    'PLZ / Ort / Land' =>
+                        $data['postal_city_country'] ?? '',
                 ],
                 'Persönliche Daten' => [
-                    'Vorname' => $data['first_name'] ?? '',
-                    'Nachname' => $data['last_name'] ?? '',
-                    'Geburtsdatum' => $data['birthday'] ?? '',
-                    'Beruf' => $data['occupation'] ?? '',
-                    'Copilot / Ehepartner' => $data['copilot_spouse'] ?? '',
+                    'Vorname' =>
+                        $data['first_name'] ?? '',
+                    'Nachname' =>
+                        $data['last_name'] ?? '',
+                    'Geburtsdatum' =>
+                        $data['birthday'] ?? '',
+                    'Beruf' =>
+                        $data['occupation'] ?? '',
+                    'Copilot / Ehepartner' =>
+                        $data['copilot_spouse'] ?? '',
                 ],
                 'Flugerfahrung' => [
-                    'Gesamtflugzeit' => $data['total_time'] ?? '',
-                    'Zeit auf Muster' => $data['time_in_type'] ?? '',
-                    'Lizenz / Ratings' => $data['license_ratings'] ?? '',
-                    'Fliegt seit' => $data['flying_since'] ?? '',
-                    'Aviation History' => $data['aviation_history'] ?? '',
+                    'Gesamtflugzeit' =>
+                        $data['total_time'] ?? '',
+                    'Zeit auf Muster' =>
+                        $data['time_in_type'] ?? '',
+                    'Lizenz / Ratings' =>
+                        $data['license_ratings'] ?? '',
+                    'Fliegt seit' =>
+                        $data['flying_since'] ?? '',
+                    'Aviation History' =>
+                        $data['aviation_history'] ?? '',
                 ],
                 'Flugzeug' => [
-                    'Eingetragener Halter' => $data['registered_owner'] ?? '',
-                    'Rufzeichen' => $data['callsign'] ?? '',
-                    'Modell' => $data['model'] ?? '',
-                    'Seriennummer' => $data['serial_number'] ?? '',
-                    'Baujahr' => $data['aircraft_year'] ?? '',
-                    'Modifikationen' => $data['modifications'] ?? '',
-                    'Homebase' => $data['home_base'] ?? '',
+                    'Eingetragener Halter' =>
+                        $data['registered_owner'] ?? '',
+                    'Rufzeichen' =>
+                        $data['callsign'] ?? '',
+                    'Modell' =>
+                        $data['model'] ?? '',
+                    'Seriennummer' =>
+                        $data['serial_number'] ?? '',
+                    'Baujahr' =>
+                        $data['aircraft_year'] ?? '',
+                    'Modifikationen' =>
+                        $data['modifications'] ?? '',
+                    'Homebase' =>
+                        $data['home_base'] ?? '',
                 ],
                 'Kontakt' => [
-                    'Telefon Büro' => $data['office_phone'] ?? '',
-                    'E-Mail Büro' => $data['office_email'] ?? '',
-                    'Telefon privat' => $data['home_phone'] ?? '',
-                    'E-Mail privat' => $data['private_email'] ?? '',
-                    'Mobil' => $data['mobile'] ?? '',
+                    'Telefon Büro' =>
+                        $data['office_phone'] ?? '',
+                    'E-Mail Büro' =>
+                        $data['office_email'] ?? '',
+                    'Telefon privat' =>
+                        $data['home_phone'] ?? '',
+                    'E-Mail privat' =>
+                        $data['private_email'] ?? '',
+                    'Mobil' =>
+                        $data['mobile'] ?? '',
                 ],
                 'Einwilligung und Technik' => [
-                    'Einwilligung' => (($data['consent'] ?? '') === 'yes') ? 'Ja' : 'Nein',
-                    'IP-Adresse' => $_SERVER['REMOTE_ADDR'] ?? 'unbekannt',
-                    'Zeitpunkt' => date('d.m.Y H:i:s'),
+                    'Einwilligung' =>
+                        (($data['consent'] ?? '') === 'yes')
+                            ? 'Ja'
+                            : 'Nein',
+                    'IP-Adresse' =>
+                        $_SERVER['REMOTE_ADDR']
+                        ?? 'unbekannt',
+                    'Zeitpunkt' =>
+                        date('d.m.Y H:i:s'),
                 ],
             ]
         );
     }
 
-    private static function membershipText(array $data, bool $isCopy): string
-    {
+    private static function membershipText(
+        array $data,
+        bool $isCopy
+    ): string {
         $lines = [];
 
-        $lines[] = $isCopy ? 'Kopie Ihres MMIG46-Mitgliedsantrags' : 'Neuer MMIG46-Mitgliedsantrag';
+        $lines[] = $isCopy
+            ? 'Kopie Ihres MMIG46-Mitgliedsantrags'
+            : 'Neuer MMIG46-Mitgliedsantrag';
+
         $lines[] = str_repeat('=', 42);
         $lines[] = '';
 
         $sections = [
             'Mitgliedschaft und Rechnung' => [
-                'Mitgliedschaft' => self::labelMembershipType($data['membership_type'] ?? ''),
-                'Rechnungsempfänger' => $data['invoice_name'] ?? '',
-                'Straße' => $data['street'] ?? '',
-                'PLZ / Ort / Land' => $data['postal_city_country'] ?? '',
+                'Mitgliedschaft' =>
+                    self::labelMembershipType(
+                        $data['membership_type'] ?? ''
+                    ),
+                'Rechnungsempfänger' =>
+                    $data['invoice_name'] ?? '',
+                'Straße' =>
+                    $data['street'] ?? '',
+                'PLZ / Ort / Land' =>
+                    $data['postal_city_country'] ?? '',
             ],
             'Persönliche Daten' => [
-                'Vorname' => $data['first_name'] ?? '',
-                'Nachname' => $data['last_name'] ?? '',
-                'Geburtsdatum' => $data['birthday'] ?? '',
-                'Beruf' => $data['occupation'] ?? '',
-                'Copilot / Ehepartner' => $data['copilot_spouse'] ?? '',
+                'Vorname' =>
+                    $data['first_name'] ?? '',
+                'Nachname' =>
+                    $data['last_name'] ?? '',
+                'Geburtsdatum' =>
+                    $data['birthday'] ?? '',
+                'Beruf' =>
+                    $data['occupation'] ?? '',
+                'Copilot / Ehepartner' =>
+                    $data['copilot_spouse'] ?? '',
             ],
             'Flugerfahrung' => [
-                'Gesamtflugzeit' => $data['total_time'] ?? '',
-                'Zeit auf Muster' => $data['time_in_type'] ?? '',
-                'Lizenz / Ratings' => $data['license_ratings'] ?? '',
-                'Fliegt seit' => $data['flying_since'] ?? '',
-                'Aviation History' => $data['aviation_history'] ?? '',
+                'Gesamtflugzeit' =>
+                    $data['total_time'] ?? '',
+                'Zeit auf Muster' =>
+                    $data['time_in_type'] ?? '',
+                'Lizenz / Ratings' =>
+                    $data['license_ratings'] ?? '',
+                'Fliegt seit' =>
+                    $data['flying_since'] ?? '',
+                'Aviation History' =>
+                    $data['aviation_history'] ?? '',
             ],
             'Flugzeug' => [
-                'Eingetragener Halter' => $data['registered_owner'] ?? '',
-                'Rufzeichen' => $data['callsign'] ?? '',
-                'Modell' => $data['model'] ?? '',
-                'Seriennummer' => $data['serial_number'] ?? '',
-                'Baujahr' => $data['aircraft_year'] ?? '',
-                'Modifikationen' => $data['modifications'] ?? '',
-                'Homebase' => $data['home_base'] ?? '',
+                'Eingetragener Halter' =>
+                    $data['registered_owner'] ?? '',
+                'Rufzeichen' =>
+                    $data['callsign'] ?? '',
+                'Modell' =>
+                    $data['model'] ?? '',
+                'Seriennummer' =>
+                    $data['serial_number'] ?? '',
+                'Baujahr' =>
+                    $data['aircraft_year'] ?? '',
+                'Modifikationen' =>
+                    $data['modifications'] ?? '',
+                'Homebase' =>
+                    $data['home_base'] ?? '',
             ],
             'Kontakt' => [
-                'Telefon Büro' => $data['office_phone'] ?? '',
-                'E-Mail Büro' => $data['office_email'] ?? '',
-                'Telefon privat' => $data['home_phone'] ?? '',
-                'E-Mail privat' => $data['private_email'] ?? '',
-                'Mobil' => $data['mobile'] ?? '',
+                'Telefon Büro' =>
+                    $data['office_phone'] ?? '',
+                'E-Mail Büro' =>
+                    $data['office_email'] ?? '',
+                'Telefon privat' =>
+                    $data['home_phone'] ?? '',
+                'E-Mail privat' =>
+                    $data['private_email'] ?? '',
+                'Mobil' =>
+                    $data['mobile'] ?? '',
             ],
             'Einwilligung und Technik' => [
-                'Einwilligung' => (($data['consent'] ?? '') === 'yes') ? 'Ja' : 'Nein',
-                'IP-Adresse' => $_SERVER['REMOTE_ADDR'] ?? 'unbekannt',
-                'Zeitpunkt' => date('d.m.Y H:i:s'),
+                'Einwilligung' =>
+                    (($data['consent'] ?? '') === 'yes')
+                        ? 'Ja'
+                        : 'Nein',
+                'IP-Adresse' =>
+                    $_SERVER['REMOTE_ADDR']
+                    ?? 'unbekannt',
+                'Zeitpunkt' =>
+                    date('d.m.Y H:i:s'),
             ],
         ];
 
         foreach ($sections as $title => $rows) {
             $lines[] = $title;
-            $lines[] = str_repeat('-', mb_strlen($title));
+            $lines[] = str_repeat(
+                '-',
+                mb_strlen($title)
+            );
 
             foreach ($rows as $label => $value) {
-                $lines[] = $label . ': ' . self::plain((string)$value);
+                $lines[] = $label
+                    . ': '
+                    . self::plain((string) $value);
             }
 
             $lines[] = '';
@@ -309,17 +638,22 @@ final class Mailer
         return implode("\n", $lines);
     }
 
-    private static function htmlMail(string $title, string $intro, array $sections): string
-    {
+    private static function htmlMail(
+        string $title,
+        string $intro,
+        array $sections
+    ): string {
         $sectionHtml = '';
 
         foreach ($sections as $sectionTitle => $rows) {
             $sectionHtml .= '
-                <h2 style="font-size:18px;line-height:1.35;margin:28px 0 12px;color:#0b254a;">' . self::e($sectionTitle) . '</h2>
+                <h2 style="font-size:18px;line-height:1.35;margin:28px 0 12px;color:#0b254a;">'
+                . self::e($sectionTitle)
+                . '</h2>
                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;border:1px solid #e4ded4;border-radius:12px;overflow:hidden;">';
 
             foreach ($rows as $label => $value) {
-                $display = (string)$value;
+                $display = (string) $value;
 
                 if ($display === '') {
                     $display = '—';
@@ -327,8 +661,12 @@ final class Mailer
 
                 $sectionHtml .= '
                     <tr>
-                        <td style="width:38%;padding:12px 14px;border-bottom:1px solid #eee7dc;background:#faf8f4;color:#5b6475;font-size:14px;font-weight:700;vertical-align:top;">' . self::e($label) . '</td>
-                        <td style="padding:12px 14px;border-bottom:1px solid #eee7dc;color:#162033;font-size:15px;line-height:1.45;vertical-align:top;">' . self::safeHtmlValue($display) . '</td>
+                        <td style="width:38%;padding:12px 14px;border-bottom:1px solid #eee7dc;background:#faf8f4;color:#5b6475;font-size:14px;font-weight:700;vertical-align:top;">'
+                    . self::e($label)
+                    . '</td>
+                        <td style="padding:12px 14px;border-bottom:1px solid #eee7dc;color:#162033;font-size:15px;line-height:1.45;vertical-align:top;">'
+                    . self::safeHtmlValue($display)
+                    . '</td>
                     </tr>';
             }
 
@@ -354,14 +692,20 @@ final class Mailer
                     <tr>
                         <td style="padding:28px 28px 22px;background:#0b254a;color:#ffffff;">
                             <div style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;color:#d7b98e;margin-bottom:8px;">MMIG46 e.V.</div>
-                            <h1 style="margin:0;font-size:28px;line-height:1.2;color:#ffffff;">' . self::e($title) . '</h1>
+                            <h1 style="margin:0;font-size:28px;line-height:1.2;color:#ffffff;">'
+                                . self::e($title)
+                                . '</h1>
                         </td>
                     </tr>
 
                     <tr>
                         <td style="padding:26px 28px;">
-                            <p style="margin:0 0 18px;color:#4f5d73;font-size:16px;line-height:1.55;">' . self::e($intro) . '</p>
-                            ' . $sectionHtml . '
+                            <p style="margin:0 0 18px;color:#4f5d73;font-size:16px;line-height:1.55;">'
+                                . self::e($intro)
+                                . '</p>
+                            '
+                                . $sectionHtml
+                                . '
                         </td>
                     </tr>
 
@@ -378,27 +722,67 @@ final class Mailer
 </html>';
     }
 
-    private static function parseRecipients(string $to): array
+    private static function trainingElementLabels(): array
     {
+        return [
+            'fire_training' =>
+                'Feuerlöschübung mit der Flughafenfeuerwehr',
+            'water_flying_lecture' =>
+                'Vortrag: Wasserfliegen in Deutschland',
+            'dinner' =>
+                'Gemeinsames Abendessen im Ramshof',
+            'ifr_refresher' =>
+                'IFR-Refresher',
+            'ifr_meteorology' =>
+                'IFR-Meteorologie',
+            'avionics_lecture' =>
+                'Avionik und PA46-Nachrüstung',
+            'hands_on_training' =>
+                'Hands-on-Training im eigenen Flugzeug',
+            'simulator_training' =>
+                'Training im Flugsimulator',
+            'ifr_check_flight' =>
+                'IFR-Checkflug',
+            'set_check_flight' =>
+                'SET-Checkflug',
+            'garmin_consultation' =>
+                'Persönliche Garmin-Beratung',
+            'ras_career_event' =>
+                'RAS-Karriereevent beziehungsweise Hallenbesichtigung',
+        ];
+    }
+
+    private static function parseRecipients(
+        string $to
+    ): array {
         $recipients = [];
 
         foreach (explode(',', $to) as $recipient) {
             $recipient = trim($recipient);
 
-            if ($recipient !== '' && filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
+            if (
+                $recipient !== ''
+                && filter_var(
+                    $recipient,
+                    FILTER_VALIDATE_EMAIL
+                )
+            ) {
                 $recipients[] = $recipient;
             }
         }
 
         if ($recipients === []) {
-            throw new \RuntimeException('No valid mail recipient configured.');
+            throw new \RuntimeException(
+                'No valid mail recipient configured.'
+            );
         }
 
         return $recipients;
     }
 
-    private static function labelMembershipType(string $value): string
-    {
+    private static function labelMembershipType(
+        string $value
+    ): string {
         return match ($value) {
             'owner_pilot' => 'Owner Pilot',
             'pilot' => 'Pilot',
@@ -408,38 +792,71 @@ final class Mailer
         };
     }
 
-    private static function safeHtmlValue(string $value): string
-    {
-        if (str_contains($value, '<br')) {
+    private static function safeHtmlValue(
+        string $value
+    ): string {
+        if (
+            str_contains($value, '<br')
+            || str_contains($value, '<ul')
+            || str_contains($value, '<ol')
+        ) {
             return $value;
         }
 
         return nl2br(self::e($value));
     }
 
-    private static function textBlock(string $title, array $rows): string
-    {
-        $lines = [$title, str_repeat('=', mb_strlen($title)), ''];
+    private static function textBlock(
+        string $title,
+        array $rows
+    ): string {
+        $lines = [
+            $title,
+            str_repeat('=', mb_strlen($title)),
+            '',
+        ];
 
         foreach ($rows as $label => $value) {
-            $lines[] = $label . ': ' . self::plain((string)$value);
+            $lines[] = $label
+                . ': '
+                . self::plain((string) $value);
         }
 
         return implode("\n", $lines);
     }
 
-    private static function encodeHeader(string $value): string
-    {
-        return mb_encode_mimeheader($value, 'UTF-8', 'B', "\r\n");
+    private static function encodeHeader(
+        string $value
+    ): string {
+        return mb_encode_mimeheader(
+            $value,
+            'UTF-8',
+            'B',
+            "\r\n"
+        );
     }
 
-    private static function e(string $value): string
-    {
-        return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    private static function e(
+        string $value
+    ): string {
+        return htmlspecialchars(
+            $value,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'UTF-8'
+        );
     }
 
-    private static function plain(string $value): string
-    {
-        return trim(strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $value)));
+    private static function plain(
+        string $value
+    ): string {
+        return trim(
+            strip_tags(
+                str_replace(
+                    ['<br>', '<br/>', '<br />'],
+                    "\n",
+                    $value
+                )
+            )
+        );
     }
 }

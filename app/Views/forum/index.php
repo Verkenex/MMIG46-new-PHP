@@ -1,15 +1,14 @@
 <?php
 
+use MMIG46\Core\I18n;
+use MMIG46\Core\Security;
+
 $topics = $topics ?? [];
 $canWrite = (bool) ($canWrite ?? false);
 
-$e = static function ($value): string {
-    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-};
-
 $formatDate = static function ($value): string {
     if (!$value) {
-        return '-';
+        return '—';
     }
 
     $timestamp = strtotime((string) $value);
@@ -18,15 +17,21 @@ $formatDate = static function ($value): string {
         return (string) $value;
     }
 
-    return date('d.m.Y', $timestamp);
+    return I18n::current() === 'en'
+        ? date('j M Y', $timestamp)
+        : date('d.m.Y', $timestamp);
 };
 ?>
 
 <section class="hero hero-compact">
     <div class="container">
-        <p class="eyebrow">Forum</p>
-        <h1>Austausch für Mitglieder und PA46-Interessierte.</h1>
-        <p>Fragen, Erfahrungsberichte und Hinweise rund um Reisen, Betrieb, Technik und Vereinsleben.</p>
+        <p class="eyebrow">
+            <?= Security::e(I18n::t('forum.eyebrow')) ?>
+        </p>
+
+        <h1><?= Security::e(I18n::t('forum.title')) ?></h1>
+
+        <p><?= Security::e(I18n::t('forum.intro')) ?></p>
     </div>
 </section>
 
@@ -34,39 +39,77 @@ $formatDate = static function ($value): string {
     <div class="container">
         <div class="card">
             <div class="section-head">
-                <h2>Aktuelle Themen</h2>
+                <h2><?= Security::e(I18n::t('forum.current_topics')) ?></h2>
 
                 <?php if ($canWrite): ?>
-                    <a class="button button-outline" href="/forum/neu">Beitrag erstellen</a>
+                    <a
+                        class="button button-outline"
+                        href="<?= Security::e(I18n::url('/forum/neu')) ?>"
+                    >
+                        <?= Security::e(I18n::t('forum.create_topic')) ?>
+                    </a>
                 <?php else: ?>
-                    <a class="button button-outline" href="/login">Einloggen zum Schreiben</a>
+                    <a
+                        class="button button-outline"
+                        href="<?= Security::e(I18n::url('/login')) ?>"
+                    >
+                        <?= Security::e(I18n::t('forum.login_to_write')) ?>
+                    </a>
                 <?php endif; ?>
             </div>
 
             <?php if (empty($topics)): ?>
-                <p>Es gibt aktuell noch keine Themen.</p>
+                <p><?= Security::e(I18n::t('forum.no_topics')) ?></p>
             <?php else: ?>
                 <div class="table-wrap">
                     <table class="forum-table">
                         <thead>
                             <tr>
-                                <th>Thema</th>
-                                <th>Autor</th>
-                                <th>Antworten</th>
-                                <th>Letzter Beitrag</th>
+                                <th><?= Security::e(I18n::t('forum.topic')) ?></th>
+                                <th><?= Security::e(I18n::t('forum.author')) ?></th>
+                                <th><?= Security::e(I18n::t('forum.replies')) ?></th>
+                                <th><?= Security::e(I18n::t('forum.last_post')) ?></th>
                             </tr>
                         </thead>
+
                         <tbody>
                             <?php foreach ($topics as $topic): ?>
                                 <tr>
                                     <td>
-                                        <a href="/forum/<?= $e($topic['slug']) ?>">
-                                            <?= $e($topic['title']) ?>
+                                        <a
+                                            href="<?= Security::e(
+                                                I18n::url(
+                                                    '/forum/' . rawurlencode((string) $topic['slug'])
+                                                )
+                                            ) ?>"
+                                        >
+                                            <?= Security::e($topic['title'] ?? '') ?>
                                         </a>
                                     </td>
-                                    <td><?= $e($topic['author'] ?? 'Unbekannt') ?></td>
-                                    <td><?= max(0, (int) ($topic['reply_count'] ?? 1) - 1) ?></td>
-                                    <td><?= $e($formatDate($topic['updated_at'] ?: $topic['created_at'])) ?></td>
+
+                                    <td>
+                                        <?= Security::e(
+                                            $topic['author']
+                                            ?? I18n::t('common.unknown')
+                                        ) ?>
+                                    </td>
+
+                                    <td>
+                                        <?= max(
+                                            0,
+                                            (int) ($topic['reply_count'] ?? 1) - 1
+                                        ) ?>
+                                    </td>
+
+                                    <td>
+                                        <?= Security::e(
+                                            $formatDate(
+                                                $topic['updated_at']
+                                                ?? $topic['created_at']
+                                                ?? null
+                                            )
+                                        ) ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

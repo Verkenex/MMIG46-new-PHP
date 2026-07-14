@@ -32,7 +32,7 @@ Das Frontend ist bewusst nicht mehr Next.js/React-basiert. Die Kernlogik laeuft 
 - Klickbare News-Uebersicht mit Artikeldetailseiten
 - Digitales und druckbares Mitgliedsantragsformular
 - Forum: oeffentlich lesbar, Schreiben nur fuer `admin`, `moderator`, `member`
-- Memberlist: oeffentliche Liste plus Adminpflege
+- Memberlist: ausschließlich für eingeloggte Mitglieder sichtbar; Adminpflege im Verwaltungsbereich
 - Einheitlicher Login unter `/login`; Admins erhalten nach dem Login erweiterte Verwaltungsrechte
 - Kein separater Admin-Login in der Navigation
 - Kontaktformular mit Captcha und SQL-Protokollierung

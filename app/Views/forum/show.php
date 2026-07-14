@@ -1,16 +1,15 @@
 <?php
 
+use MMIG46\Core\I18n;
+use MMIG46\Core\Security;
+
 $topic = $topic ?? null;
 $posts = $posts ?? [];
 $canWrite = (bool) ($canWrite ?? false);
 
-$e = static function ($value): string {
-    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-};
-
 $formatDate = static function ($value): string {
     if (!$value) {
-        return '-';
+        return '—';
     }
 
     $timestamp = strtotime((string) $value);
@@ -19,129 +18,172 @@ $formatDate = static function ($value): string {
         return (string) $value;
     }
 
-    return date('d.m.Y H:i', $timestamp);
+    return I18n::current() === 'en'
+        ? date('j M Y, H:i', $timestamp)
+        : date('d.m.Y H:i', $timestamp);
 };
 
-$renderForumText = static function ($value) use ($e): string {
-    $text = (string) $value;
-
-    $html = $e($text);
-
+$renderForumText = static function ($value): string {
+    $html = Security::e((string) $value);
     $html = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $html);
     $html = preg_replace('/^## (.+)$/m', '<h2>$1</h2>', $html);
-
     $html = preg_replace('/\*\*(.+?)\*\*/s', '<strong>$1</strong>', $html);
 
     $blocks = preg_split("/\n{2,}/", trim((string) $html));
-    $out = [];
+    $output = [];
 
     foreach ($blocks as $block) {
-        $block = trim($block);
+        $block = trim((string) $block);
 
         if ($block === '') {
             continue;
         }
 
-        if (str_starts_with($block, '<h2>') || str_starts_with($block, '<h3>')) {
-            $out[] = $block;
+        if (
+            str_starts_with($block, '<h2>')
+            || str_starts_with($block, '<h3>')
+        ) {
+            $output[] = $block;
             continue;
         }
 
         if (preg_match('/^- /m', $block)) {
             $items = preg_split('/\n/', $block);
-            $lis = [];
+            $listItems = [];
 
             foreach ($items as $item) {
                 $item = trim((string) $item);
 
                 if (str_starts_with($item, '- ')) {
-                    $lis[] = '<li>' . substr($item, 2) . '</li>';
+                    $listItems[] = '<li>' . substr($item, 2) . '</li>';
                 }
             }
 
-            if ($lis) {
-                $out[] = '<ul>' . implode('', $lis) . '</ul>';
+            if ($listItems !== []) {
+                $output[] = '<ul>' . implode('', $listItems) . '</ul>';
             }
 
             continue;
         }
 
-        $out[] = '<p>' . nl2br($block) . '</p>';
+        $output[] = '<p>' . nl2br($block) . '</p>';
     }
 
-    return implode("\n", $out);
+    return implode("\n", $output);
 };
 ?>
 
 <section class="hero hero-compact">
     <div class="container forum-page-narrow">
-        <p class="eyebrow">Forum</p>
+        <p class="eyebrow">
+            <?= Security::e(I18n::t('forum.eyebrow')) ?>
+        </p>
 
         <?php if (!$topic): ?>
-            <h1>Thema nicht gefunden</h1>
-            <p>Das angeforderte Forumsthema existiert nicht oder wurde entfernt.</p>
+            <h1><?= Security::e(I18n::t('forum.topic_not_found')) ?></h1>
+            <p><?= Security::e(I18n::t('forum.topic_not_found_text')) ?></p>
         <?php else: ?>
-            <h1><?= $e($topic['title']) ?></h1>
+            <h1><?= Security::e($topic['title'] ?? '') ?></h1>
+
             <p>
-                Von <?= $e($topic['author'] ?? 'Unbekannt') ?>
-                · <?= $e($formatDate($topic['created_at'] ?? null)) ?>
+                <?= Security::e(I18n::t('forum.by')) ?>
+                <?= Security::e(
+                    $topic['author']
+                    ?? I18n::t('common.unknown')
+                ) ?>
+                ·
+                <?= Security::e(
+                    $formatDate($topic['created_at'] ?? null)
+                ) ?>
             </p>
         <?php endif; ?>
     </div>
 </section>
 
-<section class="section">
-    <div class="container forum-page-narrow">
-        <p class="back-link">
-            <a href="/forum">← Zurück zur Übersicht</a>
-        </p>
-
-        <?php if ($topic): ?>
-            <div class="forum-thread">
-                <?php foreach ($posts as $post): ?>
-                    <article class="card forum-card forum-post">
-                        <div class="forum-post-meta">
-                            <strong><?= $e($post['author'] ?? 'Unbekannt') ?></strong>
-                            <span>· <?= $e($formatDate($post['created_at'] ?? null)) ?></span>
-                        </div>
-
-                        <div class="forum-post-body">
-                            <?= $renderForumText($post['body'] ?? '') ?>
-                        </div>
-                    </article>
-                <?php endforeach; ?>
-            </div>
-
-            <?php if ((int) ($topic['is_locked'] ?? 0) === 1): ?>
-                <div class="card forum-card">
-                    <h2>Thema geschlossen</h2>
-                    <p>Zu diesem Thema können keine weiteren Antworten geschrieben werden.</p>
-                </div>
-            <?php elseif ($canWrite): ?>
-                <div class="card forum-card forum-form-card">
-                    <h2>Antwort schreiben</h2>
-
-                    <form method="post" action="/forum/<?= $e($topic['slug']) ?>/antwort" class="form-stack">
-                        <div class="form-field">
-                            <label for="body">Antwort</label>
-                            <textarea id="body" name="body" rows="8" required></textarea>
-                        </div>
-
-                        <div class="form-actions">
-                            <button class="button" type="submit">Antwort veröffentlichen</button>
-                        </div>
-                    </form>
+<?php if ($topic): ?>
+    <section class="section" id="posts">
+        <div class="container forum-page-narrow">
+            <?php if (empty($posts)): ?>
+                <div class="card">
+                    <p><?= Security::e(I18n::t('forum.no_posts')) ?></p>
                 </div>
             <?php else: ?>
-                <div class="card forum-card forum-login-callout">
-                    <div>
-                        <h2>Antwort schreiben</h2>
-                        <p>Zum Antworten müssen Sie als Vereinsmitglied angemeldet sein.</p>
-                    </div>
+                <div class="forum-post-list">
+                    <?php foreach ($posts as $post): ?>
+                        <article class="card forum-post">
+                            <header class="forum-post__header">
+                                <strong>
+                                    <?= Security::e(
+                                        $post['author']
+                                        ?? I18n::t('common.unknown')
+                                    ) ?>
+                                </strong>
 
-                    <a class="button button-outline" href="/login">Einloggen</a>
+                                <span>
+                                    <?= Security::e(
+                                        $formatDate($post['created_at'] ?? null)
+                                    ) ?>
+                                </span>
+                            </header>
+
+                            <div class="forum-post__body">
+                                <?= $renderForumText($post['body'] ?? '') ?>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-        <?php endif; ?>
-    </div>
-</section>
+
+            <div class="card forum-form-card" id="reply">
+                <?php if ((int) ($topic['is_locked'] ?? 0) === 1): ?>
+                    <p><?= Security::e(I18n::t('forum.locked')) ?></p>
+                <?php elseif ($canWrite): ?>
+                    <form
+                        method="post"
+                        action="<?= Security::e(
+                            I18n::url(
+                                '/forum/'
+                                . rawurlencode((string) $topic['slug'])
+                                . '/antwort'
+                            )
+                        ) ?>"
+                        class="form-stack"
+                    >
+                        <input
+                            type="hidden"
+                            name="_csrf"
+                            value="<?= Security::e(Security::csrf()) ?>"
+                        >
+
+                        <div class="form-field">
+                            <label for="body">
+                                <?= Security::e(I18n::t('forum.reply_label')) ?>
+                            </label>
+
+                            <textarea
+                                id="body"
+                                name="body"
+                                rows="7"
+                                minlength="10"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <button class="button" type="submit">
+                            <?= Security::e(I18n::t('forum.reply')) ?>
+                        </button>
+                    </form>
+                <?php else: ?>
+                    <p><?= Security::e(I18n::t('forum.login_reply')) ?></p>
+
+                    <a
+                        class="button button-outline"
+                        href="<?= Security::e(I18n::url('/login')) ?>"
+                    >
+                        <?= Security::e(I18n::t('nav.login')) ?>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>

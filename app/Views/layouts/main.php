@@ -12,6 +12,15 @@ $currentQuery = isset($_GET['q']) ? (string) $_GET['q'] : '';
 $isLoggedIn = !empty($_SESSION['user']);
 $currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
+$currentUserRole = $_SESSION['user']['role'] ?? '';
+
+$canViewMemberList = $isLoggedIn
+    && in_array(
+        $currentUserRole,
+        ['member', 'moderator', 'admin'],
+        true
+    );
+
 $siteName = 'MMIG46 e.V.';
 $copyrightName = 'MMIG46 e.V.';
 
@@ -98,9 +107,11 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                 <?= Security::e(I18n::t('nav.club')) ?>
             </a>
 
-            <a class="<?= nav_active('/mitglieder', $currentPath) ?>" href="<?= Security::e(I18n::url('/mitglieder')) ?>">
-                <?= Security::e(I18n::t('nav.members')) ?>
-            </a>
+            <?php if ($canViewMemberList): ?>
+                <a class="<?= nav_active('/mitglieder', $currentPath) ?>" href="<?= Security::e(I18n::url('/mitglieder')) ?>">
+                    <?= Security::e(I18n::t('nav.members')) ?>
+                </a>
+            <?php endif; ?>
 
             <a class="<?= nav_active('/forum', $currentPath) ?>" href="<?= Security::e(I18n::url('/forum')) ?>">
                 <?= Security::e(I18n::t('nav.forum')) ?>
@@ -156,10 +167,12 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                         <span><?= Security::e($adminLabel) ?></span>
                     </a>
                 <?php else: ?>
-                    <a class="admin-action" href="<?= Security::e(I18n::url('/forum')) ?>" aria-label="<?= Security::e($memberAreaLabel) ?>">
-                        <span aria-hidden="true">⚙</span>
-                        <span><?= Security::e($memberAreaLabel) ?></span>
-                    </a>
+                    <?php if ($canViewMemberList): ?>
+                        <a class="admin-action" href="<?= Security::e(I18n::url('/forum')) ?>" aria-label="<?= Security::e($memberAreaLabel) ?>">
+                            <span aria-hidden="true">⚙</span>
+                            <span><?= Security::e($memberAreaLabel) ?></span>
+                        </a>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <form method="post" action="/logout" class="inline">
@@ -230,5 +243,70 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
         <?= Security::e(I18n::t('cookie.accept')) ?>
     </button>
 </div>
+
+<?php
+$currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+$isTrainingPage = $currentPath === '/trainingswochenende-2026';
+?>
+
+<?php if (!$isTrainingPage): ?>
+    <div class="event-popup"
+         id="training-weekend-popup"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="training-popup-title">
+
+        <div class="event-popup__backdrop"
+             data-close-training-popup></div>
+
+        <div class="event-popup__dialog">
+            <button type="button"
+                    class="event-popup__close"
+                    aria-label="<?= I18n::current() === 'en'
+                        ? 'Close'
+                        : 'Schließen' ?>"
+                    data-close-training-popup>
+                ×
+            </button>
+
+            <p class="event-popup__eyebrow">
+                <?= I18n::current() === 'en'
+                    ? '25–26 September 2026 · EDLN'
+                    : '25.–26. September 2026 · EDLN' ?>
+            </p>
+
+            <h2 id="training-popup-title">
+                <?= I18n::current() === 'en'
+                    ? 'MMIG46 Training Weekend'
+                    : 'MMIG46 Trainingswochenende' ?>
+            </h2>
+
+            <p>
+                <?= I18n::current() === 'en'
+                    ? 'Use it or lose it: Two days of practical PA46 training, IFR refresher sessions, avionics and proficiency checks.'
+                    : 'Use it or lose it: Zwei Tage praktische PA46-Trainings, IFR-Refresher, Avionik und Checkflüge.' ?>
+            </p>
+
+            <p>
+                <strong>
+                    <?= I18n::current() === 'en'
+                        ? 'Limited capacity – first come, first served.'
+                        : 'Begrenzte Kapazitäten – first come, first served.' ?>
+                </strong>
+            </p>
+
+            <a class="button button--primary"
+               href="<?= I18n::url(
+                   '/trainingswochenende-2026'
+               ) ?>">
+                <?= I18n::current() === 'en'
+                    ? 'View programme and register'
+                    : 'Programm ansehen und anmelden' ?>
+            </a>
+        </div>
+    </div>
+<?php endif; ?>
+
 </body>
 </html>

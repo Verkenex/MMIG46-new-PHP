@@ -1,14 +1,28 @@
+<?php
+
+use MMIG46\Core\I18n;
+use MMIG46\Core\Security;
+
+$members = $members ?? [];
+?>
+
 <section class="page">
     <p class="eyebrow">MMIG46</p>
-    <h1>Mitgliederliste</h1>
-    <p class="meta">Öffentlich sichtbare Mitglieder der MMIG46.</p>
+
+    <h1><?= Security::e(I18n::t('members.title')) ?></h1>
+
+    <p class="meta">
+        <?= Security::e(I18n::t('members.intro')) ?>
+    </p>
 
     <?php if (empty($members)): ?>
         <div class="empty-state">
-            <h2>Noch keine öffentlich sichtbaren Mitglieder</h2>
+            <h2>
+                <?= Security::e(I18n::t('members.empty_title')) ?>
+            </h2>
+
             <p>
-                Aktuell sind keine Mitglieder für die öffentliche Anzeige freigegeben.
-                Sichtbare Einträge können im Adminbereich gepflegt werden.
+                <?= Security::e(I18n::t('members.empty_text')) ?>
             </p>
         </div>
     <?php else: ?>
@@ -17,25 +31,30 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Flugzeug</th>
-                        <th>Heimatflughafen</th>
-                        <th>Rolle</th>
-                        <th>Mitgliedschaft</th>
-                        <th>Website</th>
+                        <th><?= Security::e(I18n::t('members.aircraft')) ?></th>
+                        <th><?= Security::e(I18n::t('members.base')) ?></th>
+                        <th><?= Security::e(I18n::t('members.role')) ?></th>
+                        <th><?= Security::e(I18n::t('members.membership')) ?></th>
+                        <th><?= Security::e(I18n::t('common.website')) ?></th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <?php foreach ($members as $member): ?>
                         <tr>
-                            <td><?= htmlspecialchars($member['name']) ?></td>
-                            <td><?= htmlspecialchars($member['aircraft'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($member['base'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($member['role_label'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($member['member_type'] ?? '') ?></td>
+                            <td><?= Security::e($member['name'] ?? '') ?></td>
+                            <td><?= Security::e($member['aircraft'] ?? '') ?></td>
+                            <td><?= Security::e($member['base'] ?? '') ?></td>
+                            <td><?= Security::e($member['role_label'] ?? '') ?></td>
+                            <td><?= Security::e($member['member_type'] ?? '') ?></td>
                             <td>
                                 <?php if (!empty($member['website'])): ?>
-                                    <a href="<?= htmlspecialchars($member['website']) ?>" target="_blank" rel="noopener">
-                                        Website
+                                    <a
+                                        href="<?= Security::e($member['website']) ?>"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <?= Security::e(I18n::t('common.website')) ?>
                                     </a>
                                 <?php endif; ?>
                             </td>
