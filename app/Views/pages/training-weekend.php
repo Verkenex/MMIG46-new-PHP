@@ -391,13 +391,6 @@ $aircraftModels = [
                 </label>
             </fieldset>
 
-            <label>
-                Anmerkungen
-                <textarea name="notes"
-                          rows="5"
-                          maxlength="2000"
-                          placeholder="Besondere Trainingswünsche, Checkflug, Anzahl der Piloten etc."></textarea>
-            </label>
 
             <label class="event-notes-field">
                 <span>Anmerkungen</span>

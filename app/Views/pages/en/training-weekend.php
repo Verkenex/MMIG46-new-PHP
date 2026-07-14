@@ -511,16 +511,7 @@ $aircraftModels = [
                 </label>
             </fieldset>
 
-            <label>
-                Additional information
 
-                <textarea
-                    name="notes"
-                    rows="5"
-                    maxlength="2000"
-                    placeholder="Special training requests, proficiency check requirements, number of pilots, or other relevant information"
-                ></textarea>
-            </label>
 
             <label class="event-notes-field">
                 <span>Comments</span>
