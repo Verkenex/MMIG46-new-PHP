@@ -2278,3 +2278,98 @@ td { color: #2f3948; }
         transition: none;
     }
 }
+
+/* Trainingswochenende: Anmerkungen und Datenschutzhinweis */
+
+.event-notes-field {
+    display: grid;
+    gap: 0.55rem;
+    min-width: 0;
+    color: var(--navy);
+    font-weight: 700;
+}
+
+.event-notes-field textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 165px;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #ffffff;
+    color: var(--text);
+    font: inherit;
+    font-weight: 400;
+    line-height: 1.55;
+    resize: vertical;
+    box-shadow: var(--shadow-soft);
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.event-notes-field textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.82;
+}
+
+.event-notes-field textarea:hover {
+    border-color: rgba(183, 122, 67, 0.55);
+}
+
+.event-notes-field textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow:
+        0 0 0 4px rgba(183, 122, 67, 0.14),
+        var(--shadow-soft);
+}
+
+.event-form .consent-label {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    align-items: start;
+    gap: 0.85rem;
+    width: 100%;
+    min-width: 0;
+    margin: 0.25rem 0 0;
+    cursor: pointer;
+}
+
+.event-form .consent-label input[type="checkbox"] {
+    appearance: auto;
+    -webkit-appearance: checkbox;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    margin: 0.22rem 0 0;
+    padding: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.consent-label__text {
+    display: block;
+    min-width: 0;
+    font-weight: 400;
+    line-height: 1.65;
+}
+
+.consent-label__privacy {
+    display: block;
+    margin-top: 0.45rem;
+}
+
+.consent-label__privacy a {
+    color: var(--navy);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.18em;
+}
+
+.consent-label__privacy a:hover {
+    color: var(--accent-dark);
+}

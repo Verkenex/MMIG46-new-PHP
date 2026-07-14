@@ -522,6 +522,17 @@ $aircraftModels = [
                 ></textarea>
             </label>
 
+            <label class="event-notes-field">
+                <span>Comments</span>
+
+                <textarea
+                    name="notes"
+                    rows="5"
+                    maxlength="2000"
+                    placeholder="Special training requests, check flights, number of pilots, etc."
+                ></textarea>
+            </label>
+
             <label class="consent-label">
                 <input
                     type="checkbox"
@@ -530,17 +541,17 @@ $aircraftModels = [
                     required
                 >
 
-                <span>
-                    I agree that my information may be processed for
-                    the organisation of the training weekend and
-                    forwarded to the responsible organiser. Further
-                    information is available in the
-                    <a href="/datenschutz?lang=en">
-                        privacy policy
-                    </a>.
+                <span class="consent-label__text">
+                    I agree that my information may be processed for the
+                    organisation of the training weekend and forwarded to
+                    the responsible organiser.
+
+                    <span class="consent-label__privacy">
+                        Further information is available in the
+                        <a href="/datenschutz?lang=en">privacy policy</a>.
+                    </span>
                 </span>
             </label>
-
             <button
                 type="submit"
                 class="button button--primary"

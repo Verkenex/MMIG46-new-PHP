@@ -399,17 +399,35 @@ $aircraftModels = [
                           placeholder="Besondere Trainingswünsche, Checkflug, Anzahl der Piloten etc."></textarea>
             </label>
 
-            <label class="consent-label">
-                <input type="checkbox"
-                       name="privacy_consent"
-                       value="1"
-                       required>
+            <label class="event-notes-field">
+                <span>Anmerkungen</span>
 
-                Ich bin damit einverstanden, dass meine Angaben zur
-                Organisation des Trainingswochenendes verarbeitet und
-                an den zuständigen Organisator übermittelt werden.
-                Weitere Informationen stehen in der
-                <a href="/datenschutz">Datenschutzerklärung</a>.
+                <textarea
+                    name="notes"
+                    rows="5"
+                    maxlength="2000"
+                    placeholder="Besondere Trainingswünsche, Checkflug, Anzahl der Piloten etc."
+                ></textarea>
+            </label>
+
+            <label class="consent-label">
+                <input
+                    type="checkbox"
+                    name="privacy_consent"
+                    value="1"
+                    required
+                >
+
+                <span class="consent-label__text">
+                    Ich bin damit einverstanden, dass meine Angaben zur
+                    Organisation des Trainingswochenendes verarbeitet und
+                    an den zuständigen Organisator übermittelt werden.
+
+                    <span class="consent-label__privacy">
+                        Weitere Informationen stehen in der
+                        <a href="/datenschutz">Datenschutzerklärung</a>.
+                    </span>
+                </span>
             </label>
 
             <button type="submit" class="button button--primary">
