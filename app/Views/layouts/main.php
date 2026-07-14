@@ -207,6 +207,131 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
     <?= $content ?>
 </main>
 
+<section class="partner-section" aria-labelledby="partner-section-title">
+    <div class="container">
+        <div class="partner-section__header">
+            <p class="eyebrow">
+                <?= $lang === 'en' ? 'Our partners' : 'Unsere Partner' ?>
+            </p>
+
+            <h2 id="partner-section-title">
+                <?= $lang === 'en'
+                    ? 'Strong partners in general aviation'
+                    : 'Starke Partner der Allgemeinen Luftfahrt'
+                ?>
+            </h2>
+        </div>
+
+        <div class="partner-grid">
+            <a
+                class="partner-card partner-card--piper"
+                href="https://www.piper-germany.de/"
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                aria-label="<?= $lang === 'en'
+                    ? 'Visit Piper Germany'
+                    : 'Piper Deutschland besuchen'
+                ?>"
+            >
+                <div class="partner-card__visual">
+                    <img
+                        src="/assets/img/partners/piper-deutschland-m600.webp"
+                        alt="<?= $lang === 'en'
+                            ? 'Piper M-Class aircraft'
+                            : 'Flugzeug der Piper M-Class'
+                        ?>"
+                        loading="lazy"
+                        width="1536"
+                        height="728"
+                    >
+                </div>
+
+                <div class="partner-card__content">
+                    <span class="partner-card__label">
+                        <?= $lang === 'en'
+                            ? 'Aircraft · Maintenance · Parts'
+                            : 'Flugzeuge · Wartung · Ersatzteile'
+                        ?>
+                    </span>
+
+                    <h3>Piper Deutschland</h3>
+
+                    <p>
+                        <?= $lang === 'en'
+                            ? 'Exclusive Piper dealer for Germany, Austria, Switzerland and Türkiye.'
+                            : 'Exklusiver Piper-Händler für Deutschland, Österreich, die Schweiz und die Türkei.'
+                        ?>
+                    </p>
+
+                    <span class="partner-card__link">
+                        <?= $lang === 'en'
+                            ? 'Discover Piper Germany →'
+                            : 'Piper Deutschland entdecken →'
+                        ?>
+                    </span>
+                </div>
+            </a>
+
+            <a
+                class="partner-card partner-card--ras"
+                href="https://ras.de/"
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                aria-label="<?= $lang === 'en'
+                    ? 'Visit Rheinland Air Service'
+                    : 'Rheinland Air Service besuchen'
+                ?>"
+            >
+                <div class="partner-card__visual">
+                    <img
+                        src="/assets/img/partners/ras-hangar.jpg"
+                        alt="<?= $lang === 'en'
+                            ? 'Rheinland Air Service hangars'
+                            : 'Hangars von Rheinland Air Service'
+                        ?>"
+                        loading="lazy"
+                        width="1000"
+                        height="635"
+                    >
+                </div>
+
+                <div class="partner-card__content">
+                    <span class="partner-card__label">
+                        <?= $lang === 'en'
+                            ? 'MRO · Aircraft sales · AOG service'
+                            : 'MRO · Flugzeugverkauf · AOG-Service'
+                        ?>
+                    </span>
+
+                    <h3>Rheinland Air Service</h3>
+
+                    <p>
+                        <?= $lang === 'en'
+                            ? 'Maintenance, repair, aircraft sales and comprehensive support for business aviation.'
+                            : 'Wartung, Reparatur, Flugzeugverkauf und umfassender Service für die Business Aviation.'
+                        ?>
+                    </p>
+
+                    <span class="partner-card__link">
+                        <?= $lang === 'en'
+                            ? 'Discover RAS →'
+                            : 'RAS entdecken →'
+                        ?>
+                    </span>
+                </div>
+            </a>
+        </div>
+
+        <p class="partner-section__notice">
+            <?= $lang === 'en'
+                ? 'Advertisement · External partner websites'
+                : 'Werbung · Externe Websites unserer Partner'
+            ?>
+        </p>
+    </div>
+</section>
+
+
 <footer class="site-footer">
     <div class="container site-footer__inner">
         <nav class="footer-links" aria-label="<?= Security::e($legalNavLabel) ?>">

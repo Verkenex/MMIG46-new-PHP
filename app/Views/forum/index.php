@@ -1,14 +1,19 @@
 <?php
 
 use MMIG46\Core\I18n;
-use MMIG46\Core\Security;
 
 $topics = $topics ?? [];
 $canWrite = (bool) ($canWrite ?? false);
+$lang = I18n::current();
+$isEnglish = $lang === 'en';
 
-$formatDate = static function ($value): string {
+$e = static function ($value): string {
+    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+};
+
+$formatDate = static function ($value) use ($lang): string {
     if (!$value) {
-        return '—';
+        return '-';
     }
 
     $timestamp = strtotime((string) $value);
@@ -17,21 +22,48 @@ $formatDate = static function ($value): string {
         return (string) $value;
     }
 
-    return I18n::current() === 'en'
-        ? date('j M Y', $timestamp)
+    return $lang === 'en'
+        ? date('d M Y', $timestamp)
         : date('d.m.Y', $timestamp);
 };
+
+$text = $isEnglish
+    ? [
+        'eyebrow' => 'Forum',
+        'title' => 'Exchange for members and PA46 enthusiasts.',
+        'intro' => 'Questions, experience reports and information about travelling, operation, technology and club activities.',
+        'current_topics' => 'Current topics',
+        'create_topic' => 'Create topic',
+        'login_to_write' => 'Log in to post',
+        'empty' => 'There are currently no topics.',
+        'topic' => 'Topic',
+        'author' => 'Author',
+        'replies' => 'Replies',
+        'last_post' => 'Last post',
+        'unknown' => 'Unknown',
+    ]
+    : [
+        'eyebrow' => 'Forum',
+        'title' => 'Austausch für Mitglieder und PA46-Interessierte.',
+        'intro' => 'Fragen, Erfahrungsberichte und Hinweise rund um Reisen, Betrieb, Technik und Vereinsleben.',
+        'current_topics' => 'Aktuelle Themen',
+        'create_topic' => 'Beitrag erstellen',
+        'login_to_write' => 'Einloggen zum Schreiben',
+        'empty' => 'Es gibt aktuell noch keine Themen.',
+        'topic' => 'Thema',
+        'author' => 'Autor',
+        'replies' => 'Antworten',
+        'last_post' => 'Letzter Beitrag',
+        'unknown' => 'Unbekannt',
+    ];
+
 ?>
 
 <section class="hero hero-compact">
     <div class="container">
-        <p class="eyebrow">
-            <?= Security::e(I18n::t('forum.eyebrow')) ?>
-        </p>
-
-        <h1><?= Security::e(I18n::t('forum.title')) ?></h1>
-
-        <p><?= Security::e(I18n::t('forum.intro')) ?></p>
+        <p class="eyebrow"><?= $e($text['eyebrow']) ?></p>
+        <h1><?= $e($text['title']) ?></h1>
+        <p><?= $e($text['intro']) ?></p>
     </div>
 </section>
 
@@ -39,36 +71,36 @@ $formatDate = static function ($value): string {
     <div class="container">
         <div class="card">
             <div class="section-head">
-                <h2><?= Security::e(I18n::t('forum.current_topics')) ?></h2>
+                <h2><?= $e($text['current_topics']) ?></h2>
 
                 <?php if ($canWrite): ?>
                     <a
                         class="button button-outline"
-                        href="<?= Security::e(I18n::url('/forum/neu')) ?>"
+                        href="<?= $e(I18n::url('/forum/neu')) ?>"
                     >
-                        <?= Security::e(I18n::t('forum.create_topic')) ?>
+                        <?= $e($text['create_topic']) ?>
                     </a>
                 <?php else: ?>
                     <a
                         class="button button-outline"
-                        href="<?= Security::e(I18n::url('/login')) ?>"
+                        href="<?= $e(I18n::url('/login')) ?>"
                     >
-                        <?= Security::e(I18n::t('forum.login_to_write')) ?>
+                        <?= $e($text['login_to_write']) ?>
                     </a>
                 <?php endif; ?>
             </div>
 
             <?php if (empty($topics)): ?>
-                <p><?= Security::e(I18n::t('forum.no_topics')) ?></p>
+                <p><?= $e($text['empty']) ?></p>
             <?php else: ?>
                 <div class="table-wrap">
                     <table class="forum-table">
                         <thead>
                             <tr>
-                                <th><?= Security::e(I18n::t('forum.topic')) ?></th>
-                                <th><?= Security::e(I18n::t('forum.author')) ?></th>
-                                <th><?= Security::e(I18n::t('forum.replies')) ?></th>
-                                <th><?= Security::e(I18n::t('forum.last_post')) ?></th>
+                                <th><?= $e($text['topic']) ?></th>
+                                <th><?= $e($text['author']) ?></th>
+                                <th><?= $e($text['replies']) ?></th>
+                                <th><?= $e($text['last_post']) ?></th>
                             </tr>
                         </thead>
 
@@ -76,37 +108,24 @@ $formatDate = static function ($value): string {
                             <?php foreach ($topics as $topic): ?>
                                 <tr>
                                     <td>
-                                        <a
-                                            href="<?= Security::e(
-                                                I18n::url(
-                                                    '/forum/' . rawurlencode((string) $topic['slug'])
-                                                )
-                                            ) ?>"
-                                        >
-                                            <?= Security::e($topic['title'] ?? '') ?>
+                                        <a href="<?= $e(I18n::url('/forum/' . $topic['slug'])) ?>">
+                                            <?= $e($topic['title']) ?>
                                         </a>
                                     </td>
 
                                     <td>
-                                        <?= Security::e(
-                                            $topic['author']
-                                            ?? I18n::t('common.unknown')
-                                        ) ?>
+                                        <?= $e($topic['author'] ?? $text['unknown']) ?>
                                     </td>
 
                                     <td>
-                                        <?= max(
-                                            0,
-                                            (int) ($topic['reply_count'] ?? 1) - 1
-                                        ) ?>
+                                        <?= max(0, (int) ($topic['reply_count'] ?? 1) - 1) ?>
                                     </td>
 
                                     <td>
-                                        <?= Security::e(
+                                        <?= $e(
                                             $formatDate(
                                                 $topic['updated_at']
-                                                ?? $topic['created_at']
-                                                ?? null
+                                                ?: $topic['created_at']
                                             )
                                         ) ?>
                                     </td>

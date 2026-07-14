@@ -2,17 +2,41 @@
 
 use MMIG46\Core\I18n;
 use MMIG46\Core\Security;
+
+$lang = I18n::current();
+$isEnglish = $lang === 'en';
+
+$e = static function ($value): string {
+    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+};
+
+$text = $isEnglish
+    ? [
+        'eyebrow' => 'Forum',
+        'title' => 'Create a new topic',
+        'intro' => 'Create a new forum topic. Markdown can be used for basic formatting.',
+        'topic_title' => 'Title',
+        'body' => 'Text / Markdown',
+        'publish' => 'Publish topic',
+        'cancel' => 'Cancel',
+    ]
+    : [
+        'eyebrow' => 'Forum',
+        'title' => 'Neuer Beitrag',
+        'intro' => 'Erstellen Sie einen neuen Beitrag. Markdown kann für einfache Formatierungen verwendet werden.',
+        'topic_title' => 'Titel',
+        'body' => 'Text / Markdown',
+        'publish' => 'Veröffentlichen',
+        'cancel' => 'Abbrechen',
+    ];
+
 ?>
 
 <section class="hero hero-compact">
     <div class="container">
-        <p class="eyebrow">
-            <?= Security::e(I18n::t('forum.eyebrow')) ?>
-        </p>
-
-        <h1><?= Security::e(I18n::t('forum.new_topic')) ?></h1>
-
-        <p><?= Security::e(I18n::t('forum.new_topic_intro')) ?></p>
+        <p class="eyebrow"><?= $e($text['eyebrow']) ?></p>
+        <h1><?= $e($text['title']) ?></h1>
+        <p><?= $e($text['intro']) ?></p>
     </div>
 </section>
 
@@ -21,18 +45,14 @@ use MMIG46\Core\Security;
         <div class="card forum-form-card">
             <form
                 method="post"
-                action="<?= Security::e(I18n::url('/forum/neu')) ?>"
+                action="<?= $e(I18n::url('/forum/neu')) ?>"
                 class="form-stack"
             >
-                <input
-                    type="hidden"
-                    name="_csrf"
-                    value="<?= Security::e(Security::csrf()) ?>"
-                >
+                <?= Security::csrfField() ?>
 
                 <div class="form-field">
                     <label for="title">
-                        <?= Security::e(I18n::t('forum.title_label')) ?>
+                        <?= $e($text['topic_title']) ?>
                     </label>
 
                     <input
@@ -40,35 +60,33 @@ use MMIG46\Core\Security;
                         name="title"
                         type="text"
                         maxlength="180"
-                        minlength="4"
                         required
                     >
                 </div>
 
                 <div class="form-field">
                     <label for="body">
-                        <?= Security::e(I18n::t('forum.body_label')) ?>
+                        <?= $e($text['body']) ?>
                     </label>
 
                     <textarea
                         id="body"
                         name="body"
                         rows="10"
-                        minlength="10"
                         required
                     ></textarea>
                 </div>
 
                 <div class="form-actions">
                     <button class="button" type="submit">
-                        <?= Security::e(I18n::t('common.publish')) ?>
+                        <?= $e($text['publish']) ?>
                     </button>
 
                     <a
                         class="button button-outline"
-                        href="<?= Security::e(I18n::url('/forum')) ?>"
+                        href="<?= $e(I18n::url('/forum')) ?>"
                     >
-                        <?= Security::e(I18n::t('common.cancel')) ?>
+                        <?= $e($text['cancel']) ?>
                     </a>
                 </div>
             </form>
