@@ -870,21 +870,23 @@ final class Mailer
             'ifr_refresher' =>
                 'IFR-Refresher',
             'ifr_meteorology' =>
-                'IFR-Meteorologie',
+                'IFR-Meteorologie mit Frank Lumnitzer',
             'avionics_lecture' =>
                 'Avionik und PA46-Nachrüstung',
             'hands_on_training' =>
-                'Hands-on-Training im eigenen Flugzeug',
+                'Hands-on-Training im eigenen Flugzeug mit den besten Trainern im deutschsprachigen Raum',
             'simulator_training' =>
-                'Training im Flugsimulator',
+                'Simulatortraining auf einem ALSIM-Simulator bei MG-Flyers',
             'ifr_check_flight' =>
                 'IFR-Checkflug',
             'set_check_flight' =>
                 'SET-Checkflug',
             'garmin_consultation' =>
-                'Persönliche Garmin-Beratung',
+                'Persönliche Garmin-Beratung durch Fabian Kienzle',
             'ras_career_event' =>
                 'RAS-Karriereevent beziehungsweise Hallenbesichtigung',
+            'kempen_old_town_tour' =>
+                'Altstadttour in Kempen für Begleitpersonen und Gäste',
         ];
     }
 

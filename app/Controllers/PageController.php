@@ -167,6 +167,11 @@ final class PageController
         return $this->renderStaticLocalized('verein');
     }
 
+    public function satzung(): string
+    {
+        return $this->renderStaticLocalized('satzung');
+    }
+
     public function malibuMirage(): string
     {
         return $this->renderStaticLocalized('malibu-mirage');
@@ -279,6 +284,7 @@ final class PageController
          */
         $reservedStaticSlugs = [
             'verein',
+            'satzung',
             'malibu-mirage',
             'impressum',
             'datenschutz',
@@ -797,6 +803,7 @@ final class PageController
             'set_check_flight',
             'garmin_consultation',
             'ras_career_event',
+            'kempen_old_town_tour',
         ];
 
         $submittedElements =

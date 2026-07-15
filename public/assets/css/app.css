@@ -3154,3 +3154,882 @@ td { color: #2f3948; }
         font-size: 1.3rem;
     }
 }
+
+
+/* =========================================================
+   Trainingswochenende 2026 – Launch-Ergänzungen
+   ========================================================= */
+
+.event-price-box {
+    width: min(100%, 720px);
+    margin: 1.5rem 0 1.75rem;
+    padding: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.event-price-box__heading {
+    margin-bottom: 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.event-price-box__prices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.event-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-width: 0;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.94);
+    color: #20242a;
+}
+
+.event-price__label {
+    font-size: 0.92rem;
+    font-weight: 650;
+}
+
+.event-price strong {
+    flex: 0 0 auto;
+    font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+    white-space: nowrap;
+}
+
+.event-price-box__note {
+    margin: 0.9rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.event-fact__thanks {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.82;
+}
+
+.event-self-pay-notice {
+    margin-top: 1rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(167, 35, 46, 0.25);
+    border-left: 5px solid #a7232e;
+    border-radius: 12px;
+    background: rgba(190, 45, 57, 0.1);
+    color: #522026;
+    line-height: 1.55;
+}
+
+.event-self-pay-notice strong {
+    color: #8f1e29;
+}
+
+.event-contact-card {
+    display: grid;
+    gap: 0.55rem;
+    margin: 1.25rem 0;
+    padding: 1.15rem;
+    border: 1px solid rgba(31, 47, 63, 0.12);
+    border-radius: 14px;
+    background: #f7f8f9;
+    font-style: normal;
+}
+
+.event-contact-card a {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.event-additional-programme {
+    margin-top: 1.5rem;
+    padding: 1.15rem;
+    border: 1px solid rgba(31, 47, 63, 0.12);
+    border-radius: 14px;
+    background: #f7f8f9;
+}
+
+.event-additional-programme h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.event-additional-programme p {
+    margin-top: 0.4rem;
+}
+
+.event-additional-programme__condition {
+    margin-bottom: 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    opacity: 0.72;
+}
+
+.event-registration-prices {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.programme-option__text small {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.35;
+    opacity: 0.7;
+}
+
+.event-speakers-section {
+    overflow: hidden;
+}
+
+.event-section-heading {
+    max-width: 760px;
+    margin-bottom: 2rem;
+}
+
+.event-section-heading h2 {
+    margin-bottom: 0.75rem;
+}
+
+.event-speakers {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.event-speaker {
+    overflow: hidden;
+    min-width: 0;
+    border: 1px solid rgba(31, 47, 63, 0.12);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 14px 35px rgba(25, 37, 48, 0.08);
+}
+
+.event-speaker__image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #e8ebed;
+}
+
+.event-speaker__image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.event-speaker__image--placeholder {
+    display: grid;
+    place-items: center;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(120, 55, 62, 0.92),
+            rgba(66, 32, 38, 0.96)
+        );
+}
+
+.event-speaker__image--placeholder span {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+}
+
+.event-speaker__content {
+    padding: 1.1rem;
+}
+
+.event-speaker__content h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1.15rem;
+}
+
+.event-speaker__role,
+.speaker-role {
+    font-size: 0.84rem;
+    font-weight: 750;
+    line-height: 1.4;
+    color: #7d2831;
+}
+
+.event-speaker__content p:last-child {
+    margin-bottom: 0;
+    font-size: 0.91rem;
+    line-height: 1.55;
+}
+
+/* Tablets */
+@media (max-width: 1050px) {
+    .event-speakers {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Smartphones */
+@media (max-width: 680px) {
+    .event-price-box {
+        margin-top: 1.1rem;
+        padding: 1rem;
+        border-radius: 15px;
+    }
+
+    .event-price-box__prices {
+        grid-template-columns: 1fr;
+    }
+
+    .event-price {
+        padding: 0.85rem 0.9rem;
+    }
+
+    .event-price-box__note {
+        font-size: 0.84rem;
+    }
+
+    .event-speakers {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .event-speaker {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        border-radius: 14px;
+    }
+
+    .event-speaker__image {
+        height: 100%;
+        min-height: 165px;
+        aspect-ratio: auto;
+    }
+
+    .event-speaker__content {
+        padding: 0.95rem;
+    }
+
+    .event-speaker__content h3 {
+        font-size: 1.05rem;
+    }
+
+    .event-self-pay-notice {
+        padding: 0.9rem;
+        border-left-width: 4px;
+    }
+}
+
+/* Sehr kleine Geräte */
+@media (max-width: 420px) {
+    .event-speaker {
+        grid-template-columns: 92px minmax(0, 1fr);
+    }
+
+    .event-speaker__content {
+        padding: 0.8rem;
+    }
+
+    .event-speaker__content p:last-child {
+        font-size: 0.84rem;
+    }
+}
+
+
+/* =========================================================
+   Verein: Vorstand und Satzung
+   ========================================================= */
+
+.verein-heading {
+    max-width: 760px;
+    margin-bottom: 2rem;
+}
+
+.verein-heading h2 {
+    margin-bottom: 0.75rem;
+}
+
+.verein-heading p:last-child {
+    margin-bottom: 0;
+}
+
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.board-member {
+    overflow: hidden;
+    min-width: 0;
+    border: 1px solid rgba(31, 47, 63, 0.12);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 16px 40px rgba(25, 37, 48, 0.08);
+}
+
+.board-member__monogram {
+    display: grid;
+    place-items: center;
+    min-height: 155px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(126, 52, 61, 0.96),
+            rgba(65, 30, 36, 0.98)
+        );
+    color: #ffffff;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.board-member--president .board-member__monogram {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(92, 37, 44, 0.98),
+            rgba(41, 22, 26, 1)
+        );
+}
+
+.board-member__content {
+    padding: 1.3rem;
+}
+
+.board-member__position {
+    margin: 0 0 0.45rem;
+    color: #8f2732;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1.45;
+    text-transform: uppercase;
+}
+
+.board-member__content h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.25rem;
+}
+
+.board-member__content p:last-child {
+    margin-bottom: 0;
+    font-size: 0.94rem;
+    line-height: 1.6;
+}
+
+.verein-board-contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid rgba(31, 47, 63, 0.11);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.65);
+}
+
+.verein-board-contact p {
+    margin: 0;
+}
+
+.statute-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+    border: 1px solid rgba(31, 47, 63, 0.12);
+    border-radius: 20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 1),
+            rgba(247, 244, 241, 1)
+        );
+    box-shadow: 0 18px 45px rgba(25, 37, 48, 0.07);
+}
+
+.statute-preview__content {
+    max-width: 720px;
+}
+
+.statute-preview__content h2 {
+    margin-bottom: 0.7rem;
+}
+
+.statute-preview__content p {
+    margin-top: 0.5rem;
+}
+
+.statute-preview__note {
+    font-size: 0.88rem;
+    opacity: 0.7;
+}
+
+.statute-preview__action {
+    flex: 0 0 auto;
+}
+
+.page-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 2rem;
+    font-size: 0.88rem;
+}
+
+.page-breadcrumb a {
+    font-weight: 700;
+}
+
+.statute-hero h1 {
+    max-width: 900px;
+}
+
+.statute-hero__lead {
+    max-width: 760px;
+    font-size: 1.08rem;
+    line-height: 1.65;
+}
+
+.statute-original-note {
+    max-width: 820px;
+    margin-top: 1.5rem;
+    padding: 1rem 1.15rem;
+    border: 1px solid rgba(145, 45, 55, 0.2);
+    border-left: 5px solid #8f2732;
+    border-radius: 12px;
+    background: rgba(145, 45, 55, 0.07);
+}
+
+.statute-original-note strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #7c222c;
+}
+
+.statute-original-note p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.statute-layout {
+    display: grid;
+    grid-template-columns: minmax(210px, 280px) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.statute-navigation {
+    position: sticky;
+    top: 100px;
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+    padding: 1.1rem;
+    border: 1px solid rgba(31, 47, 63, 0.11);
+    border-radius: 15px;
+    background: #ffffff;
+}
+
+.statute-navigation__heading {
+    margin: 0 0 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.statute-navigation nav {
+    display: grid;
+    gap: 0.15rem;
+}
+
+.statute-navigation a {
+    display: block;
+    padding: 0.48rem 0.55rem;
+    border-radius: 7px;
+    color: inherit;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    text-decoration: none;
+}
+
+.statute-navigation a:hover,
+.statute-navigation a:focus-visible {
+    background: rgba(143, 39, 50, 0.08);
+    color: #7c222c;
+}
+
+.statute-document {
+    min-width: 0;
+    padding: clamp(1.3rem, 4vw, 3rem);
+    border: 1px solid rgba(31, 47, 63, 0.11);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 18px 50px rgba(25, 37, 48, 0.07);
+}
+
+.statute-document__header {
+    padding-bottom: 1.2rem;
+    border-bottom: 2px solid rgba(143, 39, 50, 0.18);
+}
+
+.statute-document__header p {
+    margin: 0;
+    color: #7c222c;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.statute-paragraph {
+    scroll-margin-top: 110px;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(31, 47, 63, 0.1);
+}
+
+.statute-paragraph h2 {
+    margin: 0 0 1rem;
+    color: #20262d;
+    font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+}
+
+.statute-paragraph h3 {
+    margin: 1.3rem 0 0.5rem;
+    font-size: 1.02rem;
+}
+
+.statute-paragraph p,
+.statute-paragraph li {
+    font-size: 0.97rem;
+    line-height: 1.75;
+}
+
+.statute-paragraph p {
+    margin: 0.7rem 0;
+}
+
+.statute-paragraph ul {
+    margin: 1rem 0;
+    padding-left: 1.4rem;
+}
+
+.statute-paragraph li + li {
+    margin-top: 0.5rem;
+}
+
+.statute-fees {
+    margin: 1rem 0;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    background: #f4f5f6;
+}
+
+.statute-fees p {
+    margin: 0.35rem 0;
+}
+
+.statute-signatures {
+    padding-top: 2rem;
+}
+
+.statute-signatures ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem 1.5rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.statute-signatures li {
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid rgba(31, 47, 63, 0.11);
+}
+
+.statute-document__back {
+    margin-top: 2rem;
+}
+
+/* Tablets */
+@media (max-width: 960px) {
+    .board-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .board-member {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr);
+    }
+
+    .board-member__monogram {
+        min-height: 100%;
+    }
+
+    .statute-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .statute-navigation {
+        position: static;
+        max-height: none;
+    }
+
+    .statute-navigation nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Smartphones */
+@media (max-width: 680px) {
+    .board-member {
+        grid-template-columns: 95px minmax(0, 1fr);
+    }
+
+    .board-member__content {
+        padding: 1rem;
+    }
+
+    .board-member__content h3 {
+        font-size: 1.08rem;
+    }
+
+    .board-member__position {
+        font-size: 0.7rem;
+    }
+
+    .verein-board-contact,
+    .statute-preview {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .statute-preview__action .button,
+    .verein-board-contact .button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .statute-navigation nav {
+        grid-template-columns: 1fr;
+    }
+
+    .statute-document {
+        padding: 1.1rem;
+        border-radius: 15px;
+    }
+
+    .statute-paragraph {
+        padding: 1.5rem 0;
+    }
+
+    .statute-paragraph p,
+    .statute-paragraph li {
+        font-size: 0.92rem;
+        line-height: 1.68;
+    }
+
+    .statute-signatures ul {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   MMIG46 Vorstand
+   ========================================================= */
+
+.club-board-section {
+    overflow: hidden;
+}
+
+.club-board-header {
+    max-width: 820px;
+    margin-bottom: 2rem;
+}
+
+.club-board-header .eyebrow {
+    margin-bottom: 0.6rem;
+}
+
+.club-board-header h2 {
+    margin: 0 0 0.85rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+}
+
+.club-board-header > p:last-child {
+    max-width: 780px;
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.club-board-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.club-board-card {
+    display: flex;
+    min-width: 0;
+    min-height: 260px;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(30, 43, 58, 0.12);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow:
+        0 14px 34px rgba(24, 34, 46, 0.06),
+        0 2px 8px rgba(24, 34, 46, 0.04);
+}
+
+.club-board-card__top {
+    min-height: 128px;
+    padding: 1.35rem 1.4rem 1.25rem;
+    border-bottom: 1px solid rgba(30, 43, 58, 0.08);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(126, 54, 62, 0.98),
+            rgba(80, 34, 41, 0.98)
+        );
+    color: #ffffff;
+}
+
+.club-board-card__role {
+    margin: 0 0 0.65rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.club-board-card__top h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(1.2rem, 2vw, 1.45rem);
+    line-height: 1.3;
+}
+
+.club-board-card__body {
+    display: flex;
+    flex: 1;
+    padding: 1.3rem 1.4rem 1.45rem;
+}
+
+.club-board-card__body p {
+    margin: 0;
+    color: #35404c;
+    font-size: 0.96rem;
+    line-height: 1.65;
+}
+
+.club-board-contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid rgba(30, 43, 58, 0.1);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.club-board-contact h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.1rem;
+}
+
+.club-board-contact p {
+    margin: 0;
+    line-height: 1.55;
+}
+
+.club-board-contact .button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+/* Tablet */
+
+@media (max-width: 950px) {
+    .club-board-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .club-board-card {
+        min-height: auto;
+    }
+
+    .club-board-card__top {
+        min-height: auto;
+    }
+}
+
+/* Mobil */
+
+@media (max-width: 680px) {
+    .club-board-header {
+        margin-bottom: 1.4rem;
+    }
+
+    .club-board-header h2 {
+        font-size: 2rem;
+    }
+
+    .club-board-header > p:last-child {
+        font-size: 0.98rem;
+    }
+
+    .club-board-grid {
+        gap: 1rem;
+    }
+
+    .club-board-card {
+        border-radius: 14px;
+    }
+
+    .club-board-card__top {
+        padding: 1.1rem;
+    }
+
+    .club-board-card__body {
+        padding: 1.1rem;
+    }
+
+    .club-board-contact {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.15rem;
+    }
+
+    .club-board-contact .button {
+        width: 100%;
+        text-align: center;
+    }
+}

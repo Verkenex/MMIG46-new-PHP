@@ -40,6 +40,29 @@ $aircraftModels = [
             sind begrenzt.
         </div>
 
+        <div class="event-price-box" aria-label="Teilnahmegebühren">
+            <div class="event-price-box__heading">
+                Teilnahmegebühren
+            </div>
+
+            <div class="event-price-box__prices">
+                <div class="event-price">
+                    <span class="event-price__label">MMIG46-Mitglieder</span>
+                    <strong>450 €</strong>
+                </div>
+
+                <div class="event-price">
+                    <span class="event-price__label">Nichtmitglieder</span>
+                    <strong>650 €</strong>
+                </div>
+            </div>
+
+            <p class="event-price-box__note">
+                Die Teilnahme ist ausschließlich nach vorheriger Registrierung
+                und anschließender Bestätigung durch den Veranstalter möglich.
+            </p>
+        </div>
+
         <a class="button button--primary" href="#anmeldung">
             Jetzt Programmpunkte anfragen
         </a>
@@ -49,17 +72,23 @@ $aircraftModels = [
 <section class="section">
     <div class="container">
         <div class="event-facts">
+
             <article class="event-fact">
                 <span class="event-fact__label">Location</span>
-                <strong>RAS-Seminarraum, EDLN</strong>
+                <strong>RAS-Seminarräume, EDLN</strong>
                 <p>
                     Moderner Seminar- und Trainingsbereich am Flughafen
                     Mönchengladbach.
                 </p>
+                <p class="event-fact__thanks">
+                    Unser besonderer Dank gilt RAS und insbesondere
+                    Herrn Frank Prochaska für die Unterstützung sowie die
+                    Bereitstellung der Seminarräume.
+                </p>
             </article>
 
             <article class="event-fact">
-                <span class="event-fact__label">Für Mitglieder</span>
+                <span class="event-fact__label">Für Teilnehmer</span>
                 <strong>50 % reduzierte Landegebühr</strong>
                 <p>
                     Während des Trainingswochenendes wird keine
@@ -68,13 +97,14 @@ $aircraftModels = [
             </article>
 
             <article class="event-fact">
-                <span class="event-fact__label">Verpflegung</span>
-                <strong>Durch die MMIG46</strong>
+                <span class="event-fact__label">Teilnahme</span>
+                <strong>Vorherige Registrierung erforderlich</strong>
                 <p>
-                    Snacks, Kaffee, Getränke und das gemeinsame
-                    Abendessen werden von der MMIG46 übernommen.
+                    Die Teilnahme und die Buchung einzelner Programmpunkte
+                    sind nur nach vorheriger Anmeldung und Bestätigung möglich.
                 </p>
             </article>
+
         </div>
     </div>
 </section>
@@ -101,7 +131,7 @@ $aircraftModels = [
                     <time>18:15 Uhr</time>
                     <div>
                         <h3>Wasserfliegen in Deutschland</h3>
-                        <p>Vortrag von Norbert Klippe.</p>
+                        <p>Vortrag von Norbert Klippel.</p>
                     </div>
                 </li>
 
@@ -109,10 +139,15 @@ $aircraftModels = [
                     <time>19:30 Uhr</time>
                     <div>
                         <h3>Transfer zum Ramshof</h3>
-                        <p>
-                            Anschließend gemeinsames Abendessen.
-                            Getränke beim Abendessen sind selbst zu zahlen.
-                        </p>
+                            <p>
+                                Anschließend gemeinsames Abendessen im Landgut Ramshof.
+                            </p>
+
+                            <div class="event-self-pay-notice">
+                                <strong>Hinweis zum Eigenanteil:</strong>
+                                Die beim gemeinsamen Abendessen bestellten Getränke sind
+                                von den Teilnehmern selbst zu bezahlen.
+                            </div>
                     </div>
                 </li>
             </ol>
@@ -123,42 +158,179 @@ $aircraftModels = [
             <h2>Samstag, 26. September</h2>
 
             <ol class="event-schedule">
+
                 <li>
                     <time>ab 09:00 Uhr</time>
+
                     <div>
-                        <h3>Vorträge und IFR-Refresher</h3>
+                        <h3>Vorträge</h3>
+
                         <p>
-                            IFR-Refresher, IFR-Meteorologie, aktuelle
-                            Entwicklungen in der Avionik sowie spezielle
-                            Lösungen für die Nachrüstung der PA46,
-                            insbesondere von Garmin.
+                            IFR-Refresher, IFR-Meteorologie durch
+                            <strong>Frank Lumnitzer</strong>
+                            <span class="speaker-role">
+                                (Senior Aviation Executive)
+                            </span>,
+                            aktuelle Entwicklungen in der Avionik sowie
+                            spezielle Lösungen für die Nachrüstung der PA46.
+                        </p>
+
+                        <p>
+                            Die persönliche Beratung zu Garmin-Systemen
+                            erfolgt durch <strong>Fabian Kienzle</strong>.
+                            Zum Experten- und Referententeam gehört außerdem
+                            <strong>Dr. Ralf Wendt</strong>.
                         </p>
                     </div>
                 </li>
 
                 <li>
                     <time>anschließend</time>
+
                     <div>
                         <h3>Hands-on-Training</h3>
+
                         <p>
-                            Training im eigenen Flugzeug mit erfahrenen
-                            Trainern oder Übungen im modernen Simulator.
+                            Training im eigenen Flugzeug mit den besten
+                            Trainern im deutschsprachigen Raum sowie praktische
+                            Übungen und individuelle Trainingssequenzen.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>parallel / nach Verfügbarkeit</time>
+
+                    <div>
+                        <h3>Simulatortraining</h3>
+
+                        <p>
+                            Übungen auf einem modernen Simulator von
+                            <strong>ALSIM</strong>, FNTP-zugelassen,
+                            bei <strong>MG-Flyers</strong>.
                         </p>
                     </div>
                 </li>
 
                 <li>
                     <time>nach Verfügbarkeit</time>
+
                     <div>
-                        <h3>Checkflüge und Beratung</h3>
+                        <h3>Checkflüge und Garmin-Beratung</h3>
+
                         <p>
-                            Möglichkeit zu IFR- oder SET-Checkflügen
-                            sowie persönliche Beratung zur Garmin-Avionik.
+                            Möglichkeit zu IFR- oder SET-Checkflügen sowie
+                            persönliche Beratung zur Garmin-Avionik durch
+                            <strong>Fabian Kienzle</strong>.
                         </p>
                     </div>
                 </li>
+
             </ol>
         </div>
+    </div>
+</section>
+
+<section class="section event-speakers-section">
+    <div class="container">
+
+        <div class="event-section-heading">
+            <p class="section-eyebrow">REFERENTEN &amp; EXPERTEN</p>
+            <h2>Erfahrung aus Flugbetrieb, Training und Avionik</h2>
+            <p>
+                Fachliche Impulse und persönliche Beratung durch
+                erfahrene Experten aus der allgemeinen Luftfahrt.
+            </p>
+        </div>
+
+        <div class="event-speakers">
+
+            <article class="event-speaker">
+                <div class="event-speaker__image">
+                    <img
+                        src="/assets/img/training-weekend/frank-lumnitzer.jpg"
+                        alt="Frank Lumnitzer"
+                        loading="lazy"
+                        width="640"
+                        height="800">
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Frank Lumnitzer</h3>
+                    <p class="event-speaker__role">
+                        Senior Aviation Executive
+                    </p>
+                    <p>
+                        Referent für IFR-Meteorologie und operative
+                        Themen der professionellen Luftfahrt.
+                    </p>
+                </div>
+            </article>
+
+            <article class="event-speaker">
+                <div class="event-speaker__image">
+                    <img
+                        src="/assets/img/training-weekend/fabian-kienzle.jpg"
+                        alt="Fabian Kienzle"
+                        loading="lazy"
+                        width="640"
+                        height="800">
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Fabian Kienzle</h3>
+                    <p class="event-speaker__role">
+                        Garmin-Avionik und PA46-Nachrüstung
+                    </p>
+                    <p>
+                        Persönliche Beratung zu Garmin-Systemen,
+                        Avioniklösungen und Nachrüstungsmöglichkeiten
+                        für die PA46.
+                    </p>
+                </div>
+            </article>
+
+            <article class="event-speaker">
+                <div class="event-speaker__image event-speaker__image--placeholder">
+                    <span aria-hidden="true">RW</span>
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Dr. Ralf Wendt</h3>
+                    <p class="event-speaker__role">
+                        Referent und Luftfahrtexperte
+                    </p>
+                    <p>
+                        Dr. Ralf Wendt ergänzt das Referenten- und
+                        Expertenteam des Trainingswochenendes.
+                    </p>
+                </div>
+            </article>
+
+            <article class="event-speaker">
+                <div class="event-speaker__image">
+                    <img
+                        src="/assets/img/training-weekend/norbert-klippel.jpg"
+                        alt="Norbert Klippel"
+                        loading="lazy"
+                        width="640"
+                        height="800">
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Norbert Klippel</h3>
+                    <p class="event-speaker__role">
+                        Referent „Wasserfliegen in Deutschland“
+                    </p>
+                    <p>
+                        Vortrag über die besonderen fliegerischen und
+                        organisatorischen Aspekte des Wasserfliegens.
+                    </p>
+                </div>
+            </article>
+
+        </div>
+
     </div>
 </section>
 
@@ -181,10 +353,30 @@ $aircraftModels = [
                 <strong>„MMIG46“</strong> angeben.
             </p>
 
-            <div class="notice notice--warning">
-                Die Übernachtung sowie die Getränke beim gemeinsamen
-                Abendessen sind nicht in den Leistungen der MMIG46
-                enthalten und müssen selbst bezahlt werden.
+            <address class="event-contact-card">
+                <strong>Landgut Ramshof</strong>
+
+                <span>
+                    Ramshof 1<br>
+                    47877 Willich-Neersen
+                </span>
+
+                <span>
+                    Telefon:
+                    <a href="tel:+49215695890">02156 95890</a>
+                </span>
+
+                <span>
+                    E-Mail:
+                    <a href="mailto:stay@ramshof.de">stay@ramshof.de</a>
+                </span>
+            </address>
+
+            <div class="event-self-pay-notice">
+                <strong>Eigenanteil:</strong>
+                Die Übernachtung sowie die beim gemeinsamen Abendessen
+                bestellten Getränke sind nicht in den Leistungen der MMIG46
+                enthalten und müssen von den Teilnehmern selbst bezahlt werden.
             </div>
         </div>
 
@@ -203,6 +395,20 @@ $aircraftModels = [
                 Die konkrete Einbindung in das MMIG46-Programm erfolgt
                 abhängig vom finalen Ablauf der RAS-Veranstaltung.
             </p>
+
+            <div class="event-additional-programme">
+                <h3>Altstadttour in Kempen</h3>
+
+                <p>
+                    Für Begleitpersonen, Gäste und interessierte
+                    Teilnehmerinnen ist eine gemeinsame Tour durch die
+                    historische Kempener Altstadt vorgesehen.
+                </p>
+
+                <p class="event-additional-programme__condition">
+                    Bei Bedarf beziehungsweise ausreichendem Interesse.
+                </p>
+            </div>
         </div>
     </div>
 </section>
@@ -214,11 +420,17 @@ $aircraftModels = [
             <h2>Gewünschte Programmpunkte anfragen</h2>
 
             <p>
-                Bitte wählen Sie die gewünschten Elemente aus.
-                Die Anmeldung ist zunächst eine verbindliche Anfrage.
-                Dr. Gerecht koordiniert die verfügbaren Plätze und
-                meldet sich anschließend per E-Mail.
+                Eine vorherige Registrierung ist für sämtliche Teilnehmer
+                erforderlich. Bitte wählen Sie die gewünschten Programmpunkte aus.
+                Die Anmeldung stellt zunächst eine verbindliche Anfrage dar.
+                Dr. Gerecht koordiniert die verfügbaren Plätze und meldet sich
+                anschließend per E-Mail.
             </p>
+
+            <div class="event-registration-prices">
+                <strong>Teilnahmegebühren:</strong>
+                450 € für MMIG46-Mitglieder · 650 € für Nichtmitglieder
+            </div>
 
             <p>
                 Wegen der begrenzten Kapazitäten gilt:
@@ -324,7 +536,7 @@ $aircraftModels = [
                         value="water_flying_lecture"
                     >
                     <span class="programme-option__text">
-                        Vortrag „Wasserfliegen in Deutschland“
+                        Vortrag „Wasserfliegen in Deutschland“ von Norbert Klippel
                     </span>
                 </label>
 
@@ -335,7 +547,7 @@ $aircraftModels = [
                         value="dinner"
                     >
                     <span class="programme-option__text">
-                        Gemeinsames Abendessen
+                        Gemeinsames Abendessen im Ramshof
                     </span>
                 </label>
 
@@ -357,7 +569,7 @@ $aircraftModels = [
                         value="ifr_meteorology"
                     >
                     <span class="programme-option__text">
-                        IFR-Meteorologie
+                        IFR-Meteorologie mit Frank Lumnitzer
                     </span>
                 </label>
 
@@ -390,7 +602,7 @@ $aircraftModels = [
                         value="simulator_training"
                     >
                     <span class="programme-option__text">
-                        Simulatortraining
+                        Simulatortraining auf einem ALSIM-Simulator bei MG-Flyers
                     </span>
                 </label>
 
@@ -423,7 +635,7 @@ $aircraftModels = [
                         value="garmin_consultation"
                     >
                     <span class="programme-option__text">
-                        Persönliche Garmin-Beratung
+                        Persönliche Garmin-Beratung durch Fabian Kienzle
                     </span>
                 </label>
 
@@ -437,6 +649,21 @@ $aircraftModels = [
                         Interesse am RAS-Karriereevent
                     </span>
                 </label>
+
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="kempen_old_town_tour">
+
+                    <span class="programme-option__text">
+                        Altstadttour in Kempen für Begleitpersonen und Gäste
+                        <small>
+                            Bei Bedarf beziehungsweise ausreichendem Interesse
+                        </small>
+                    </span>
+                </label>
+
             </fieldset>
 
 

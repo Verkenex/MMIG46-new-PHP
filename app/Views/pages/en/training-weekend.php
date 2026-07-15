@@ -40,10 +40,46 @@ $aircraftModels = [
         <div class="event-alert">
             <strong>First come, first served:</strong>
             Capacity for individual programme items, instructors and
-            check flights is limited.
+            proficiency checks is limited.
         </div>
 
-        <a class="button button--primary" href="#registration">
+        <div
+            class="event-price-box"
+            aria-label="Participation fees"
+        >
+            <div class="event-price-box__heading">
+                Participation fees
+            </div>
+
+            <div class="event-price-box__prices">
+                <div class="event-price">
+                    <span class="event-price__label">
+                        MMIG46 members
+                    </span>
+
+                    <strong>EUR 450</strong>
+                </div>
+
+                <div class="event-price">
+                    <span class="event-price__label">
+                        Non-members
+                    </span>
+
+                    <strong>EUR 650</strong>
+                </div>
+            </div>
+
+            <p class="event-price-box__note">
+                Prior registration is mandatory. Participation is only
+                possible after registration and subsequent confirmation
+                by the organiser.
+            </p>
+        </div>
+
+        <a
+            class="button button--primary"
+            href="#registration"
+        >
             Request programme items now
         </a>
     </div>
@@ -63,11 +99,17 @@ $aircraftModels = [
                     Modern seminar and training facilities at
                     Mönchengladbach Airport.
                 </p>
+
+                <p class="event-fact__thanks">
+                    We would like to thank RAS, and especially
+                    Mr Frank Prochaska, for their support and for
+                    providing the seminar facilities.
+                </p>
             </article>
 
             <article class="event-fact">
                 <span class="event-fact__label">
-                    Benefits for members
+                    For participants
                 </span>
 
                 <strong>Landing fee reduced by 50%</strong>
@@ -80,14 +122,15 @@ $aircraftModels = [
 
             <article class="event-fact">
                 <span class="event-fact__label">
-                    Catering
+                    Participation
                 </span>
 
-                <strong>Provided by MMIG46</strong>
+                <strong>Prior registration required</strong>
 
                 <p>
-                    MMIG46 will provide snacks, coffee, beverages
-                    and the group dinner.
+                    Participation and individual programme items are
+                    only available following prior registration and
+                    confirmation.
                 </p>
             </article>
         </div>
@@ -125,7 +168,8 @@ $aircraftModels = [
                         <h3>Seaplane Flying in Germany</h3>
 
                         <p>
-                            Presentation by Norbert Klippe.
+                            Presentation by
+                            <strong>Norbert Klippel</strong>.
                         </p>
                     </div>
                 </li>
@@ -137,10 +181,16 @@ $aircraftModels = [
                         <h3>Transfer to Landgut Ramshof</h3>
 
                         <p>
-                            Transfer to the hotel followed by a group
-                            dinner. Drinks consumed during dinner
-                            must be paid for individually.
+                            Transfer to Landgut Ramshof followed by a
+                            group dinner.
                         </p>
+
+                        <div class="event-self-pay-notice">
+                            <strong>Personal contribution:</strong>
+                            Drinks ordered during the group dinner
+                            must be paid for individually by the
+                            participants.
+                        </div>
                     </div>
                 </li>
             </ol>
@@ -158,13 +208,26 @@ $aircraftModels = [
                     <time>From 9:00 a.m.</time>
 
                     <div>
-                        <h3>Presentations and IFR refresher</h3>
+                        <h3>Presentations</h3>
 
                         <p>
-                            IFR refresher training, IFR meteorology,
+                            IFR refresher training, IFR meteorology
+                            presented by
+                            <strong>Frank Lumnitzer</strong>
+                            <span class="speaker-role">
+                                (Senior Aviation Executive)
+                            </span>,
                             current developments in avionics and
-                            special retrofit solutions for PA46
-                            aircraft, particularly Garmin systems.
+                            specialised retrofit solutions for PA46
+                            aircraft.
+                        </p>
+
+                        <p>
+                            Personal consultation on Garmin systems
+                            will be provided by
+                            <strong>Fabian Kienzle</strong>.
+                            The team of speakers and experts will also
+                            include <strong>Dr Ralf Wendt</strong>.
                         </p>
                     </div>
                 </li>
@@ -177,8 +240,25 @@ $aircraftModels = [
 
                         <p>
                             Practical training in participants’ own
-                            aircraft with experienced instructors or
-                            exercises in the latest flight simulator.
+                            aircraft with some of the best instructors
+                            in the German-speaking aviation community,
+                            including individual exercises and training
+                            sequences.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>In parallel / subject to availability</time>
+
+                    <div>
+                        <h3>Simulator training</h3>
+
+                        <p>
+                            Training on a modern
+                            <strong>ALSIM simulator</strong>,
+                            FNTP approved, at
+                            <strong>MG-Flyers</strong>.
                         </p>
                     </div>
                 </li>
@@ -187,16 +267,142 @@ $aircraftModels = [
                     <time>Subject to availability</time>
 
                     <div>
-                        <h3>Proficiency checks and consultation</h3>
+                        <h3>
+                            Proficiency checks and Garmin consultation
+                        </h3>
 
                         <p>
                             IFR or SET proficiency check flights may
-                            be arranged. Individual advice on Garmin
-                            avionics will also be available.
+                            be arranged. Personal advice on Garmin
+                            avionics will be provided by
+                            <strong>Fabian Kienzle</strong>.
                         </p>
                     </div>
                 </li>
             </ol>
+        </div>
+    </div>
+</section>
+
+<section class="section event-speakers-section">
+    <div class="container">
+        <div class="event-section-heading">
+            <p class="section-eyebrow">
+                SPEAKERS &amp; EXPERTS
+            </p>
+
+            <h2>
+                Experience in aviation operations, training and avionics
+            </h2>
+
+            <p>
+                Specialist presentations and personal consultation by
+                experienced experts from general and professional
+                aviation.
+            </p>
+        </div>
+
+        <div class="event-speakers">
+            <article class="event-speaker">
+                <div class="event-speaker__image">
+                    <img
+                        src="/assets/img/training-weekend/frank-lumnitzer.jpg"
+                        alt="Frank Lumnitzer"
+                        loading="lazy"
+                        width="640"
+                        height="800"
+                    >
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Frank Lumnitzer</h3>
+
+                    <p class="event-speaker__role">
+                        Senior Aviation Executive
+                    </p>
+
+                    <p>
+                        Speaker on IFR meteorology and operational
+                        topics in professional aviation.
+                    </p>
+                </div>
+            </article>
+
+            <article class="event-speaker">
+                <div class="event-speaker__image">
+                    <img
+                        src="/assets/img/training-weekend/fabian-kienzle.jpg"
+                        alt="Fabian Kienzle"
+                        loading="lazy"
+                        width="640"
+                        height="800"
+                    >
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Fabian Kienzle</h3>
+
+                    <p class="event-speaker__role">
+                        Garmin avionics and PA46 retrofit solutions
+                    </p>
+
+                    <p>
+                        Personal consultation on Garmin systems,
+                        avionics solutions and retrofit options for
+                        PA46 aircraft.
+                    </p>
+                </div>
+            </article>
+
+            <article class="event-speaker">
+                <div
+                    class="event-speaker__image
+                           event-speaker__image--placeholder"
+                >
+                    <span aria-hidden="true">
+                        RW
+                    </span>
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Dr Ralf Wendt</h3>
+
+                    <p class="event-speaker__role">
+                        Speaker and aviation expert
+                    </p>
+
+                    <p>
+                        Dr Ralf Wendt complements the training
+                        weekend’s team of speakers and aviation
+                        experts.
+                    </p>
+                </div>
+            </article>
+
+            <article class="event-speaker">
+                <div class="event-speaker__image">
+                    <img
+                        src="/assets/img/training-weekend/norbert-klippel.jpg"
+                        alt="Norbert Klippel"
+                        loading="lazy"
+                        width="640"
+                        height="800"
+                    >
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Norbert Klippel</h3>
+
+                    <p class="event-speaker__role">
+                        Speaker on seaplane flying in Germany
+                    </p>
+
+                    <p>
+                        Presentation on the operational and
+                        organisational aspects of seaplane flying.
+                    </p>
+                </div>
+            </article>
         </div>
     </div>
 </section>
@@ -222,10 +428,35 @@ $aircraftModels = [
                 <strong>“MMIG46”</strong> when making the reservation.
             </p>
 
-            <div class="notice notice--warning">
-                Accommodation and drinks consumed during the group
-                dinner are not covered by MMIG46 and must be paid for
-                by the participants themselves.
+            <address class="event-contact-card">
+                <strong>Landgut Ramshof</strong>
+
+                <span>
+                    Ramshof 1<br>
+                    47877 Willich-Neersen<br>
+                    Germany
+                </span>
+
+                <span>
+                    Telephone:
+                    <a href="tel:+49215695890">
+                        +49 2156 95890
+                    </a>
+                </span>
+
+                <span>
+                    Email:
+                    <a href="mailto:stay@ramshof.de">
+                        stay@ramshof.de
+                    </a>
+                </span>
+            </address>
+
+            <div class="event-self-pay-notice">
+                <strong>Personal contribution:</strong>
+                Accommodation and drinks ordered during the group
+                dinner are not included in the MMIG46 services and
+                must be paid for by the participants themselves.
             </div>
         </div>
 
@@ -247,6 +478,20 @@ $aircraftModels = [
                 The exact integration into the MMIG46 programme will
                 depend on the final schedule of the RAS event.
             </p>
+
+            <div class="event-additional-programme">
+                <h3>Guided tour of Kempen’s historic old town</h3>
+
+                <p>
+                    A joint tour of Kempen’s historic old town is
+                    planned for accompanying persons, guests and
+                    interested female participants.
+                </p>
+
+                <p class="event-additional-programme__condition">
+                    Subject to demand and sufficient interest.
+                </p>
+            </div>
         </div>
     </div>
 </section>
@@ -264,12 +509,19 @@ $aircraftModels = [
             <h2>Request your preferred programme items</h2>
 
             <p>
+                Prior registration is mandatory for all participants.
                 Please select the programme items you would like to
                 attend. Submission of this form constitutes a binding
                 request, but does not yet guarantee availability.
                 Dr Gerecht will coordinate the available places and
                 contact you by email.
             </p>
+
+            <div class="event-registration-prices">
+                <strong>Participation fees:</strong>
+                EUR 450 for MMIG46 members ·
+                EUR 650 for non-members
+            </div>
 
             <p>
                 Capacity is limited:
@@ -394,6 +646,7 @@ $aircraftModels = [
                         name="elements[]"
                         value="fire_training"
                     >
+
                     <span class="programme-option__text">
                         Fire-extinguishing exercise on Friday
                     </span>
@@ -405,6 +658,7 @@ $aircraftModels = [
                         name="elements[]"
                         value="water_flying_lecture"
                     >
+
                     <span class="programme-option__text">
                         Presentation “Seaplane Flying in Germany”
                     </span>
@@ -416,6 +670,7 @@ $aircraftModels = [
                         name="elements[]"
                         value="dinner"
                     >
+
                     <span class="programme-option__text">
                         Group dinner at Landgut Ramshof
                     </span>
@@ -427,6 +682,7 @@ $aircraftModels = [
                         name="elements[]"
                         value="ifr_refresher"
                     >
+
                     <span class="programme-option__text">
                         IFR refresher
                     </span>
@@ -438,8 +694,9 @@ $aircraftModels = [
                         name="elements[]"
                         value="ifr_meteorology"
                     >
+
                     <span class="programme-option__text">
-                        IFR meteorology
+                        IFR meteorology with Frank Lumnitzer
                     </span>
                 </label>
 
@@ -449,6 +706,7 @@ $aircraftModels = [
                         name="elements[]"
                         value="avionics_lecture"
                     >
+
                     <span class="programme-option__text">
                         Avionics and PA46 retrofit solutions
                     </span>
@@ -460,6 +718,7 @@ $aircraftModels = [
                         name="elements[]"
                         value="hands_on_training"
                     >
+
                     <span class="programme-option__text">
                         Hands-on training in your own aircraft
                     </span>
@@ -471,8 +730,9 @@ $aircraftModels = [
                         name="elements[]"
                         value="simulator_training"
                     >
+
                     <span class="programme-option__text">
-                        Flight simulator training
+                        Training on an ALSIM simulator at MG-Flyers
                     </span>
                 </label>
 
@@ -482,6 +742,7 @@ $aircraftModels = [
                         name="elements[]"
                         value="ifr_check_flight"
                     >
+
                     <span class="programme-option__text">
                         IFR proficiency check flight
                     </span>
@@ -493,6 +754,7 @@ $aircraftModels = [
                         name="elements[]"
                         value="set_check_flight"
                     >
+
                     <span class="programme-option__text">
                         SET proficiency check flight
                     </span>
@@ -504,8 +766,9 @@ $aircraftModels = [
                         name="elements[]"
                         value="garmin_consultation"
                     >
+
                     <span class="programme-option__text">
-                        Individual Garmin avionics consultation
+                        Personal Garmin consultation by Fabian Kienzle
                     </span>
                 </label>
 
@@ -515,13 +778,29 @@ $aircraftModels = [
                         name="elements[]"
                         value="ras_career_event"
                     >
+
                     <span class="programme-option__text">
                         Interest in the RAS career event or hangar visit
                     </span>
                 </label>
+
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="kempen_old_town_tour"
+                    >
+
+                    <span class="programme-option__text">
+                        Guided tour of Kempen’s historic old town for
+                        accompanying persons and guests
+
+                        <small>
+                            Subject to demand and sufficient interest
+                        </small>
+                    </span>
+                </label>
             </fieldset>
-
-
 
             <label class="event-notes-field">
                 <span>Comments</span>
@@ -530,7 +809,7 @@ $aircraftModels = [
                     name="notes"
                     rows="5"
                     maxlength="2000"
-                    placeholder="Special training requests, check flights, number of pilots, etc."
+                    placeholder="Special training requests, proficiency checks, number of pilots, etc."
                 ></textarea>
             </label>
 
@@ -543,16 +822,19 @@ $aircraftModels = [
                 >
 
                 <span class="consent-label__text">
-                    I agree that my information may be processed for the
-                    organisation of the training weekend and forwarded to
-                    the responsible organiser.
+                    I agree that my information may be processed for
+                    the organisation of the training weekend and
+                    forwarded to the responsible organiser.
 
                     <span class="consent-label__privacy">
                         Further information is available in the
-                        <a href="/datenschutz?lang=en">privacy policy</a>.
+                        <a href="/datenschutz?lang=en">
+                            privacy policy
+                        </a>.
                     </span>
                 </span>
             </label>
+
             <button
                 type="submit"
                 class="button button--primary"

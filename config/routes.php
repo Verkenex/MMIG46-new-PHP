@@ -27,6 +27,7 @@ $router->get('/malibu-mirage', [PageController::class, 'malibuMirage']);
 $router->get('/malibu-mirage/{slug}', [PageController::class, 'malibuArchiveDetail']);
 
 $router->get('/verein', [PageController::class, 'verein']);
+$router->get('/satzung', [PageController::class, 'satzung']);
 $router->get('/impressum', [PageController::class, 'impressum']);
 $router->get('/datenschutz', [PageController::class, 'datenschutz']);
 $router->get('/agb', [PageController::class, 'agb']);
