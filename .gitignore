@@ -5,3 +5,4 @@
 !/storage/uploads/.gitkeep
 .DS_Store
 /real.env
+/.env.production

@@ -13,9 +13,11 @@ $aircraftModels = [
     'PA46-310',
     'PA46-350',
     'PA46R-350T',
-    'PA46-500',
-    'PA46-JETPROP',
-    'Other',
+    'PA46-JetPROP',
+    'PA46-M500',
+    'PA46-M600',
+    'PA46-M700',
+    $isEn ? 'Other' : 'Andere',
 ];
 
 ?>
