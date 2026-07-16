@@ -56,13 +56,12 @@ MMIG46_Datenbank
 
 Das ist effizienter als getrennte Datenbanken fuer Forum, Memberlist und Website, weil Login, Rollen, Forum, Mitglieder, News und Kontaktanfragen zusammenhaengen.
 
-Importreihenfolge:
+Importreihenfolge für eine neue produktive Installation:
 
 ```bash
-mysql -u d02fb2e5 -p MMIG46_Datenbank < database/install.sql
-mysql -u d02fb2e5 -p MMIG46_Datenbank < database/seeds/demo.sql
-mysql -u d02fb2e5 -p MMIG46_Datenbank < database/seeds/final_content.sql
-```
+mysql -u USER -p DATENBANK < database/schema.sql
+mysql -u USER -p DATENBANK < database/seed_live.sql
+mysql -u USER -p DATENBANK < database/seed_admin.sql
 
 Wenn die Datenbank im KAS anders heisst, exakt diesen Namen in `.env` eintragen.
 
