@@ -227,22 +227,28 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
     <?= $content ?>
 </main>
 
-<section class="partner-section" aria-labelledby="partner-section-title">
+<section
+    class="partner-section"
+    aria-labelledby="partner-section-title"
+>
     <div class="container">
         <div class="partner-section__header">
             <p class="eyebrow">
-                <?= $lang === 'en' ? 'Our partners' : 'Unsere Partner' ?>
+                <?= $lang === 'en'
+                    ? 'Our advertising partners'
+                    : 'Unsere Werbepartner' ?>
             </p>
 
             <h2 id="partner-section-title">
                 <?= $lang === 'en'
                     ? 'Strong partners in general aviation'
-                    : 'Starke Partner der Allgemeinen Luftfahrt'
-                ?>
+                    : 'Starke Partner der Allgemeinen Luftfahrt' ?>
             </h2>
         </div>
 
         <div class="partner-grid">
+
+            <!-- Piper Deutschland -->
             <a
                 class="partner-card partner-card--piper"
                 href="https://www.piper-germany.de/"
@@ -250,16 +256,14 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                 rel="noopener noreferrer sponsored"
                 aria-label="<?= $lang === 'en'
                     ? 'Visit Piper Germany'
-                    : 'Piper Deutschland besuchen'
-                ?>"
+                    : 'Piper Deutschland besuchen' ?>"
             >
                 <div class="partner-card__visual">
                     <img
                         src="/assets/img/partners/piper-deutschland-m600.webp"
                         alt="<?= $lang === 'en'
                             ? 'Piper M-Class aircraft'
-                            : 'Flugzeug der Piper M-Class'
-                        ?>"
+                            : 'Flugzeug der Piper M-Class' ?>"
                         loading="lazy"
                         width="1536"
                         height="728"
@@ -270,8 +274,7 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                     <span class="partner-card__label">
                         <?= $lang === 'en'
                             ? 'Aircraft · Maintenance · Parts'
-                            : 'Flugzeuge · Wartung · Ersatzteile'
-                        ?>
+                            : 'Flugzeuge · Wartung · Ersatzteile' ?>
                     </span>
 
                     <h3>Piper Deutschland</h3>
@@ -279,19 +282,18 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                     <p>
                         <?= $lang === 'en'
                             ? 'Exclusive Piper dealer for Germany, Austria, Switzerland and Türkiye.'
-                            : 'Exklusiver Piper-Händler für Deutschland, Österreich, die Schweiz und die Türkei.'
-                        ?>
+                            : 'Exklusiver Piper-Händler für Deutschland, Österreich, die Schweiz und die Türkei.' ?>
                     </p>
 
                     <span class="partner-card__link">
                         <?= $lang === 'en'
                             ? 'Discover Piper Germany →'
-                            : 'Piper Deutschland entdecken →'
-                        ?>
+                            : 'Piper Deutschland entdecken →' ?>
                     </span>
                 </div>
             </a>
 
+            <!-- Rheinland Air Service -->
             <a
                 class="partner-card partner-card--ras"
                 href="https://ras.de/"
@@ -299,16 +301,14 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                 rel="noopener noreferrer sponsored"
                 aria-label="<?= $lang === 'en'
                     ? 'Visit Rheinland Air Service'
-                    : 'Rheinland Air Service besuchen'
-                ?>"
+                    : 'Rheinland Air Service besuchen' ?>"
             >
                 <div class="partner-card__visual">
                     <img
                         src="/assets/img/partners/ras-hangar.jpg"
                         alt="<?= $lang === 'en'
                             ? 'Rheinland Air Service hangars'
-                            : 'Hangars von Rheinland Air Service'
-                        ?>"
+                            : 'Hangars von Rheinland Air Service' ?>"
                         loading="lazy"
                         width="1000"
                         height="635"
@@ -319,8 +319,7 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                     <span class="partner-card__label">
                         <?= $lang === 'en'
                             ? 'MRO · Aircraft sales · AOG service'
-                            : 'MRO · Flugzeugverkauf · AOG-Service'
-                        ?>
+                            : 'MRO · Flugzeugverkauf · AOG-Service' ?>
                     </span>
 
                     <h3>Rheinland Air Service</h3>
@@ -328,25 +327,113 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
                     <p>
                         <?= $lang === 'en'
                             ? 'Maintenance, repair, aircraft sales and comprehensive support for business aviation.'
-                            : 'Wartung, Reparatur, Flugzeugverkauf und umfassender Service für die Business Aviation.'
-                        ?>
+                            : 'Wartung, Reparatur, Flugzeugverkauf und umfassender Service für die Business Aviation.' ?>
                     </p>
 
                     <span class="partner-card__link">
                         <?= $lang === 'en'
                             ? 'Discover RAS →'
-                            : 'RAS entdecken →'
-                        ?>
+                            : 'RAS entdecken →' ?>
                     </span>
                 </div>
             </a>
+
+            <!-- Piloten-Service Robert Rieger -->
+            <a
+                class="partner-card partner-card--rieger"
+                href="https://www.pilotenservice-rieger.de/"
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                aria-label="<?= $lang === 'en'
+                    ? 'Visit Piloten-Service Robert Rieger'
+                    : 'Piloten-Service Robert Rieger besuchen' ?>"
+            >
+                <div class="partner-card__visual">
+                    <img
+                        src="/assets/img/partners/pilotenservice-rieger.jpg"
+                        alt="<?= $lang === 'en'
+                            ? 'Piloten-Service Robert Rieger aviation maintenance company'
+                            : 'Luftfahrtunternehmen Piloten-Service Robert Rieger' ?>"
+                        loading="lazy"
+                        width="1200"
+                        height="700"
+                    >
+                </div>
+
+                <div class="partner-card__content">
+                    <span class="partner-card__label">
+                        <?= $lang === 'en'
+                            ? 'Maintenance · Aircraft service · Sales'
+                            : 'Wartung · Flugzeugservice · Verkauf' ?>
+                    </span>
+
+                    <h3>Piloten-Service Robert Rieger</h3>
+
+                    <p>
+                        <?= $lang === 'en'
+                            ? 'Experienced aviation company specialising in aircraft maintenance, service and sales.'
+                            : 'Erfahrenes Luftfahrtunternehmen für Flugzeugwartung, technischen Service und Verkauf.' ?>
+                    </p>
+
+                    <span class="partner-card__link">
+                        <?= $lang === 'en'
+                            ? 'Discover Piloten-Service Rieger →'
+                            : 'Piloten-Service Rieger entdecken →' ?>
+                    </span>
+                </div>
+            </a>
+
+            <!-- DETA -->
+            <a
+                class="partner-card partner-card--deta"
+                href="https://www.deta-trend.com/"
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                aria-label="<?= $lang === 'en'
+                    ? 'Visit DETA Danish Engine Trend Analyzing'
+                    : 'DETA Danish Engine Trend Analyzing besuchen' ?>"
+            >
+                <div class="partner-card__visual">
+                    <img
+                        src="/assets/img/partners/deta-engine-trend.jpg"
+                        alt="<?= $lang === 'en'
+                            ? 'DETA engine condition trend monitoring'
+                            : 'Triebwerksüberwachung durch DETA' ?>"
+                        loading="lazy"
+                        width="1200"
+                        height="700"
+                    >
+                </div>
+
+                <div class="partner-card__content">
+                    <span class="partner-card__label">
+                        <?= $lang === 'en'
+                            ? 'Engine monitoring · Trend analysis · ECTM'
+                            : 'Triebwerksüberwachung · Trendanalyse · ECTM' ?>
+                    </span>
+
+                    <h3>DETA</h3>
+
+                    <p>
+                        <?= $lang === 'en'
+                            ? 'Danish Engine Trend Analyzing provides professional engine condition trend monitoring for turboprop and turbofan engines.'
+                            : 'Danish Engine Trend Analyzing bietet professionelle Zustands- und Trendüberwachung für Turboprop- und Turbofan-Triebwerke.' ?>
+                    </p>
+
+                    <span class="partner-card__link">
+                        <?= $lang === 'en'
+                            ? 'Discover DETA →'
+                            : 'DETA entdecken →' ?>
+                    </span>
+                </div>
+            </a>
+
         </div>
 
         <p class="partner-section__notice">
             <?= $lang === 'en'
-                ? 'Advertisement · External partner websites'
-                : 'Werbung · Externe Websites unserer Partner'
-            ?>
+                ? 'Advertisement · External websites of our advertising partners'
+                : 'Werbung · Externe Websites unserer Werbepartner' ?>
         </p>
     </div>
 </section>

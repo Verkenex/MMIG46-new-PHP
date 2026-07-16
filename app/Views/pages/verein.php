@@ -220,8 +220,8 @@ use MMIG46\Core\Security;
 
             <p>
                 Der Vorstand führt die laufenden Geschäfte des Vereins
-                und koordiniert die organisatorischen, finanziellen und
-                rechtlichen Angelegenheiten der MMIG46.
+                und koordiniert die organisatorischen und finanziellen
+                Angelegenheiten der MMIG46.
             </p>
         </header>
 
@@ -237,9 +237,9 @@ use MMIG46\Core\Security;
 
                 <div class="club-board-card__body">
                     <p>
-                        Präsident der MMIG46 und zentraler
-                        Ansprechpartner für die strategische und
-                        organisatorische Ausrichtung des Vereins.
+                        Präsident der MMIG46 und zentraler Ansprechpartner
+                        für die strategische und organisatorische Ausrichtung
+                        des Vereins.
                     </p>
                 </div>
             </article>
@@ -247,7 +247,25 @@ use MMIG46\Core\Security;
             <article class="club-board-card">
                 <div class="club-board-card__top">
                     <p class="club-board-card__role">
-                        Schatzmeister
+                        Vorstandsmitglied
+                    </p>
+
+                    <h3>Kurt Levy</h3>
+                </div>
+
+                <div class="club-board-card__body">
+                    <p>
+                        Mitglied des Vorstands und gemeinsam mit den weiteren
+                        Vorstandsmitgliedern für die Vertretung und Leitung
+                        des Vereins verantwortlich.
+                    </p>
+                </div>
+            </article>
+
+            <article class="club-board-card">
+                <div class="club-board-card__top">
+                    <p class="club-board-card__role">
+                        Schatzmeister · Vorstandsmitglied
                     </p>
 
                     <h3>Helmuth F. Sontag</h3>
@@ -255,31 +273,39 @@ use MMIG46\Core\Security;
 
                 <div class="club-board-card__body">
                     <p>
-                        Verantwortlich für die finanziellen
-                        Angelegenheiten und die ordnungsgemäße
-                        Verwaltung der Vereinsmittel.
-                    </p>
-                </div>
-            </article>
-
-            <article class="club-board-card">
-                <div class="club-board-card__top">
-                    <p class="club-board-card__role">
-                        Stellvertretende Präsidentin · Legal Advisor
-                    </p>
-
-                    <h3>Birgit Hüffer</h3>
-                </div>
-
-                <div class="club-board-card__body">
-                    <p>
-                        Stellvertretende Präsidentin und
-                        Ansprechpartnerin des Vorstands für rechtliche
-                        und vereinsorganisatorische Fragestellungen.
+                        Schatzmeister und Mitglied des Vorstands. Verantwortlich
+                        für die finanziellen Angelegenheiten und die
+                        ordnungsgemäße Verwaltung der Vereinsmittel.
                     </p>
                 </div>
             </article>
         </div>
+
+        <aside class="club-advisor">
+            <div class="club-advisor__label">
+                <span class="club-advisor__line" aria-hidden="true"></span>
+
+                <p class="eyebrow">
+                    Rechtliche Beratung
+                </p>
+            </div>
+
+            <div class="club-advisor__content">
+                <div class="club-advisor__heading">
+                    <p class="club-advisor__role">
+                        Legal Advisor · Gründungsmitglied
+                    </p>
+
+                    <h3>Birgit Höfner</h3>
+                </div>
+
+                <p class="club-advisor__description">
+                    Birgit Höfner ist Gründungsmitglied der MMIG46 und unterstützt
+                    den Verein als Legal Advisor bei rechtlichen und
+                    vereinsorganisatorischen Fragestellungen.
+                </p>
+            </div>
+        </aside>
 
         <div class="club-board-contact">
             <div>

@@ -208,8 +208,8 @@ use MMIG46\Core\Security;
             <h2>The MMIG46 Board</h2>
 
             <p>
-                The Board manages the association’s organisational,
-                financial and legal affairs.
+                The Board manages the association’s organisational
+                and financial affairs.
             </p>
         </header>
 
@@ -235,17 +235,17 @@ use MMIG46\Core\Security;
             <article class="club-board-card">
                 <div class="club-board-card__top">
                     <p class="club-board-card__role">
-                        Treasurer
+                        Board Member
                     </p>
 
-                    <h3>Helmuth F. Sontag</h3>
+                    <h3>Kurt Levy</h3>
                 </div>
 
                 <div class="club-board-card__body">
                     <p>
-                        Responsible for the association’s financial
-                        affairs and the proper administration of its
-                        funds.
+                        Member of the Board and jointly responsible with
+                        the other Board members for the management and
+                        representation of the association.
                     </p>
                 </div>
             </article>
@@ -253,20 +253,47 @@ use MMIG46\Core\Security;
             <article class="club-board-card">
                 <div class="club-board-card__top">
                     <p class="club-board-card__role">
-                        Vice President · Legal Advisor
+                        Treasurer · Board Member
                     </p>
 
-                    <h3>Birgit Hüffer</h3>
+                    <h3>Helmuth F. Sontag</h3>
                 </div>
 
                 <div class="club-board-card__body">
                     <p>
-                        Vice President and the Board’s contact for
-                        legal and association-related matters.
+                        Treasurer and member of the Board. Responsible
+                        for the association’s financial affairs and the
+                        proper administration of its funds.
                     </p>
                 </div>
             </article>
         </div>
+
+        <aside class="club-advisor">
+            <div class="club-advisor__label">
+                <span class="club-advisor__line" aria-hidden="true"></span>
+
+                <p class="eyebrow">
+                    Legal Advice
+                </p>
+            </div>
+
+            <div class="club-advisor__content">
+                <div class="club-advisor__heading">
+                    <p class="club-advisor__role">
+                        Legal Advisor · Founding Member
+                    </p>
+
+                    <h3>Birgit Höfner</h3>
+                </div>
+
+                <p class="club-advisor__description">
+                    Birgit Höfner is a founding member of MMIG46 and supports
+                    the association as Legal Advisor on legal and
+                    association-related matters.
+                </p>
+            </div>
+        </aside>
 
         <div class="club-board-contact">
             <div>
