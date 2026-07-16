@@ -296,11 +296,11 @@ use MMIG46\Core\Security;
                         Legal Advisor · Gründungsmitglied
                     </p>
 
-                    <h3>Birgit Höfner</h3>
+                    <h3>Birgit Hüffer</h3>
                 </div>
 
                 <p class="club-advisor__description">
-                    Birgit Höfner ist Gründungsmitglied der MMIG46 und unterstützt
+                    Birgit Hüffer ist Gründungsmitglied der MMIG46 und unterstützt
                     den Verein als Legal Advisor bei rechtlichen und
                     vereinsorganisatorischen Fragestellungen.
                 </p>

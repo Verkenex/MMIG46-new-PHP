@@ -284,11 +284,11 @@ use MMIG46\Core\Security;
                         Legal Advisor · Founding Member
                     </p>
 
-                    <h3>Birgit Höfner</h3>
+                    <h3>Birgit Hüffer</h3>
                 </div>
 
                 <p class="club-advisor__description">
-                    Birgit Höfner is a founding member of MMIG46 and supports
+                    Birgit Hüffer is a founding member of MMIG46 and supports
                     the association as Legal Advisor on legal and
                     association-related matters.
                 </p>
