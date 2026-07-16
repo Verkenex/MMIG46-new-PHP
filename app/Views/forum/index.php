@@ -2,8 +2,9 @@
 
 use MMIG46\Core\I18n;
 
-$topics = $topics ?? [];
+$topics = is_array($topics ?? null) ? $topics : [];
 $canWrite = (bool) ($canWrite ?? false);
+
 $lang = I18n::current();
 $isEnglish = $lang === 'en';
 
@@ -12,13 +13,13 @@ $e = static function ($value): string {
 };
 
 $formatDate = static function ($value) use ($lang): string {
-    if (!$value) {
+    if (empty($value)) {
         return '-';
     }
 
     $timestamp = strtotime((string) $value);
 
-    if (!$timestamp) {
+    if ($timestamp === false) {
         return (string) $value;
     }
 
@@ -59,19 +60,29 @@ $text = $isEnglish
 
 ?>
 
-<section class="hero hero-compact">
+<section class="hero hero-compact forum-hero">
     <div class="container">
-        <p class="eyebrow"><?= $e($text['eyebrow']) ?></p>
-        <h1><?= $e($text['title']) ?></h1>
-        <p><?= $e($text['intro']) ?></p>
+        <p class="eyebrow">
+            <?= $e($text['eyebrow']) ?>
+        </p>
+
+        <h1>
+            <?= $e($text['title']) ?>
+        </h1>
+
+        <p>
+            <?= $e($text['intro']) ?>
+        </p>
     </div>
 </section>
 
-<section class="section">
+<section class="section forum-index-page">
     <div class="container">
-        <div class="card">
-            <div class="section-head">
-                <h2><?= $e($text['current_topics']) ?></h2>
+        <div class="card forum-index-card">
+            <div class="section-head forum-index-head">
+                <h2>
+                    <?= $e($text['current_topics']) ?>
+                </h2>
 
                 <?php if ($canWrite): ?>
                     <a
@@ -90,44 +101,73 @@ $text = $isEnglish
                 <?php endif; ?>
             </div>
 
-            <?php if (empty($topics)): ?>
-                <p><?= $e($text['empty']) ?></p>
+            <?php if ($topics === []): ?>
+                <p class="forum-empty-state">
+                    <?= $e($text['empty']) ?>
+                </p>
             <?php else: ?>
-                <div class="table-wrap">
+                <div class="table-wrap forum-table-wrap">
                     <table class="forum-table">
                         <thead>
                             <tr>
-                                <th><?= $e($text['topic']) ?></th>
-                                <th><?= $e($text['author']) ?></th>
-                                <th><?= $e($text['replies']) ?></th>
-                                <th><?= $e($text['last_post']) ?></th>
+                                <th scope="col">
+                                    <?= $e($text['topic']) ?>
+                                </th>
+
+                                <th scope="col">
+                                    <?= $e($text['author']) ?>
+                                </th>
+
+                                <th scope="col">
+                                    <?= $e($text['replies']) ?>
+                                </th>
+
+                                <th scope="col">
+                                    <?= $e($text['last_post']) ?>
+                                </th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <?php foreach ($topics as $topic): ?>
+                                <?php
+                                $slug = (string) ($topic['slug'] ?? '');
+                                $title = (string) ($topic['title'] ?? '');
+                                $author = (string) ($topic['author'] ?? $text['unknown']);
+
+                                $replyCount = max(
+                                    0,
+                                    (int) ($topic['reply_count'] ?? 1) - 1
+                                );
+
+                                $lastPostDate = $topic['updated_at']
+                                    ?? $topic['created_at']
+                                    ?? null;
+                                ?>
+
                                 <tr>
-                                    <td>
-                                        <a href="<?= $e(I18n::url('/forum/' . $topic['slug'])) ?>">
-                                            <?= $e($topic['title']) ?>
-                                        </a>
+                                    <td data-label="<?= $e($text['topic']) ?>">
+                                        <?php if ($slug !== ''): ?>
+                                            <a
+                                                href="<?= $e(I18n::url('/forum/' . rawurlencode($slug))) ?>"
+                                            >
+                                                <?= $e($title) ?>
+                                            </a>
+                                        <?php else: ?>
+                                            <?= $e($title) ?>
+                                        <?php endif; ?>
                                     </td>
 
-                                    <td>
-                                        <?= $e($topic['author'] ?? $text['unknown']) ?>
+                                    <td data-label="<?= $e($text['author']) ?>">
+                                        <?= $e($author) ?>
                                     </td>
 
-                                    <td>
-                                        <?= max(0, (int) ($topic['reply_count'] ?? 1) - 1) ?>
+                                    <td data-label="<?= $e($text['replies']) ?>">
+                                        <?= $replyCount ?>
                                     </td>
 
-                                    <td>
-                                        <?= $e(
-                                            $formatDate(
-                                                $topic['updated_at']
-                                                ?: $topic['created_at']
-                                            )
-                                        ) ?>
+                                    <td data-label="<?= $e($text['last_post']) ?>">
+                                        <?= $e($formatDate($lastPostDate)) ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
