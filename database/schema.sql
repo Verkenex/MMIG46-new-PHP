@@ -20,6 +20,13 @@ CREATE TABLE IF NOT EXISTS members (
   role_label VARCHAR(120) NULL,
   member_type VARCHAR(120) NULL,
   website VARCHAR(255) NULL,
+  invoice_name VARCHAR(255) NULL,
+  street VARCHAR(255) NULL,
+  postal_code VARCHAR(20) NULL,
+  city VARCHAR(150) NULL,
+  country VARCHAR(100) NULL DEFAULT 'Deutschland',
+  phone VARCHAR(100) NULL,
+  internal_notes TEXT NULL,
   is_public TINYINT(1) NOT NULL DEFAULT 1,
   sort_order INT NOT NULL DEFAULT 100,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
