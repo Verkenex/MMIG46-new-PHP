@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace MMIG46\Services;
 use MMIG46\Models\MailOutbox;
 use MMIG46\Core\Security;
+use MMIG46\Core\DB;
 
 final class OutboxDelivery
 {
@@ -32,6 +33,13 @@ final class OutboxDelivery
                 $en = ($payload['language'] ?? 'de') === 'en';
                 $html = '<div style="font-family:Arial,sans-serif;max-width:620px"><h1>' . ($en ? 'Set your MMIG46 password' : 'MMIG46-Passwort festlegen') . '</h1><p>' . ($en ? 'This single-use link is valid for 24 hours:' : 'Dieser einmal verwendbare Link ist 24 Stunden gültig:') . '</p><p><a href="' . Security::e($url) . '">' . Security::e($url) . '</a></p></div>';
                 $sent = Mailer::send((string)$row['recipient'], (string)$row['subject'], $html, strip_tags($html));
+            } elseif ($type === 'invoice_mail') {
+                $invoiceId=(int)($payload['invoice_id']??0);$invoice=\MMIG46\Models\Invoice::find($invoiceId);
+                if(!$invoice||!in_array($invoice['status'],['finalized','sent','paid'],true))throw new \RuntimeException('Nur aktive finalisierte Rechnungen dürfen versendet werden.');
+                $path=InvoiceWorkflow::pdfPath($invoice);$en=($payload['language']??'de')==='en';$number=(string)($payload['invoice_number']??'');
+                $html='<div style="font-family:Arial,sans-serif;max-width:620px"><h1>'.($en?'Invoice ':'Rechnung ').Security::e($number).'</h1><p>'.($en?'Please find your finalized invoice attached.':'Anbei erhalten Sie Ihre finalisierte Rechnung.').'</p><p>'.($en?'Kind regards':'Mit freundlichen Grüßen').'<br>MMIG46 e.V.</p></div>';
+                $sent=Mailer::send((string)$row['recipient'],(string)$row['subject'],$html,strip_tags($html),null,null,[['path'=>$path,'name'=>$number.'.pdf','mime'=>'application/pdf']]);
+                if($sent)DB::pdo()->prepare("UPDATE invoices SET status=CASE WHEN status='finalized' THEN 'sent' ELSE status END,sent_by=COALESCE(sent_by,?),sent_at=COALESCE(sent_at,NOW()) WHERE id=?")->execute([(int)($payload['admin_id']??0)?:null,$invoiceId]);
             } else {
                 throw new \RuntimeException('Unbekannter Outbox-Nachrichtentyp.');
             }

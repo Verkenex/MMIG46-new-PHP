@@ -73,6 +73,7 @@ Empfohlene Reihenfolge:
 ```bash
 mysql -u USER -p DATENBANK < database/schema.sql
 mysql -u USER -p DATENBANK < database/patches/2026_membership_workflow_admin.sql
+mysql -u USER -p DATENBANK < database/patches/2026_invoice_management.sql
 mysql -u USER -p DATENBANK < database/seed_live.sql
 mysql -u USER -p DATENBANK < database/seed_admin.sql
 ```
@@ -96,6 +97,7 @@ Empfohlene Reihenfolge:
 ```bash
 mysql -u USER -p DATENBANK < database/schema.sql
 mysql -u USER -p DATENBANK < database/patches/2026_membership_workflow_admin.sql
+mysql -u USER -p DATENBANK < database/patches/2026_invoice_management.sql
 mysql -u USER -p DATENBANK < database/seed_demo.sql
 ```
 
@@ -129,6 +131,9 @@ Stattdessen:
 `2026_membership_workflow_admin.sql` darf sowohl bei einer Neuinstallation nach
 `schema.sql` als auch zur Aktualisierung einer bestehenden Installation genau
 einmal ausgeführt werden. Er ist nicht wiederholbar.
+
+`2026_invoice_management.sql` setzt den Mitgliedschafts-Workflow voraus und darf
+danach ebenfalls genau einmal ausgeführt werden.
 
 Backup:
 

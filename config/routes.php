@@ -6,6 +6,7 @@ use MMIG46\Controllers\ForumController;
 use MMIG46\Controllers\MemberController;
 use MMIG46\Controllers\PageController;
 use MMIG46\Controllers\PasswordController;
+use MMIG46\Controllers\InvoiceController;
 
 /** @var MMIG46\Core\Router $router */
 
@@ -60,6 +61,19 @@ $router->post('/verwaltung/users/{id}/delete', [AdminController::class, 'deleteU
 $router->post('/verwaltung/applications/{id}/approve', [AdminController::class, 'approveApplication']);
 $router->post('/verwaltung/applications/{id}/reject', [AdminController::class, 'rejectApplication']);
 $router->post('/verwaltung/outbox/{id}/retry', [AdminController::class, 'retryOutbox']);
+$router->get('/verwaltung/rechnungen', [InvoiceController::class, 'index']);
+$router->get('/verwaltung/rechnungen/{id}', [InvoiceController::class, 'edit']);
+$router->get('/verwaltung/rechnungen/{id}/vorschau', [InvoiceController::class, 'preview']);
+$router->get('/verwaltung/rechnungen/{id}/pdf', [InvoiceController::class, 'download']);
+$router->get('/verwaltung/rechnungen/{id}/original-pdf', [InvoiceController::class, 'downloadOriginal']);
+$router->post('/verwaltung/rechnungen/speichern', [InvoiceController::class, 'save']);
+$router->post('/verwaltung/rechnungen/einstellungen', [InvoiceController::class, 'saveSettings']);
+$router->post('/verwaltung/rechnungen/{id}/loeschen', [InvoiceController::class, 'delete']);
+$router->post('/verwaltung/rechnungen/{id}/finalisieren', [InvoiceController::class, 'finalize']);
+$router->post('/verwaltung/rechnungen/{id}/versenden', [InvoiceController::class, 'send']);
+$router->post('/verwaltung/rechnungen/{id}/bezahlt', [InvoiceController::class, 'paid']);
+$router->post('/verwaltung/rechnungen/{id}/stornieren', [InvoiceController::class, 'cancel']);
+$router->post('/verwaltung/rechnungen/outbox/{id}/retry', [InvoiceController::class, 'retry']);
 
 
 $router->post('/verwaltung/news', [AdminController::class, 'storeNews']);

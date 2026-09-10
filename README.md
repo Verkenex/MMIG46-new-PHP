@@ -18,6 +18,7 @@ Die Anwendung wurde für den Betrieb bei **ALL-INKL / KAS** entwickelt. Das öff
 * Composer
 * PHPMailer für SMTP-Mailversand
 * Parsedown für Markdown-Inhalte
+* Dompdf für serverseitig erzeugte Rechnungs-PDFs
 * Eigenes MVC-orientiertes PHP-System
 * Serverseitig gerenderte PHP-Views
 * HTML, CSS und Vanilla JavaScript
@@ -34,6 +35,7 @@ Installierte PHP-Pakete:
 ```text
 phpmailer/phpmailer
 erusev/parsedown
+dompdf/dompdf
 ```
 
 ## Hauptfunktionen

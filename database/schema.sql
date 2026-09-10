@@ -198,3 +198,5 @@ CREATE TABLE IF NOT EXISTS membership_applications (
 -- Produktions-Upgrades erfolgen ausschließlich über database/patches/.
 -- Der vollständige Workflow ist in 2026_membership_workflow_admin.sql definiert,
 -- da dessen Fremdschlüssel die oben angelegten Bestands-Tabellen voraussetzen.
+-- Die Rechnungsverwaltung wird anschließend einmalig durch
+-- database/patches/2026_invoice_management.sql ergänzt.
