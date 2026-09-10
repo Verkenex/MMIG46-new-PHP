@@ -96,6 +96,12 @@ final class I18n
 
             'training.capacity_notice' =>
                 'Die Kapazitäten sind begrenzt. Es gilt: First come, first served.',
+            'error.404.title' => 'Seite nicht gefunden',
+            'error.404.text' => 'Die angeforderte Seite existiert nicht oder wurde verschoben.',
+            'error.404.home' => 'Zur Startseite',
+            'forum.too_short' => 'Titel und Beitrag sind zu kurz.',
+            'forum.reply_too_short' => 'Die Antwort ist zu kurz.',
+            'members.access_denied' => 'Das Mitgliederverzeichnis ist nur für angemeldete Mitglieder verfügbar.',
         ],
 
         'en' => [
@@ -184,6 +190,12 @@ final class I18n
 
             'training.capacity_notice' =>
                 'Capacity is limited. First come, first served.',
+            'error.404.title' => 'Page not found',
+            'error.404.text' => 'The requested page does not exist or has been moved.',
+            'error.404.home' => 'Back to home',
+            'forum.too_short' => 'The title and post are too short.',
+            'forum.reply_too_short' => 'The reply is too short.',
+            'members.access_denied' => 'The member directory is only available to signed-in members.',
         ],
     ];
 

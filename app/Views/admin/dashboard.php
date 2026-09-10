@@ -408,13 +408,13 @@ $t = $copy[$isEn ? 'en' : 'de'];
                         type="checkbox"
                         name="is_public"
                         value="1"
-                        checked
                     >
 
                     <span>
                         <?= Security::e($t['show_publicly']) ?>
                     </span>
                 </label>
+                <label class="checkbox-row"><input type="checkbox" name="public_consent_confirmed" value="1"><span>Gesonderte Einwilligung zur öffentlichen Anzeige liegt nachweisbar vor</span></label>
 
                 <button class="primary" type="submit">
                     <?= Security::e($t['member_save']) ?>
@@ -773,6 +773,31 @@ $t = $copy[$isEn ? 'en' : 'de'];
         </form>
     </section>
 
+    <!-- Mitgliedsanträge: ausschließlich administrativ, bewusst ohne öffentliche Ausgabe. -->
+    <section class="admin-card admin-card-wide">
+        <div class="admin-card-header"><span class="admin-icon" aria-hidden="true">📥</span><div><h2>Mitgliedsanträge</h2><p>Pending-Datensatz, Konflikte, Freigaben und Versandstatus.</p></div></div>
+        <?php foreach (($applications ?? []) as $application): ?>
+            <details class="content-card"><summary>#<?= (int)$application['id'] ?> · <?= Security::e((string)$application['first_name'].' '.(string)$application['last_name']) ?> · <?= Security::e((string)$application['status']) ?></summary>
+                <p><strong>E-Mail:</strong> <?= Security::e((string)$application['private_email']) ?> · <strong>Mitglied:</strong> #<?= (int)($application['member_id'] ?? 0) ?> (<?= Security::e((string)($application['member_status'] ?? 'fehlt')) ?>)</p>
+                <?php if (!empty($application['conflict_reason'])): ?><p class="flash error"><?= Security::e((string)$application['conflict_reason']) ?></p><?php endif; ?>
+                <p><strong>Rechnung:</strong> <?= Security::e((string)$application['invoice_name']) ?>, <?= Security::e((string)$application['street']) ?>, <?= Security::e((string)$application['postal_city_country']) ?></p>
+                <p><strong>Kontakt:</strong> <?= Security::e((string)$application['mobile']) ?> · <strong>Flugzeug:</strong> <?= Security::e((string)$application['model']) ?> <?= Security::e((string)$application['callsign']) ?></p>
+                <p><strong>Vorstand:</strong> <?= Security::e((string)($application['board_confirmed_at'] ?? 'offen')) ?> <?= Security::e((string)($application['board_admin_name'] ?? '')) ?> · <strong>Zahlung:</strong> <?= Security::e((string)($application['payment_confirmed_at'] ?? 'offen')) ?> <?= Security::e((string)($application['payment_admin_name'] ?? '')) ?></p>
+                <?php if (in_array($application['status'], ['pending','manual_review'], true)): ?>
+                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/applications/'.(int)$application['id'].'/approve')) ?>" class="admin-form"><?= Security::csrfField() ?>
+                        <label class="checkbox-row"><input type="checkbox" name="board_confirmed" value="1" required><span>Aufnahme durch den Vorstand ist erfolgt</span></label>
+                        <label class="checkbox-row"><input type="checkbox" name="payment_confirmed" value="1" required><span>Erforderlicher Zahlungseingang ist erfolgt</span></label>
+                        <label class="checkbox-row"><input type="checkbox" name="link_existing_user" value="1"><span>Bei identischer E-Mail ausdrücklich mit dem vorhandenen Benutzer verknüpfen (bestehende Mitgliedsverknüpfungen bleiben gesperrt)</span></label>
+                        <button class="primary" type="submit">Freigeben und Passwort-Link erzeugen</button>
+                    </form>
+                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/applications/'.(int)$application['id'].'/reject')) ?>" class="admin-form"><?= Security::csrfField() ?><select name="decision"><option value="rejected">Ablehnen</option><option value="cancelled">Stornieren</option></select><label>Zur Bestätigung ABLEHNEN eingeben<input name="confirmation" required></label><button type="submit">Antrag abschließen</button></form>
+                <?php endif; ?>
+                <?php foreach (($applicationOutbox[(int)$application['id']] ?? []) as $message): ?><p>Mail <?= Security::e((string)$message['message_type']) ?> an <?= Security::e((string)$message['recipient']) ?>: <strong><?= Security::e((string)$message['status']) ?></strong> (<?= (int)$message['attempts'] ?> Versuche)
+                    <?php if ($message['status'] !== 'sent'): ?><form class="inline" method="post" action="<?= Security::e(I18n::url('/verwaltung/outbox/'.(int)$message['id'].'/retry')) ?>"><?= Security::csrfField() ?><button type="submit">Erneut senden</button></form><?php endif; ?></p><?php endforeach; ?>
+            </details>
+        <?php endforeach; ?>
+    </section>
+
     <!-- Nutzerübersicht -->
     <section class="admin-card admin-card-wide">
 
@@ -791,7 +816,7 @@ $t = $copy[$isEn ? 'en' : 'de'];
                     <tr>
                         <th><?= Security::e($t['name']) ?></th>
                         <th><?= Security::e($t['email']) ?></th>
-                        <th><?= Security::e($t['role']) ?></th>
+                        <th><?= Security::e($t['role']) ?></th><th>Verwalten</th>
                     </tr>
                 </thead>
 
@@ -809,6 +834,13 @@ $t = $copy[$isEn ? 'en' : 'de'];
                             <td>
                                 <?= Security::e((string)($user['role'] ?? '')) ?>
                             </td>
+                            <td><details><summary>Bearbeiten</summary>
+                                <form method="post" action="<?= Security::e(I18n::url('/verwaltung/users/'.(int)$user['id'])) ?>" class="admin-form"><?= Security::csrfField() ?><label>Name<input name="name" required value="<?= Security::e((string)$user['name']) ?>"></label><label>E-Mail<input type="email" name="email" required value="<?= Security::e((string)$user['email']) ?>"></label><label>Rolle<select name="role"><?php foreach(['admin','moderator','member','guest'] as $role): ?><option value="<?= $role ?>" <?= $user['role']===$role?'selected':'' ?>><?= $role ?></option><?php endforeach; ?></select></label><button type="submit">Speichern</button></form>
+                                <form method="post" action="<?= Security::e(I18n::url('/verwaltung/users/'.(int)$user['id'].'/reset')) ?>"><?= Security::csrfField() ?><button type="submit">Passwort-Reset-Link senden</button></form>
+                                <p>Abhängigkeiten vor Löschung: <?= (int)$user['topic_count'] ?> Themen, <?= (int)$user['post_count'] ?> Beiträge, <?= (int)$user['member_count'] ?> Mitgliedsdatensätze.</p>
+                                <?php foreach (($userOutbox[(int)$user['id']] ?? []) as $message): ?><p>Reset-Mail: <?= Security::e((string)$message['status']) ?> (<?= (int)$message['attempts'] ?> Versuche)<?php if($message['status']!=='sent'): ?> <form class="inline" method="post" action="<?= Security::e(I18n::url('/verwaltung/outbox/'.(int)$message['id'].'/retry')) ?>"><?= Security::csrfField() ?><button>Erneut senden</button></form><?php endif; ?></p><?php endforeach; ?>
+                                <form method="post" action="<?= Security::e(I18n::url('/verwaltung/users/'.(int)$user['id'].'/delete')) ?>"><?= Security::csrfField() ?><label>Zum Löschen BENUTZER LÖSCHEN eingeben<input name="confirmation" required></label><button type="submit">Benutzer löschen</button></form>
+                            </details></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -901,8 +933,11 @@ $t = $copy[$isEn ? 'en' : 'de'];
                                         <label><?= Security::e($t['internal_notes']) ?><textarea name="internal_notes" rows="3"><?= Security::e((string) ($member['internal_notes'] ?? '')) ?></textarea></label>
                                         <label><?= Security::e($t['sort_order']) ?><input type="number" name="sort_order" value="<?= (int) ($member['sort_order'] ?? 100) ?>"></label>
                                         <label class="checkbox-row"><input type="checkbox" name="is_public" value="1" <?= !empty($member['is_public']) ? 'checked' : '' ?>><span><?= Security::e($t['show_publicly']) ?></span></label>
+                                        <label class="checkbox-row"><input type="checkbox" name="public_consent_confirmed" value="1" <?= !empty($member['public_consent_at']) ? 'checked' : '' ?>><span>Gesonderte Einwilligung zur öffentlichen Anzeige liegt nachweisbar vor</span></label>
                                         <button class="primary" type="submit"><?= Security::e($t['save_changes']) ?></button>
                                     </form>
+                                    <p>Verknüpfungen: Benutzer #<?= (int)($member['user_id'] ?? 0) ?>, Antrag #<?= (int)($member['application_id'] ?? 0) ?>.</p>
+                                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/members/'.(int)$member['id'].'/delete')) ?>"><?= Security::csrfField() ?><label>Zum Löschen MITGLIED LÖSCHEN eingeben<input name="confirmation" required></label><button type="submit">Mitglied löschen</button></form>
                                 </details>
                             </td>
                         </tr>

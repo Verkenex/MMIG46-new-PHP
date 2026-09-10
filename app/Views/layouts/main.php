@@ -61,6 +61,9 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
     <meta name="description" content="<?= Security::e($seo['description']) ?>">
     <meta name="robots" content="<?= Security::e($seo['robots']) ?>">
     <link rel="canonical" href="<?= Security::e($seo['canonical']) ?>">
+    <?php foreach (($seo['alternates'] ?? []) as $alternateLang => $alternateUrl): ?>
+        <link rel="alternate" hreflang="<?= Security::e($alternateLang) ?>" href="<?= Security::e($alternateUrl) ?>">
+    <?php endforeach; ?>
 
     <meta property="og:locale" content="<?= $lang === 'en' ? 'en_US' : 'de_DE' ?>">
     <meta property="og:site_name" content="<?= Security::e($siteName) ?>">
@@ -69,11 +72,17 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
     <meta property="og:description" content="<?= Security::e($seo['description']) ?>">
     <meta property="og:url" content="<?= Security::e($seo['canonical']) ?>">
     <meta property="og:image" content="<?= Security::e($seo['og_image']) ?>">
+    <meta property="og:image:alt" content="Piper PA-46 der MMIG46">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= Security::e($seo['title']) ?>">
     <meta name="twitter:description" content="<?= Security::e($seo['description']) ?>">
     <meta name="twitter:image" content="<?= Security::e($seo['og_image']) ?>">
+    <script type="application/ld+json"><?= json_encode(['@context'=>'https://schema.org','@graph'=>[
+        ['@type'=>'Organization','@id'=>Seo::absoluteUrl('/').'#organization','name'=>'MMIG46 e.V.','url'=>Seo::absoluteUrl('/')],
+        ['@type'=>'WebSite','@id'=>Seo::absoluteUrl('/').'#website','name'=>'MMIG46','url'=>Seo::absoluteUrl('/'),'publisher'=>['@id'=>Seo::absoluteUrl('/').'#organization'],'inLanguage'=>['de','en']],
+    ]], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) ?></script>
+    <?php if (!empty($seo['structured_data'])): ?><script type="application/ld+json"><?= json_encode($seo['structured_data'], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) ?></script><?php endif; ?>
 
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
     <?php

@@ -19,7 +19,7 @@ $bodyHtml = $bodyHtml ?? '';
     </p>
 
     <p>
-      <a class="button button-outline" href="/malibu-mirage">Zurück zur Malibu-Mirage-Seite</a>
+      <a class="button button-outline" href="<?= \MMIG46\Core\Security::e(\MMIG46\Core\I18n::url('/malibu-mirage', $lang)) ?>"><?= $lang === 'en' ? 'Back to the Malibu Mirage page' : 'Zurück zur Malibu-Mirage-Seite' ?></a>
     </p>
   </div>
 </section>

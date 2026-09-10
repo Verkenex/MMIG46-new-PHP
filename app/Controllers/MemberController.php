@@ -11,6 +11,12 @@ use MMIG46\Models\Member;
 
 final class MemberController
 {
+    public function redirectAlias(): string
+    {
+        header('Location: ' . \MMIG46\Core\I18n::url('/mitglieder'), true, 301);
+        exit;
+    }
+
     public function index(): string
     {
         $user = $_SESSION['user'] ?? null;

@@ -47,11 +47,14 @@ final class SeoController
 
         $xml = [];
         $xml[] = '<?xml version="1.0" encoding="UTF-8"?>';
-        $xml[] = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        $xml[] = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
 
         foreach ($urls as $url) {
             $xml[] = '  <url>';
             $xml[] = '    <loc>' . $this->xml($url['loc']) . '</loc>';
+            foreach (($url['alternates'] ?? []) as $lang => $href) {
+                $xml[] = '    <xhtml:link rel="alternate" hreflang="' . $this->xml($lang) . '" href="' . $this->xml($href) . '" />';
+            }
 
             if (!empty($url['lastmod'])) {
                 $xml[] = '    <lastmod>' . $this->xml($url['lastmod']) . '</lastmod>';
@@ -77,10 +80,11 @@ final class SeoController
     {
         try {
             $stmt = DB::pdo()->query("
-                SELECT slug, COALESCE(updated_at, published_at, created_at) AS lastmod
+                SELECT lang, slug, COALESCE(updated_at, published_at, created_at) AS lastmod
                 FROM news_items
                 WHERE slug IS NOT NULL
                   AND slug <> ''
+                  AND is_published = 1
                 ORDER BY COALESCE(updated_at, published_at, created_at) DESC
             ");
 
@@ -90,10 +94,16 @@ final class SeoController
         }
 
         $urls = [];
+        $languagesBySlug = [];
+        foreach ($rows as $row) $languagesBySlug[$row['slug']][$row['lang']] = true;
 
         foreach ($rows as $row) {
+            $alternates = [];
+            foreach (['de','en'] as $lang) if (!empty($languagesBySlug[$row['slug']][$lang])) $alternates[$lang] = Seo::canonicalUrl('/news/' . $row['slug'], $lang);
+            if (isset($alternates['de'])) $alternates['x-default'] = $alternates['de'];
             $urls[] = [
-                'loc' => Seo::canonicalUrl('/news/' . $row['slug']),
+                'loc' => Seo::canonicalUrl('/news/' . $row['slug'], $row['lang']),
+                'alternates' => $alternates,
                 'lastmod' => $this->dateOnly($row['lastmod'] ?? null),
                 'changefreq' => 'monthly',
                 'priority' => '0.7',
@@ -107,11 +117,12 @@ final class SeoController
     {
         try {
             $stmt = DB::pdo()->query("
-                SELECT slug, COALESCE(updated_at, starts_at, created_at) AS lastmod
+                SELECT lang, slug, COALESCE(updated_at, starts_on, created_at) AS lastmod
                 FROM travel_items
                 WHERE slug IS NOT NULL
                   AND slug <> ''
-                ORDER BY COALESCE(updated_at, starts_at, created_at) DESC
+                  AND is_published = 1
+                ORDER BY COALESCE(updated_at, starts_on, created_at) DESC
             ");
 
             $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -120,10 +131,16 @@ final class SeoController
         }
 
         $urls = [];
+        $languagesBySlug = [];
+        foreach ($rows as $row) $languagesBySlug[$row['slug']][$row['lang']] = true;
 
         foreach ($rows as $row) {
+            $alternates = [];
+            foreach (['de','en'] as $lang) if (!empty($languagesBySlug[$row['slug']][$lang])) $alternates[$lang] = Seo::canonicalUrl('/reisen/' . $row['slug'], $lang);
+            if (isset($alternates['de'])) $alternates['x-default'] = $alternates['de'];
             $urls[] = [
-                'loc' => Seo::canonicalUrl('/reisen/' . $row['slug']),
+                'loc' => Seo::canonicalUrl('/reisen/' . $row['slug'], $row['lang']),
+                'alternates' => $alternates,
                 'lastmod' => $this->dateOnly($row['lastmod'] ?? null),
                 'changefreq' => 'monthly',
                 'priority' => '0.7',

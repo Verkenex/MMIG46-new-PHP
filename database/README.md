@@ -72,6 +72,7 @@ Empfohlene Reihenfolge:
 
 ```bash
 mysql -u USER -p DATENBANK < database/schema.sql
+mysql -u USER -p DATENBANK < database/patches/2026_membership_workflow_admin.sql
 mysql -u USER -p DATENBANK < database/seed_live.sql
 mysql -u USER -p DATENBANK < database/seed_admin.sql
 ```
@@ -94,6 +95,7 @@ Empfohlene Reihenfolge:
 
 ```bash
 mysql -u USER -p DATENBANK < database/schema.sql
+mysql -u USER -p DATENBANK < database/patches/2026_membership_workflow_admin.sql
 mysql -u USER -p DATENBANK < database/seed_demo.sql
 ```
 
@@ -123,6 +125,10 @@ Stattdessen:
 4. Patch einmalig ausführen.
 5. Ergebnis kontrollieren.
 6. ausgeführten Patch dokumentieren.
+
+`2026_membership_workflow_admin.sql` darf sowohl bei einer Neuinstallation nach
+`schema.sql` als auch zur Aktualisierung einer bestehenden Installation genau
+einmal ausgeführt werden. Er ist nicht wiederholbar.
 
 Backup:
 
