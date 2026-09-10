@@ -251,8 +251,9 @@ class AdminController
 
         DB::pdo()
             ->prepare(
-                'INSERT INTO members(name, email, aircraft, base, role_label, member_type, website, is_public, sort_order)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                'INSERT INTO members(name, email, aircraft, base, role_label, member_type, website,
+                    invoice_name, street, postal_code, city, country, phone, internal_notes, is_public, sort_order)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
             )
             ->execute([
                 trim($_POST['name'] ?? ''),
@@ -262,10 +263,62 @@ class AdminController
                 trim($_POST['role_label'] ?? ''),
                 trim($_POST['member_type'] ?? ''),
                 trim($_POST['website'] ?? ''),
+                trim($_POST['invoice_name'] ?? ''),
+                trim($_POST['street'] ?? ''),
+                trim($_POST['postal_code'] ?? ''),
+                trim($_POST['city'] ?? ''),
+                trim($_POST['country'] ?? ''),
+                trim($_POST['phone'] ?? ''),
+                trim($_POST['internal_notes'] ?? ''),
                 isset($_POST['is_public']) ? 1 : 0,
                 (int)($_POST['sort_order'] ?? 100),
             ]);
 
+        header('Location:/verwaltung');
+        exit;
+    }
+
+    public function updateMember(string $id): string
+    {
+        $this->guard();
+        Security::verifyCsrf();
+
+        $memberId = (int) $id;
+        if ($memberId <= 0) {
+            return $this->fail('Ungültiges Mitglied.');
+        }
+
+        $name = $this->required((string) ($_POST['name'] ?? ''), 'Name');
+        $email = $this->validEmailOrNull((string) ($_POST['email'] ?? ''));
+        $website = $this->validUrlOrNull((string) ($_POST['website'] ?? ''), 'Website');
+
+        $statement = DB::pdo()->prepare(
+            'UPDATE members SET name = ?, email = ?, aircraft = ?, base = ?, role_label = ?,
+                member_type = ?, website = ?, invoice_name = ?, street = ?, postal_code = ?,
+                city = ?, country = ?, phone = ?, internal_notes = ?, is_public = ?, sort_order = ?
+             WHERE id = ?'
+        );
+        $statement->execute([
+            $name,
+            $email,
+            trim((string) ($_POST['aircraft'] ?? '')),
+            trim((string) ($_POST['base'] ?? '')),
+            trim((string) ($_POST['role_label'] ?? '')),
+            trim((string) ($_POST['member_type'] ?? '')),
+            $website,
+            trim((string) ($_POST['invoice_name'] ?? '')),
+            trim((string) ($_POST['street'] ?? '')),
+            trim((string) ($_POST['postal_code'] ?? '')),
+            trim((string) ($_POST['city'] ?? '')),
+            trim((string) ($_POST['country'] ?? '')),
+            trim((string) ($_POST['phone'] ?? '')),
+            trim((string) ($_POST['internal_notes'] ?? '')),
+            isset($_POST['is_public']) ? 1 : 0,
+            (int) ($_POST['sort_order'] ?? 100),
+            $memberId,
+        ]);
+
+        Session::flash('success', 'Mitgliedsdaten wurden aktualisiert.');
         header('Location:/verwaltung');
         exit;
     }

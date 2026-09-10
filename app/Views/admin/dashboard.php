@@ -25,6 +25,15 @@ $copy = [
         'base' => 'Heimatflugplatz',
         'membership' => 'Mitgliedschaft',
         'website' => 'Website',
+        'invoice_name' => 'Rechnungsempfänger',
+        'street' => 'Straße und Hausnummer',
+        'postal_code' => 'PLZ',
+        'city' => 'Ort',
+        'country' => 'Land',
+        'phone' => 'Telefon',
+        'internal_notes' => 'Interne Notizen',
+        'edit' => 'Bearbeiten',
+        'save_changes' => 'Änderungen speichern',
         'sort_order' => 'Sortierung',
         'language' => 'Sprache',
         'german' => 'Deutsch',
@@ -104,6 +113,15 @@ $copy = [
         'base' => 'Home base',
         'membership' => 'Membership type',
         'website' => 'Website',
+        'invoice_name' => 'Invoice recipient',
+        'street' => 'Street and number',
+        'postal_code' => 'Postal code',
+        'city' => 'City',
+        'country' => 'Country',
+        'phone' => 'Phone',
+        'internal_notes' => 'Internal notes',
+        'edit' => 'Edit',
+        'save_changes' => 'Save changes',
         'sort_order' => 'Sort order',
         'language' => 'Language',
         'german' => 'German',
@@ -366,6 +384,14 @@ $t = $copy[$isEn ? 'en' : 'de'];
                         placeholder="https://..."
                     >
                 </label>
+
+                <label><?= Security::e($t['invoice_name']) ?><input type="text" name="invoice_name" maxlength="255"></label>
+                <label><?= Security::e($t['street']) ?><input type="text" name="street" maxlength="255"></label>
+                <label><?= Security::e($t['postal_code']) ?><input type="text" name="postal_code" maxlength="20"></label>
+                <label><?= Security::e($t['city']) ?><input type="text" name="city" maxlength="150"></label>
+                <label><?= Security::e($t['country']) ?><input type="text" name="country" maxlength="100" value="Deutschland"></label>
+                <label><?= Security::e($t['phone']) ?><input type="tel" name="phone" maxlength="100"></label>
+                <label><?= Security::e($t['internal_notes']) ?><textarea name="internal_notes" rows="3"></textarea></label>
 
                 <label>
                     <?= Security::e($t['sort_order']) ?>
@@ -812,6 +838,7 @@ $t = $copy[$isEn ? 'en' : 'de'];
                         <th><?= Security::e($t['role']) ?></th>
                         <th><?= Security::e($t['membership']) ?></th>
                         <th><?= Security::e($t['public']) ?></th>
+                        <th><?= Security::e($t['edit']) ?></th>
                     </tr>
                 </thead>
 
@@ -851,6 +878,32 @@ $t = $copy[$isEn ? 'en' : 'de'];
                                             : $t['no']
                                     ) ?>
                                 </span>
+                            </td>
+
+                            <td>
+                                <details>
+                                    <summary><?= Security::e($t['edit']) ?></summary>
+                                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/members/' . (int) $member['id'])) ?>" class="admin-form">
+                                        <?= Security::csrfField() ?>
+                                        <label><?= Security::e($t['name']) ?><input type="text" name="name" required maxlength="120" value="<?= Security::e((string) ($member['name'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['email']) ?><input type="email" name="email" maxlength="190" value="<?= Security::e((string) ($member['email'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['aircraft']) ?><input type="text" name="aircraft" maxlength="120" value="<?= Security::e((string) ($member['aircraft'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['base']) ?><input type="text" name="base" maxlength="120" value="<?= Security::e((string) ($member['base'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['role']) ?><input type="text" name="role_label" maxlength="120" value="<?= Security::e((string) ($member['role_label'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['membership']) ?><input type="text" name="member_type" maxlength="120" value="<?= Security::e((string) ($member['member_type'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['website']) ?><input type="url" name="website" maxlength="255" value="<?= Security::e((string) ($member['website'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['invoice_name']) ?><input type="text" name="invoice_name" maxlength="255" value="<?= Security::e((string) ($member['invoice_name'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['street']) ?><input type="text" name="street" maxlength="255" value="<?= Security::e((string) ($member['street'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['postal_code']) ?><input type="text" name="postal_code" maxlength="20" value="<?= Security::e((string) ($member['postal_code'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['city']) ?><input type="text" name="city" maxlength="150" value="<?= Security::e((string) ($member['city'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['country']) ?><input type="text" name="country" maxlength="100" value="<?= Security::e((string) ($member['country'] ?? 'Deutschland')) ?>"></label>
+                                        <label><?= Security::e($t['phone']) ?><input type="tel" name="phone" maxlength="100" value="<?= Security::e((string) ($member['phone'] ?? '')) ?>"></label>
+                                        <label><?= Security::e($t['internal_notes']) ?><textarea name="internal_notes" rows="3"><?= Security::e((string) ($member['internal_notes'] ?? '')) ?></textarea></label>
+                                        <label><?= Security::e($t['sort_order']) ?><input type="number" name="sort_order" value="<?= (int) ($member['sort_order'] ?? 100) ?>"></label>
+                                        <label class="checkbox-row"><input type="checkbox" name="is_public" value="1" <?= !empty($member['is_public']) ? 'checked' : '' ?>><span><?= Security::e($t['show_publicly']) ?></span></label>
+                                        <button class="primary" type="submit"><?= Security::e($t['save_changes']) ?></button>
+                                    </form>
+                                </details>
                             </td>
                         </tr>
                     <?php endforeach; ?>
