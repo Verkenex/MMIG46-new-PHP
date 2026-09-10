@@ -392,7 +392,8 @@ final class Mailer
         string $htmlBody,
         ?string $textBody = null,
         ?string $replyToEmail = null,
-        ?string $replyToName = null
+        ?string $replyToName = null,
+        array $attachments = []
     ): bool {
         $driver = strtolower(
             trim(Env::get('MAIL_DRIVER', 'mail'))
@@ -405,7 +406,8 @@ final class Mailer
                 $htmlBody,
                 $textBody,
                 $replyToEmail,
-                $replyToName
+                $replyToName,
+                $attachments
             );
         }
 
@@ -415,7 +417,8 @@ final class Mailer
             $htmlBody,
             $textBody,
             $replyToEmail,
-            $replyToName
+            $replyToName,
+            $attachments
         );
     }
 
@@ -425,7 +428,8 @@ final class Mailer
         string $htmlBody,
         ?string $textBody,
         ?string $replyToEmail,
-        ?string $replyToName
+        ?string $replyToName,
+        array $attachments
     ): bool {
         $mail = new PHPMailer(true);
 
@@ -509,6 +513,12 @@ final class Mailer
                     )
                 );
 
+            foreach ($attachments as $attachment) {
+                $path = (string)($attachment['path'] ?? '');
+                if (!is_file($path) || !is_readable($path)) throw new \RuntimeException('Mail attachment is not readable.');
+                $mail->addAttachment($path, basename((string)($attachment['name'] ?? basename($path))), PHPMailer::ENCODING_BASE64, (string)($attachment['mime'] ?? 'application/octet-stream'));
+            }
+
             return $mail->send();
         } catch (PHPMailerException $e) {
             throw new \RuntimeException(
@@ -525,7 +535,8 @@ final class Mailer
         string $htmlBody,
         ?string $textBody,
         ?string $replyToEmail,
-        ?string $replyToName
+        ?string $replyToName,
+        array $attachments
     ): bool {
         $from = Env::get(
             'MAIL_FROM',
@@ -545,7 +556,20 @@ final class Mailer
             . '>';
 
         $headers[] = 'MIME-Version: 1.0';
-        $headers[] = 'Content-Type: text/html; charset=UTF-8';
+        $body = $htmlBody;
+        if ($attachments === []) {
+            $headers[] = 'Content-Type: text/html; charset=UTF-8';
+        } else {
+            $boundary = '=_MMIG46_' . bin2hex(random_bytes(18));
+            $headers[] = 'Content-Type: multipart/mixed; boundary="' . $boundary . '"';
+            $parts = ['--' . $boundary, 'Content-Type: text/html; charset=UTF-8', 'Content-Transfer-Encoding: 8bit', '', $htmlBody];
+            foreach ($attachments as $attachment) {
+                $path=(string)($attachment['path']??'');if(!is_file($path)||!is_readable($path))throw new \RuntimeException('Mail attachment is not readable.');
+                $name=basename((string)($attachment['name']??basename($path)));$mime=(string)($attachment['mime']??'application/octet-stream');$content=file_get_contents($path);if($content===false)throw new \RuntimeException('Mail attachment could not be read.');
+                array_push($parts,'--'.$boundary,'Content-Type: '.$mime.'; name="'.$name.'"','Content-Disposition: attachment; filename="'.$name.'"','Content-Transfer-Encoding: base64','',chunk_split(base64_encode($content)));
+            }
+            $parts[]='--'.$boundary.'--';$body=implode("\r\n",$parts);
+        }
 
         if (
             $replyToEmail
@@ -566,7 +590,7 @@ final class Mailer
         return mail(
             implode(',', self::parseRecipients($to)),
             self::encodeHeader($subject),
-            $htmlBody,
+            $body,
             implode("\r\n", $headers)
         );
     }

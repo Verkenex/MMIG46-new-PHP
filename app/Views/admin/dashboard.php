@@ -225,6 +225,7 @@ $t = $copy[$isEn ? 'en' : 'de'];
             >
                 <?= Security::e($t['review_travels']) ?>
             </a>
+            <a class="button ghost" href="<?= Security::e(I18n::url('/verwaltung/rechnungen')) ?>"><?= $isEn ? 'Invoices' : 'Rechnungen' ?></a>
         </div>
     </div>
 

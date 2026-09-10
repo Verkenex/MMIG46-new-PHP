@@ -3,6 +3,8 @@
 /storage/logs/*.log
 /storage/uploads/*
 !/storage/uploads/.gitkeep
+/storage/invoices/*.pdf
+/storage/invoices/tmp-*
 .DS_Store
 /real.env
 /.env.production
