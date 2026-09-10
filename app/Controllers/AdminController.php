@@ -7,9 +7,14 @@ use MMIG46\Core\Security;
 use MMIG46\Core\Session;
 use MMIG46\Core\View;
 use MMIG46\Models\Member;
+use MMIG46\Models\MembershipApplication;
+use MMIG46\Models\MailOutbox;
 use MMIG46\Models\NewsItem;
 use MMIG46\Models\TravelItem;
 use MMIG46\Models\User;
+use MMIG46\Services\MembershipWorkflow;
+use MMIG46\Services\OutboxDelivery;
+use MMIG46\Core\Seo;
 
 class AdminController
 {
@@ -190,11 +195,23 @@ class AdminController
     {
         $this->guard();
 
+        $applications = MembershipApplication::all();
+        $outbox = [];
+        foreach ($applications as $application) {
+            $outbox[(int)$application['id']] = MailOutbox::forApplication((int)$application['id']);
+        }
+
+        $users = User::all();
+        $userOutbox = [];
+        foreach ($users as $user) $userOutbox[(int)$user['id']] = MailOutbox::forUser((int)$user['id']);
         return View::render('admin/dashboard', [
-            'users' => User::all(),
+            'users' => $users,
             'members' => Member::all(),
             'news' => NewsItem::all(200),
             'travels' => TravelItem::published(),
+            'applications' => $applications,
+            'applicationOutbox' => $outbox,
+            'userOutbox' => $userOutbox,
         ]);
     }
 
@@ -252,8 +269,8 @@ class AdminController
         DB::pdo()
             ->prepare(
                 'INSERT INTO members(name, email, aircraft, base, role_label, member_type, website,
-                    invoice_name, street, postal_code, city, country, phone, internal_notes, is_public, sort_order)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                    invoice_name, street, postal_code, city, country, phone, internal_notes, is_public, public_consent_at, sort_order)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
             )
             ->execute([
                 trim($_POST['name'] ?? ''),
@@ -270,7 +287,8 @@ class AdminController
                 trim($_POST['country'] ?? ''),
                 trim($_POST['phone'] ?? ''),
                 trim($_POST['internal_notes'] ?? ''),
-                isset($_POST['is_public']) ? 1 : 0,
+                $public = isset($_POST['is_public']) && isset($_POST['public_consent_confirmed']) ? 1 : 0,
+                $public ? date('Y-m-d H:i:s') : null,
                 (int)($_POST['sort_order'] ?? 100),
             ]);
 
@@ -295,7 +313,9 @@ class AdminController
         $statement = DB::pdo()->prepare(
             'UPDATE members SET name = ?, email = ?, aircraft = ?, base = ?, role_label = ?,
                 member_type = ?, website = ?, invoice_name = ?, street = ?, postal_code = ?,
-                city = ?, country = ?, phone = ?, internal_notes = ?, is_public = ?, sort_order = ?
+                city = ?, country = ?, phone = ?, internal_notes = ?, is_public = ?,
+                public_consent_at = CASE WHEN ? = 1 THEN COALESCE(public_consent_at, NOW()) ELSE NULL END,
+                sort_order = ?
              WHERE id = ?'
         );
         $statement->execute([
@@ -313,7 +333,8 @@ class AdminController
             trim((string) ($_POST['country'] ?? '')),
             trim((string) ($_POST['phone'] ?? '')),
             trim((string) ($_POST['internal_notes'] ?? '')),
-            isset($_POST['is_public']) ? 1 : 0,
+            $public = isset($_POST['is_public']) && isset($_POST['public_consent_confirmed']) ? 1 : 0,
+            $public,
             (int) ($_POST['sort_order'] ?? 100),
             $memberId,
         ]);
@@ -443,4 +464,78 @@ public function storeTravel(): string
     header('Location:/verwaltung');
     exit;
 }
+
+    public function approveApplication(string $id): string
+    {
+        $this->guard(); Security::verifyCsrf();
+        try {
+            MembershipWorkflow::approve((int)$id,(int)$_SESSION['user']['id'],isset($_POST['board_confirmed']),isset($_POST['payment_confirmed']),isset($_POST['link_existing_user']));
+            foreach (MailOutbox::forApplication((int)$id) as $message) OutboxDelivery::deliver((int)$message['id']);
+            Session::flash('success','Antrag wurde freigegeben; der Passwort-Link wurde über die Outbox verarbeitet.');
+        } catch (\Throwable $e) { Session::flash('error','Freigabe nicht möglich: '.$e->getMessage()); }
+        header('Location:/verwaltung'); exit;
+    }
+
+    public function rejectApplication(string $id): string
+    {
+        $this->guard(); Security::verifyCsrf();
+        if (($_POST['confirmation'] ?? '') !== 'ABLEHNEN') return $this->fail('Serverseitige Bestätigung ABLEHNEN fehlt.');
+        try { MembershipWorkflow::reject((int)$id,(int)$_SESSION['user']['id'],($_POST['decision']??'')==='cancelled'?'cancelled':'rejected'); Session::flash('success','Antrag wurde abgelehnt/storniert.'); }
+        catch (\Throwable $e) { Session::flash('error','Vorgang fehlgeschlagen: '.$e->getMessage()); }
+        header('Location:/verwaltung'); exit;
+    }
+
+    public function retryOutbox(string $id): string
+    {
+        $this->guard(); Security::verifyCsrf();
+        $sent = OutboxDelivery::deliver((int)$id);
+        Session::flash($sent ? 'success' : 'error', $sent ? 'E-Mail wurde versendet.' : 'E-Mail-Versand ist erneut fehlgeschlagen.');
+        header('Location:/verwaltung'); exit;
+    }
+
+    public function updateUser(string $id): string
+    {
+        $this->guard(); Security::verifyCsrf(); $userId=(int)$id;
+        $name=$this->required((string)($_POST['name']??''),'Name'); $email=$this->requiredEmail((string)($_POST['email']??''));
+        $role=(string)($_POST['role']??'member'); if(!in_array($role,['admin','moderator','member','guest'],true)) return $this->fail('Ungültige Rolle.');
+        $user=User::find($userId); if(!$user) return $this->fail('Benutzer nicht gefunden.');
+        if($user['role']==='admin' && $role!=='admin' && $this->adminCount()<=1) return $this->fail('Der letzte Administrator darf nicht herabgestuft werden.');
+        try { DB::pdo()->prepare('UPDATE users SET name=?,email=?,role=? WHERE id=?')->execute([$name,$email,$role,$userId]); Session::flash('success','Benutzer wurde aktualisiert.'); }
+        catch(\PDOException $e){ Session::flash('error','Benutzer konnte nicht aktualisiert werden; die E-Mail ist möglicherweise vergeben.'); }
+        header('Location:/verwaltung'); exit;
+    }
+
+    public function resetUserPassword(string $id): string
+    {
+        $this->guard(); Security::verifyCsrf(); $user=User::find((int)$id); if(!$user) return $this->fail('Benutzer nicht gefunden.');
+        $token=bin2hex(random_bytes(32)); $pdo=DB::pdo(); $pdo->beginTransaction();
+        try { $pdo->prepare('UPDATE users SET reset_token_hash=?,reset_expires_at=? WHERE id=?')->execute([hash('sha256',$token),date('Y-m-d H:i:s',time()+86400),(int)$id]);
+            MailOutbox::queueInTransaction('password_link',(string)$user['email'],'MMIG46-Passwort zurücksetzen',['url'=>Seo::absoluteUrl('/passwort-setzen?token='.rawurlencode($token)),'language'=>'de'],'user',(int)$id,'password-reset-'.(int)$id.'-'.hash('sha256',$token)); $outboxId=(int)$pdo->lastInsertId(); $pdo->commit();
+            $sent=OutboxDelivery::deliver($outboxId); Session::flash($sent?'success':'error',$sent?'Passwort-Reset-Link wurde versendet.':'Passwort-Reset-Link wurde gespeichert; Versand fehlgeschlagen und kann erneut versucht werden.');
+        } catch(\Throwable $e){if($pdo->inTransaction())$pdo->rollBack();Session::flash('error','Reset fehlgeschlagen: '.$e->getMessage());}
+        header('Location:/verwaltung'); exit;
+    }
+
+    public function deleteUser(string $id): string
+    {
+        $this->guard(); Security::verifyCsrf(); $userId=(int)$id;
+        if(($_POST['confirmation']??'')!=='BENUTZER LÖSCHEN') return $this->fail('Serverseitige Löschbestätigung fehlt.');
+        if($userId===(int)$_SESSION['user']['id']) return $this->fail('Selbstlöschung ist nicht erlaubt.');
+        $user=User::find($userId); if(!$user) return $this->fail('Benutzer nicht gefunden.');
+        if($user['role']==='admin' && $this->adminCount()<=1) return $this->fail('Der letzte Administrator darf nicht gelöscht werden.');
+        $stmt=DB::pdo()->prepare('SELECT (SELECT COUNT(*) FROM forum_topics WHERE user_id=?)+(SELECT COUNT(*) FROM forum_posts WHERE user_id=?)+(SELECT COUNT(*) FROM members WHERE user_id=?)'); $stmt->execute([$userId,$userId,$userId]);
+        if((int)$stmt->fetchColumn()>0) return $this->fail('Löschen gesperrt: Es bestehen Forum- oder Mitgliedsverknüpfungen.');
+        DB::pdo()->prepare('DELETE FROM users WHERE id=?')->execute([$userId]); Session::flash('success','Benutzer wurde gelöscht.'); header('Location:/verwaltung'); exit;
+    }
+
+    public function deleteMember(string $id): string
+    {
+        $this->guard(); Security::verifyCsrf(); $memberId=(int)$id;
+        if(($_POST['confirmation']??'')!=='MITGLIED LÖSCHEN') return $this->fail('Serverseitige Löschbestätigung fehlt.');
+        $stmt=DB::pdo()->prepare('SELECT user_id,application_id FROM members WHERE id=?');$stmt->execute([$memberId]);$links=$stmt->fetch();if(!$links)return $this->fail('Mitglied nicht gefunden.');
+        if(!empty($links['application_id'])) return $this->fail('Mitglied ist mit einem Antrag verknüpft. Antrag zuerst nachvollziehbar bearbeiten; Benutzer wird nie automatisch gelöscht.');
+        DB::pdo()->prepare('DELETE FROM members WHERE id=?')->execute([$memberId]);Session::flash('success','Mitglied wurde gelöscht; ein Benutzerkonto blieb unberührt.');header('Location:/verwaltung');exit;
+    }
+
+    private function adminCount(): int { return (int)DB::pdo()->query("SELECT COUNT(*) FROM users WHERE role='admin'")->fetchColumn(); }
 }

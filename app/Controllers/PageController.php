@@ -6,20 +6,26 @@ namespace MMIG46\Controllers;
 
 use MMIG46\Core\I18n;
 use MMIG46\Core\Security;
+use MMIG46\Core\Seo;
 use MMIG46\Core\Session;
 use MMIG46\Core\View;
 use MMIG46\Models\ContactRequest;
 use MMIG46\Models\ContentPage;
 use MMIG46\Models\MembershipApplication;
+use MMIG46\Models\MailOutbox;
 use MMIG46\Models\NewsItem;
 use MMIG46\Models\Search;
 use MMIG46\Models\SiteSetting;
 use MMIG46\Models\TravelItem;
 use MMIG46\Services\Mailer;
+use MMIG46\Services\OutboxDelivery;
 use MMIG46\Services\Markdown;
 
 final class PageController
 {
+    public function redirectNewsAlias(): string { header('Location: ' . I18n::url('/news', I18n::current()), true, 301); exit; }
+    public function redirectSearchAlias(): string { header('Location: ' . I18n::url('/suche', I18n::current(), ['q'=>(string)($_GET['q']??'')]), true, 301); exit; }
+
     public function home(): string
     {
         $lang = I18n::current();
@@ -62,8 +68,8 @@ final class PageController
          * Falls ein englischer Inhalt nicht vorhanden ist,
          * wird auf die deutsche Fassung zurückgegriffen.
          */
-        if (!$item && $lang !== 'de') {
-            $item = NewsItem::findPublishedBySlug($slug, 'de');
+        if (!$item && $lang !== 'de' && NewsItem::findPublishedBySlug($slug, 'de')) {
+            header('Location: ' . I18n::url('/news/' . rawurlencode($slug), 'de'), true, 302); exit;
         }
 
         if (!$item) {
@@ -122,8 +128,8 @@ final class PageController
 
         $item = TravelItem::findPublishedBySlug($slug, $lang);
 
-        if (!$item && $lang !== 'de') {
-            $item = TravelItem::findPublishedBySlug($slug, 'de');
+        if (!$item && $lang !== 'de' && TravelItem::findPublishedBySlug($slug, 'de')) {
+            header('Location: ' . I18n::url('/reisen/' . rawurlencode($slug), 'de'), true, 302); exit;
         }
 
         if (!$item) {
@@ -304,7 +310,13 @@ final class PageController
             return View::render('errors/404');
         }
 
-        $page = ContentPage::findPublishedBySlug($slug);
+        $lang = I18n::current();
+        $page = ContentPage::findPublishedBySlug($slug, $lang);
+
+        if (!$page && $lang !== 'de' && ContentPage::findPublishedBySlug($slug, 'de')) {
+            header('Location: ' . I18n::url('/' . rawurlencode($slug), 'de'), true, 302);
+            exit;
+        }
 
         if (!$page) {
             http_response_code(404);
@@ -460,8 +472,10 @@ final class PageController
 
     public function membershipApplication(): string
     {
+        $_SESSION['membership_idempotency_token'] = bin2hex(random_bytes(32));
         return $this->renderStaticLocalized(
-            'mitgliedsantrag'
+            'mitgliedsantrag',
+            ['idempotencyToken' => $_SESSION['membership_idempotency_token']]
         );
     }
 
@@ -470,6 +484,14 @@ final class PageController
         Security::verifyCsrf();
 
         $lang = I18n::current();
+
+        $idempotencyToken = trim((string) ($_POST['idempotency_token'] ?? ''));
+        $sessionToken = (string) ($_SESSION['membership_idempotency_token'] ?? '');
+        if ($idempotencyToken === '' || $sessionToken === '' || !hash_equals($sessionToken, $idempotencyToken)) {
+            Session::flash('error', $lang === 'en' ? 'The form has expired. Please reload it.' : 'Das Formular ist abgelaufen. Bitte laden Sie es neu.');
+            header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
+            exit;
+        }
 
         $data = [
             'membership_type' => trim(
@@ -632,7 +654,7 @@ final class PageController
         }
 
         try {
-            MembershipApplication::create($data);
+            $application = MembershipApplication::createPending($data, $lang, $idempotencyToken);
         } catch (\Throwable $exception) {
             $this->logException(
                 'Membership application database insert failed',
@@ -654,62 +676,17 @@ final class PageController
             exit;
         }
 
-        try {
-            $mailSent =
-                Mailer::membershipApplication($data);
-        } catch (\Throwable $exception) {
-            $this->logException(
-                'Membership application mail failed',
-                $exception
-            );
-
-            $mailSent = false;
-        }
-
-        if (!$mailSent) {
-            Session::flash(
-                'ok',
-                $lang === 'en'
-                    ? 'The membership application has been saved. Email notification is currently unavailable.'
-                    : 'Der Mitgliedsantrag wurde gespeichert. Die E-Mail-Benachrichtigung ist derzeit nicht verfügbar.'
-            );
-
-            header(
-                'Location: '
-                . I18n::url('/mitgliedsantrag', $lang)
-            );
-
-            exit;
-        }
-
-        try {
-            Mailer::membershipCopy($data);
-        } catch (\Throwable $exception) {
-            $this->logException(
-                'Membership confirmation copy failed',
-                $exception
-            );
-
-            Session::flash(
-                'ok',
-                $lang === 'en'
-                    ? 'The membership application has been saved and submitted. However, the confirmation copy could not be sent.'
-                    : 'Der Mitgliedsantrag wurde gespeichert und übermittelt. Die Bestätigungskopie konnte jedoch nicht versendet werden.'
-            );
-
-            header(
-                'Location: '
-                . I18n::url('/mitgliedsantrag', $lang)
-            );
-
-            exit;
+        unset($_SESSION['membership_idempotency_token']);
+        $allSent = true;
+        foreach (MailOutbox::forApplication((int) $application['id']) as $message) {
+            if (!OutboxDelivery::deliver((int) $message['id'])) $allSent = false;
         }
 
         Session::flash(
             'ok',
             $lang === 'en'
-                ? 'The membership application has been saved and submitted. A copy has been sent to your private email address.'
-                : 'Der Mitgliedsantrag wurde gespeichert und übermittelt. Eine Kopie wurde an Ihre private E-Mail-Adresse gesendet.'
+                ? ($allSent ? 'Your application was saved. The board will review it; it does not yet constitute membership.' : 'Your application was saved. A notification could not be sent and is marked for retry.')
+                : ($allSent ? 'Ihr Antrag wurde gespeichert. Der Vorstand prüft ihn; eine Mitgliedschaft besteht noch nicht.' : 'Ihr Antrag wurde gespeichert. Eine Benachrichtigung konnte nicht versendet werden und ist für einen erneuten Versuch markiert.')
         );
 
         header(
@@ -978,6 +955,9 @@ final class PageController
                     )
                 );
             }
+
+            header('Location: ' . I18n::url(Seo::currentPath(), 'de'), true, 302);
+            exit;
         }
 
         return View::render(

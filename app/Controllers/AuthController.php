@@ -40,7 +40,7 @@ final class AuthController
         $query->execute([$ip, $email]);
 
         if ((int) ($query->fetch()['c'] ?? 0) >= 8) {
-            Session::flash('error', I18n::t('auth.too_many_attempts'));
+            Session::flash('error', I18n::t('auth.rate_limited'));
             header('Location: ' . I18n::url('/login', $lang));
             exit;
         }
@@ -57,7 +57,7 @@ final class AuthController
         )->execute([$email, $ip, $valid ? 1 : 0]);
 
         if (!$valid) {
-            Session::flash('error', I18n::t('auth.failed'));
+            Session::flash('error', I18n::t('auth.invalid'));
             header('Location: ' . I18n::url('/login', $lang));
             exit;
         }

@@ -28,7 +28,7 @@ set_exception_handler(function (Throwable $e): void {
     ));
 
     $message = Env::get('APP_ENV') === 'production'
-        ? 'Ein interner Fehler ist aufgetreten.'
+        ? (\MMIG46\Core\I18n::current() === 'en' ? 'An internal error occurred.' : 'Ein interner Fehler ist aufgetreten.')
         : $e->getMessage();
 
     echo View::render('errors/500', [

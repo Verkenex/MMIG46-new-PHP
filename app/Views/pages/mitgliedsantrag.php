@@ -33,6 +33,7 @@ $aircraftModels = [
         </header>
 
         <form class="membership-form" method="post" action="/mitgliedsantrag">
+            <input type="hidden" name="idempotency_token" value="<?= Security::e($idempotencyToken ?? '') ?>">
             <?= Security::csrfField() ?>
 
             <fieldset class="membership-fieldset membership-status">
