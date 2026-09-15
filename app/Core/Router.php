@@ -24,6 +24,11 @@ final class Router
 
     public function dispatch(string $method, string $uri): void
     {
+        $isHead = strtoupper($method) === 'HEAD';
+        if ($isHead) {
+            $method = 'GET';
+        }
+
         $path = rtrim(parse_url($uri, PHP_URL_PATH) ?: '/', '/') ?: '/';
         $routes = $this->routes[$method] ?? [];
 
@@ -31,7 +36,10 @@ final class Router
 
         if ($handler !== null) {
             [$class, $action] = $handler;
-            echo (new $class())->$action();
+            $response = (new $class())->$action();
+            if (!$isHead) {
+                echo $response;
+            }
             return;
         }
 
@@ -43,12 +51,17 @@ final class Router
             }
 
             [$class, $action] = $candidateHandler;
-            echo (new $class())->$action(...$params);
+            $response = (new $class())->$action(...$params);
+            if (!$isHead) {
+                echo $response;
+            }
             return;
         }
 
         http_response_code(404);
-        echo View::render('errors/404');
+        if (!$isHead) {
+            echo View::render('errors/404');
+        }
     }
 
     private function matchDynamicRoute(string $route, string $path): ?array

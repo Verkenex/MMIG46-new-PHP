@@ -62,11 +62,12 @@ Importreihenfolge für eine neue produktive Installation:
 mysql -u USER -p DATENBANK < database/schema.sql
 mysql -u USER -p DATENBANK < database/patches/2026_membership_workflow_admin.sql
 mysql -u USER -p DATENBANK < database/patches/2026_invoice_management.sql
+mysql -u USER -p DATENBANK < database/patches/2026_audit_followup.sql
 mysql -u USER -p DATENBANK < database/seed_live.sql
 mysql -u USER -p DATENBANK < database/seed_admin.sql
 ```
 
-Die beiden Patches sind Bestandteil einer Neuinstallation, setzen diese Reihenfolge voraus und duerfen genau einmal ausgefuehrt werden. `database/patches/2026_member_invoice_details.sql` ist nicht zusaetzlich zu importieren, weil dessen Spalten bereits in `schema.sql` enthalten sind.
+Die drei Patches sind Bestandteil einer Neuinstallation, setzen diese Reihenfolge voraus und duerfen genau einmal ausgefuehrt werden. `database/patches/2026_member_invoice_details.sql` ist nicht zusaetzlich zu importieren, weil dessen Spalten bereits in `schema.sql` enthalten sind.
 
 Wenn die Datenbank im KAS anders heisst, exakt diesen Namen in `.env` eintragen.
 
@@ -150,10 +151,15 @@ Pflichtpruefung:
 - `/forum` oeffentlich lesbar
 - Schreiben im Forum nur fuer berechtigte Rollen
 - `/kontakt` Captcha, SQL-Speicherung und Mailversand
+- `/trainingswochenende-2026` Anmeldung, Speicherung und Versandstatus
 - `/memberlist` oeffentliche Liste
 - `/impressum`, `/datenschutz`, `/agb` mit aktuellen Daten
 - SSL-Weiterleitung
 - Keine direkte Abrufbarkeit von `/.env`, `/composer.json`, `/database/install.sql`
+
+Wenn das KAS-Domainziel bereits direkt auf `public/` zeigt, darf die Root-Datei
+`.htaccess` nicht zusätzlich in das Domainverzeichnis übertragen werden. Aktiv
+bleibt dann ausschließlich `public/.htaccess`. HTTPS wird im KAS erzwungen.
 
 ## 11. Produktive Nutzeranlage auf KAS
 

@@ -47,7 +47,7 @@ final class MembershipWorkflow
         $pdo=DB::pdo(); $pdo->beginTransaction();
         try {
             $stmt=$pdo->prepare('SELECT status FROM membership_applications WHERE id=? FOR UPDATE'); $stmt->execute([$applicationId]); $current=$stmt->fetchColumn();
-            if (!$current || $current==='approved') throw new \RuntimeException('Freigegebene Anträge können hier nicht abgelehnt werden.');
+            if (!$current || !in_array($current, ['pending', 'manual_review'], true)) throw new \RuntimeException('Nur offene Anträge können abgelehnt oder storniert werden.');
             $now=date('Y-m-d H:i:s');
             $pdo->prepare('UPDATE membership_applications SET status=?,decided_at=?,decided_by=? WHERE id=?')->execute([$status,$now,$adminId,$applicationId]);
             $pdo->prepare("UPDATE members SET status='rejected',is_public=0 WHERE application_id=? AND status='pending'")->execute([$applicationId]);

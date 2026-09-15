@@ -45,6 +45,10 @@ final class SeoController
             $urls[] = $url;
         }
 
+        foreach ($this->contentUrls() as $url) {
+            $urls[] = $url;
+        }
+
         $xml = [];
         $xml[] = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml[] = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
@@ -147,6 +151,42 @@ final class SeoController
             ];
         }
 
+        return $urls;
+    }
+
+    private function contentUrls(): array
+    {
+        try {
+            $stmt = DB::pdo()->query("SELECT lang, slug, COALESCE(updated_at, created_at) AS lastmod FROM content_pages WHERE slug <> '' AND is_published = 1 AND slug NOT IN ('verein','satzung','malibu-mirage','impressum','datenschutz','agb','kontakt','mitgliedsantrag','trainingswochenende-2026','reisen','suche','search','news') ORDER BY COALESCE(updated_at, created_at) DESC");
+            $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Throwable $e) {
+            return [];
+        }
+
+        $languagesBySlug = [];
+        foreach ($rows as $row) {
+            $languagesBySlug[$row['slug']][$row['lang']] = true;
+        }
+
+        $urls = [];
+        foreach ($rows as $row) {
+            $alternates = [];
+            foreach (['de', 'en'] as $lang) {
+                if (!empty($languagesBySlug[$row['slug']][$lang])) {
+                    $alternates[$lang] = Seo::canonicalUrl('/' . $row['slug'], $lang);
+                }
+            }
+            if (isset($alternates['de'])) {
+                $alternates['x-default'] = $alternates['de'];
+            }
+            $urls[] = [
+                'loc' => Seo::canonicalUrl('/' . $row['slug'], $row['lang']),
+                'alternates' => $alternates,
+                'lastmod' => $this->dateOnly($row['lastmod'] ?? null),
+                'changefreq' => 'monthly',
+                'priority' => '0.5',
+            ];
+        }
         return $urls;
     }
 

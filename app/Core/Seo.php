@@ -181,15 +181,14 @@ final class Seo
 
     public static function sitemapStaticUrls(): array
     {
-        $today = date('Y-m-d');
-
         $urls = [];
 
         foreach (['de','en'] as $lang) foreach (self::staticPages($lang) as $path => $meta) {
             $urls[] = [
                 'loc' => self::canonicalUrl($path, $lang),
                 'alternates' => ['de'=>self::canonicalUrl($path,'de'),'en'=>self::canonicalUrl($path,'en'),'x-default'=>self::canonicalUrl($path,'de')],
-                'lastmod' => $today,
+                // Für statische Views gibt es kein verlässliches Änderungsdatum.
+                'lastmod' => null,
                 'changefreq' => $meta['changefreq'] ?? 'monthly',
                 'priority' => $meta['priority'] ?? '0.5',
             ];
