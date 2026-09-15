@@ -8,7 +8,7 @@ Die Anwendung ist eine serverseitig gerenderte PHP-/MariaDB-Website mit deutsch-
 
 Die Website befindet sich im produktiven Einsatz.
 
-Die Anwendung wurde für den Betrieb bei **ALL-INKL / KAS** entwickelt. Das öffentliche Webroot ist `public/`. Alternativ kann die Domain auf das Projektwurzelverzeichnis zeigen; die dortige `.htaccess` leitet Anfragen intern an `public/` weiter und schützt nicht öffentliche Projektdateien.
+Die Anwendung wurde für den Betrieb bei **ALL-INKL / KAS** entwickelt. Das Domainziel soll direkt auf das öffentliche Webroot `public/` zeigen. Die Root-`.htaccess` enthält nur für technisch abweichende Umgebungen eine abgesicherte Kompatibilitätsweiterleitung.
 
 ## Technischer Stack
 

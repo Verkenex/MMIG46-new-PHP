@@ -20,10 +20,7 @@ class AdminController
 {
     private function guard(): void
     {
-        if (empty($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
-            header('Location:/login');
-            exit;
-        }
+        Security::requireRole(['admin']);
     }
 
     private function fail(string $message): string
@@ -525,7 +522,12 @@ public function storeTravel(): string
         if($user['role']==='admin' && $this->adminCount()<=1) return $this->fail('Der letzte Administrator darf nicht gelöscht werden.');
         $stmt=DB::pdo()->prepare('SELECT (SELECT COUNT(*) FROM forum_topics WHERE user_id=?)+(SELECT COUNT(*) FROM forum_posts WHERE user_id=?)+(SELECT COUNT(*) FROM members WHERE user_id=?)'); $stmt->execute([$userId,$userId,$userId]);
         if((int)$stmt->fetchColumn()>0) return $this->fail('Löschen gesperrt: Es bestehen Forum- oder Mitgliedsverknüpfungen.');
-        DB::pdo()->prepare('DELETE FROM users WHERE id=?')->execute([$userId]); Session::flash('success','Benutzer wurde gelöscht.'); header('Location:/verwaltung'); exit;
+        $stmt=DB::pdo()->prepare('SELECT COUNT(*) FROM invoices WHERE created_by=? OR updated_by=? OR finalized_by=? OR sent_by=? OR paid_by=? OR cancelled_by=?');
+        $stmt->execute([$userId,$userId,$userId,$userId,$userId,$userId]);
+        if((int)$stmt->fetchColumn()>0) return $this->fail('Löschen gesperrt: Der Benutzer ist mit mindestens einer Rechnung verknüpft.');
+        try { DB::pdo()->prepare('DELETE FROM users WHERE id=?')->execute([$userId]); Session::flash('success','Benutzer wurde gelöscht.'); }
+        catch(\PDOException $e) { return $this->fail('Benutzer konnte wegen bestehender Datenverknüpfungen nicht gelöscht werden.'); }
+        header('Location:/verwaltung'); exit;
     }
 
     public function deleteMember(string $id): string

@@ -353,9 +353,19 @@ final class PageController
 
         $lang = I18n::current();
 
-        $expected = (int) (
-            $_SESSION['captcha_answer'] ?? 0
-        );
+        if (!array_key_exists('captcha_answer', $_SESSION)) {
+            Session::flash(
+                'error',
+                $lang === 'en'
+                    ? 'The security question has expired. Please try again.'
+                    : 'Die Sicherheitsfrage ist abgelaufen. Bitte versuchen Sie es erneut.'
+            );
+            header('Location: ' . I18n::url('/kontakt', $lang));
+            exit;
+        }
+
+        $expected = (int) $_SESSION['captcha_answer'];
+        unset($_SESSION['captcha_answer']);
 
         $given = (int) ($_POST['captcha'] ?? -1);
 
@@ -373,8 +383,6 @@ final class PageController
 
             exit;
         }
-
-        unset($_SESSION['captcha_answer']);
 
         $name = trim((string) ($_POST['name'] ?? ''));
         $email = trim((string) ($_POST['email'] ?? ''));

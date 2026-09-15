@@ -16,7 +16,7 @@ use MMIG46\Services\OutboxDelivery;
 
 final class InvoiceController
 {
-    private function guard(): void { if(empty($_SESSION['user'])||($_SESSION['user']['role']??'')!=='admin'){header('Location:'.I18n::url('/login'));exit;} }
+    private function guard(): void { Security::requireRole(['admin']); }
     private function redirect(?int $id=null): never { header('Location:'.I18n::url($id?'/verwaltung/rechnungen/'.$id:'/verwaltung/rechnungen'));exit; }
     private function flashError(\Throwable $e,?int $id=null): never { Session::flash('error',$e->getMessage());$this->redirect($id); }
 
