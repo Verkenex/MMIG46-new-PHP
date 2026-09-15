@@ -23,11 +23,18 @@ final class MailOutbox
         $pdo=DB::pdo(); $pdo->beginTransaction();
         try { $stmt=$pdo->prepare('SELECT * FROM mail_outbox WHERE id=? FOR UPDATE'); $stmt->execute([$id]); $row=$stmt->fetch();
             if (!$row || $row['status']==='sent') { $pdo->commit(); return null; }
-            $pdo->prepare("UPDATE mail_outbox SET status='sending',attempts=attempts+1,last_error=NULL WHERE id=?")->execute([$id]); $pdo->commit(); return $row;
+            if ($row['status'] === 'sending') {
+                $leaseUntil = strtotime((string)($row['available_at'] ?? ''));
+                if ($leaseUntil !== false && $leaseUntil > time()) {
+                    $pdo->commit();
+                    return null;
+                }
+            }
+            $pdo->prepare("UPDATE mail_outbox SET status='sending',attempts=attempts+1,last_error=NULL,available_at=DATE_ADD(NOW(), INTERVAL 10 MINUTE) WHERE id=?")->execute([$id]); $pdo->commit(); return $row;
         } catch (\Throwable $e) { if ($pdo->inTransaction()) $pdo->rollBack(); throw $e; }
     }
     public static function finish(int $id,bool $sent,?string $error=null): void
     {
-        DB::pdo()->prepare('UPDATE mail_outbox SET status=?,sent_at=?,last_error=? WHERE id=?')->execute([$sent?'sent':'failed',$sent?date('Y-m-d H:i:s'):null,$sent?null:mb_substr((string)$error,0,1000),$id]);
+        DB::pdo()->prepare('UPDATE mail_outbox SET status=?,sent_at=?,last_error=?,available_at=NOW() WHERE id=?')->execute([$sent?'sent':'failed',$sent?date('Y-m-d H:i:s'):null,$sent?null:mb_substr((string)$error,0,1000),$id]);
     }
 }

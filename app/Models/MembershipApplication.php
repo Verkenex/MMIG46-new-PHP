@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace MMIG46\Models;
 use MMIG46\Core\DB;
+use MMIG46\Core\Security;
 
 final class MembershipApplication
 {
@@ -12,8 +13,10 @@ final class MembershipApplication
         $duplicateHash = self::duplicateHash($data);
         $pdo->beginTransaction();
         try {
-            $existing = self::findByHash($idempotencyHash, $duplicateHash);
+            $existing = self::findByIdempotencyHash($idempotencyHash);
             if ($existing) { $pdo->commit(); return $existing; }
+            $duplicate = self::findOpenDuplicate($duplicateHash);
+            if ($duplicate) { $pdo->commit(); return $duplicate; }
             $email = strtolower(trim((string) $data['private_email']));
             $conflicts = [];
             foreach (['users' => 'Benutzerkonto', 'members' => 'Mitglied'] as $table => $label) {
@@ -29,7 +32,7 @@ final class MembershipApplication
             $pdo->prepare($sql)->execute(array_merge([
                 in_array($language, ['de','en'], true) ? $language : 'de', $idempotencyHash, $duplicateHash,
                 $status, $conflicts === [] ? null : implode(' ', $conflicts),
-            ], $values, [1, $_SERVER['REMOTE_ADDR'] ?? null, $payload]));
+            ], $values, [1, Security::clientFingerprint(), $payload]));
             $applicationId = (int) $pdo->lastInsertId();
             $name = trim((string) $data['first_name'] . ' ' . (string) $data['last_name']);
             $pdo->prepare("INSERT INTO members (application_id,status,name,email,aircraft,base,member_type,invoice_name,street,phone,internal_notes,is_public,sort_order) VALUES (?, 'pending', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 100)")
@@ -41,7 +44,7 @@ final class MembershipApplication
             return ['id'=>$applicationId,'member_id'=>$memberId,'status'=>$status,'reused'=>false];
         } catch (\PDOException $e) {
             if ($pdo->inTransaction()) $pdo->rollBack();
-            if ((string) $e->getCode() === '23000' && ($existing = self::findByHash($idempotencyHash, $duplicateHash))) return $existing;
+            if ((string) $e->getCode() === '23000' && ($existing = self::findByIdempotencyHash($idempotencyHash))) return $existing;
             throw $e;
         } catch (\Throwable $e) {
             if ($pdo->inTransaction()) $pdo->rollBack();
@@ -54,10 +57,17 @@ final class MembershipApplication
         return DB::pdo()->query('SELECT a.*,m.id AS member_id,m.status AS member_status,ub.name AS board_admin_name,up.name AS payment_admin_name,ud.name AS decision_admin_name FROM membership_applications a LEFT JOIN members m ON m.application_id=a.id LEFT JOIN users ub ON ub.id=a.board_confirmed_by LEFT JOIN users up ON up.id=a.payment_confirmed_by LEFT JOIN users ud ON ud.id=a.decided_by ORDER BY a.created_at DESC')->fetchAll();
     }
 
-    private static function findByHash(string $idempotencyHash, string $duplicateHash): ?array
+    private static function findByIdempotencyHash(string $idempotencyHash): ?array
     {
-        $stmt = DB::pdo()->prepare('SELECT a.id,a.status,m.id AS member_id,1 AS reused FROM membership_applications a LEFT JOIN members m ON m.application_id=a.id WHERE a.idempotency_hash=? OR a.duplicate_hash=? LIMIT 1');
-        $stmt->execute([$idempotencyHash,$duplicateHash]);
+        $stmt = DB::pdo()->prepare('SELECT a.id,a.status,m.id AS member_id,1 AS reused FROM membership_applications a LEFT JOIN members m ON m.application_id=a.id WHERE a.idempotency_hash=? LIMIT 1');
+        $stmt->execute([$idempotencyHash]);
+        return $stmt->fetch() ?: null;
+    }
+
+    private static function findOpenDuplicate(string $duplicateHash): ?array
+    {
+        $stmt = DB::pdo()->prepare("SELECT a.id,a.status,m.id AS member_id,1 AS reused FROM membership_applications a LEFT JOIN members m ON m.application_id=a.id WHERE a.duplicate_hash=? AND a.status IN ('pending','manual_review','approved') ORDER BY a.id DESC LIMIT 1");
+        $stmt->execute([$duplicateHash]);
         return $stmt->fetch() ?: null;
     }
 

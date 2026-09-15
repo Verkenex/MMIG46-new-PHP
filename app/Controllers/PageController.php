@@ -17,6 +17,7 @@ use MMIG46\Models\NewsItem;
 use MMIG46\Models\Search;
 use MMIG46\Models\SiteSetting;
 use MMIG46\Models\TravelItem;
+use MMIG46\Models\TrainingRegistration;
 use MMIG46\Services\Mailer;
 use MMIG46\Services\OutboxDelivery;
 use MMIG46\Services\Markdown;
@@ -392,6 +393,9 @@ final class PageController
             $name === ''
             || $email === ''
             || $message === ''
+            || mb_strlen($name) > 160
+            || mb_strlen($email) > 190
+            || mb_strlen($message) > 20000
         ) {
             Session::flash(
                 'error',
@@ -480,10 +484,13 @@ final class PageController
 
     public function membershipApplication(): string
     {
-        $_SESSION['membership_idempotency_token'] = bin2hex(random_bytes(32));
+        $token = bin2hex(random_bytes(32));
+        $tokens = (array) ($_SESSION['membership_idempotency_tokens'] ?? []);
+        $tokens[] = $token;
+        $_SESSION['membership_idempotency_tokens'] = array_slice(array_values(array_unique($tokens)), -5);
         return $this->renderStaticLocalized(
             'mitgliedsantrag',
-            ['idempotencyToken' => $_SESSION['membership_idempotency_token']]
+            ['idempotencyToken' => $token]
         );
     }
 
@@ -494,8 +501,9 @@ final class PageController
         $lang = I18n::current();
 
         $idempotencyToken = trim((string) ($_POST['idempotency_token'] ?? ''));
-        $sessionToken = (string) ($_SESSION['membership_idempotency_token'] ?? '');
-        if ($idempotencyToken === '' || $sessionToken === '' || !hash_equals($sessionToken, $idempotencyToken)) {
+        $sessionTokens = (array) ($_SESSION['membership_idempotency_tokens'] ?? []);
+        $tokenIndex = array_search($idempotencyToken, $sessionTokens, true);
+        if ($idempotencyToken === '' || $tokenIndex === false) {
             Session::flash('error', $lang === 'en' ? 'The form has expired. Please reload it.' : 'Das Formular ist abgelaufen. Bitte laden Sie es neu.');
             header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
             exit;
@@ -593,6 +601,31 @@ final class PageController
                 : 'no',
         ];
 
+        $fieldLimits = [
+            'membership_type' => 100, 'invoice_name' => 255, 'street' => 255,
+            'postal_city_country' => 255, 'last_name' => 150, 'first_name' => 150,
+            'birthday' => 50, 'occupation' => 255, 'copilot_spouse' => 255,
+            'total_time' => 100, 'time_in_type' => 100, 'flying_since' => 100,
+            'registered_owner' => 255, 'callsign' => 100, 'model' => 150,
+            'serial_number' => 150, 'aircraft_year' => 50, 'home_base' => 255,
+            'office_phone' => 100, 'office_email' => 255, 'home_phone' => 100,
+            'private_email' => 255, 'mobile' => 100,
+        ];
+        foreach ($fieldLimits as $field => $limit) {
+            if (mb_strlen((string) $data[$field]) > $limit) {
+                Session::flash('error', $lang === 'en' ? 'One or more fields are too long.' : 'Mindestens ein Feld ist zu lang.');
+                header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
+                exit;
+            }
+        }
+        foreach (['license_ratings', 'aviation_history', 'modifications'] as $field) {
+            if (mb_strlen((string) $data[$field]) > 10000) {
+                Session::flash('error', $lang === 'en' ? 'One or more text fields are too long.' : 'Mindestens ein Textfeld ist zu lang.');
+                header('Location: ' . I18n::url('/mitgliedsantrag', $lang));
+                exit;
+            }
+        }
+
         if (
             $data['first_name'] === ''
             || $data['last_name'] === ''
@@ -684,7 +717,8 @@ final class PageController
             exit;
         }
 
-        unset($_SESSION['membership_idempotency_token']);
+        unset($sessionTokens[$tokenIndex]);
+        $_SESSION['membership_idempotency_tokens'] = array_values($sessionTokens);
         $allSent = true;
         foreach (MailOutbox::forApplication((int) $application['id']) as $message) {
             if (!OutboxDelivery::deliver((int) $message['id'])) $allSent = false;
@@ -707,14 +741,29 @@ final class PageController
 
     public function trainingWeekend(): string
     {
+        $token = bin2hex(random_bytes(32));
+        $tokens = (array) ($_SESSION['training_idempotency_tokens'] ?? []);
+        $tokens[] = $token;
+        $_SESSION['training_idempotency_tokens'] = array_slice(array_values(array_unique($tokens)), -5);
         return $this->renderStaticLocalized(
-            'training-weekend'
+            'training-weekend',
+            ['idempotencyToken' => $token]
         );
     }
 
     public function sendTrainingWeekendRegistration(): string
     {
         Security::verifyCsrf();
+
+        $idempotencyToken = trim((string) ($_POST['idempotency_token'] ?? ''));
+        $sessionTokens = (array) ($_SESSION['training_idempotency_tokens'] ?? []);
+        $tokenIndex = array_search($idempotencyToken, $sessionTokens, true);
+        if ($idempotencyToken === '' || $tokenIndex === false) {
+            Session::flash('error', I18n::current() === 'en'
+                ? 'The form has expired. Please reload it.'
+                : 'Das Formular ist abgelaufen. Bitte laden Sie es neu.');
+            $this->redirectToTrainingWeekend(I18n::current());
+        }
 
         /*
         * Unsichtbares Honeypot-Feld gegen einfache Formular-Bots.
@@ -824,6 +873,11 @@ final class PageController
             || $callsign === ''
             || $selectedElements === []
             || !$privacyConsent
+            || mb_strlen($name) > 150
+            || mb_strlen($email) > 190
+            || mb_strlen($callsign) > 20
+            || mb_strlen($aircraftModel) > 100
+            || mb_strlen($notes) > 2000
         ) {
             Session::flash(
                 'error',
@@ -847,6 +901,19 @@ final class PageController
             'language' => $lang,
         ];
 
+        try {
+            $registrationId = TrainingRegistration::create($registrationData, $idempotencyToken);
+        } catch (\Throwable $exception) {
+            $this->logException('Training registration database insert failed', $exception);
+            Session::flash('error', $lang === 'en'
+                ? 'Your registration could not be saved. Please try again later.'
+                : 'Ihre Anmeldung konnte nicht gespeichert werden. Bitte versuchen Sie es später erneut.');
+            $this->redirectToTrainingWeekend($lang);
+        }
+
+        unset($sessionTokens[$tokenIndex]);
+        $_SESSION['training_idempotency_tokens'] = array_values($sessionTokens);
+
         /*
         * Hauptnachricht an den Organisator senden.
         */
@@ -863,6 +930,8 @@ final class PageController
 
             $mailSent = false;
         }
+
+        TrainingRegistration::markOrganizerMail($registrationId, $mailSent);
 
         /*
         * Wenn die Hauptnachricht nicht versendet wurde,
@@ -898,6 +967,8 @@ final class PageController
 
             $copySent = false;
         }
+
+        TrainingRegistration::markCopyMail($registrationId, $copySent);
 
         if ($copySent) {
             Session::flash(

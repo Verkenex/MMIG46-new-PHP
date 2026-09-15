@@ -76,9 +76,10 @@ $installation = $read('docs/INSTALLATION_ALL_INKL_KAS.md');
 $schemaPosition = strpos($installation, 'database/schema.sql');
 $membershipPosition = strpos($installation, 'database/patches/2026_membership_workflow_admin.sql');
 $invoicePosition = strpos($installation, 'database/patches/2026_invoice_management.sql');
+$followupPosition = strpos($installation, 'database/patches/2026_audit_followup.sql');
 $seedPosition = strpos($installation, 'database/seed_live.sql');
-if ($schemaPosition === false || $membershipPosition === false || $invoicePosition === false || $seedPosition === false
-    || !($schemaPosition < $membershipPosition && $membershipPosition < $invoicePosition && $invoicePosition < $seedPosition)) {
+if ($schemaPosition === false || $membershipPosition === false || $invoicePosition === false || $followupPosition === false || $seedPosition === false
+    || !($schemaPosition < $membershipPosition && $membershipPosition < $invoicePosition && $invoicePosition < $followupPosition && $followupPosition < $seedPosition)) {
     throw new RuntimeException('Die dokumentierte Neuinstallationsreihenfolge ist unvollständig oder falsch.');
 }
 

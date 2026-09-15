@@ -27,8 +27,13 @@ final class AuthController
         $lang = I18n::current();
         $email = trim((string) ($_POST['email'] ?? ''));
         $password = (string) ($_POST['password'] ?? '');
-        $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+        $ip = Security::clientFingerprint();
         $pdo = DB::pdo();
+
+        // Begrenzte Aufbewahrung; vermeidet unbegrenztes Wachstum und unnötige Altdaten.
+        if (random_int(1, 100) === 1) {
+            $pdo->exec('DELETE FROM login_attempts WHERE attempted_at < DATE_SUB(NOW(), INTERVAL 30 DAY)');
+        }
 
         $query = $pdo->prepare(
             'SELECT COUNT(*) AS c

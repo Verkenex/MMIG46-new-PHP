@@ -4,6 +4,12 @@ final class Security {
     public static function csrf(): string { if (empty($_SESSION['_csrf'])) $_SESSION['_csrf'] = bin2hex(random_bytes(32)); return $_SESSION['_csrf']; }
     public static function verifyCsrf(): void { if ($_SERVER['REQUEST_METHOD']==='POST' && !hash_equals($_SESSION['_csrf'] ?? '', $_POST['_csrf'] ?? '')) { http_response_code(419); exit('CSRF-Token ungueltig.'); } }
     public static function e(?string $v): string { return htmlspecialchars((string)$v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
+    public static function clientFingerprint(): string
+    {
+        $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+        $key = (string) Env::get('APP_KEY', '');
+        return hash_hmac('sha256', $ip, $key !== '' ? $key : 'mmig46');
+    }
     public static function currentUser(): ?array
     {
         $sessionUser = $_SESSION['user'] ?? null;

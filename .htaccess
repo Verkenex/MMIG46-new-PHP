@@ -9,9 +9,8 @@ RewriteRule ^(?:app|config|database|docs|storage|tests|tools|vendor)(?:/|$) - [F
 RewriteRule ^(?:composer\.(?:json|lock)|README\.md|write_repo\.py)$ - [F,L,NC]
 RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L,NC]
 
-# HTTPS erzwingen, sobald SSL aktiv ist
-RewriteCond %{HTTPS} !=on
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# HTTPS wird bei all-inkl/KAS auf Domain-Ebene erzwungen. Eine zusätzliche
+# Prüfung von %{HTTPS} kann hinter dem dortigen Proxy eine Schleife erzeugen.
 
 # Alte Joomla-/CMS-Pfade mit Query-String korrekt mappen
 RewriteCond %{QUERY_STRING} ^language=de$ [NC]

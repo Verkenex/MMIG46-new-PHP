@@ -12,6 +12,8 @@ use MMIG46\Models\MailOutbox;
 use MMIG46\Models\NewsItem;
 use MMIG46\Models\TravelItem;
 use MMIG46\Models\User;
+use MMIG46\Models\ContactRequest;
+use MMIG46\Models\TrainingRegistration;
 use MMIG46\Services\MembershipWorkflow;
 use MMIG46\Services\OutboxDelivery;
 use MMIG46\Core\Seo;
@@ -205,10 +207,12 @@ class AdminController
             'users' => $users,
             'members' => Member::all(),
             'news' => NewsItem::all(200),
-            'travels' => TravelItem::published(),
+            'travels' => TravelItem::all(200),
             'applications' => $applications,
             'applicationOutbox' => $outbox,
             'userOutbox' => $userOutbox,
+            'contactRequests' => ContactRequest::all(),
+            'trainingRegistrations' => TrainingRegistration::all(),
         ]);
     }
 
@@ -488,6 +492,16 @@ public function storeTravel(): string
         $sent = OutboxDelivery::deliver((int)$id);
         Session::flash($sent ? 'success' : 'error', $sent ? 'E-Mail wurde versendet.' : 'E-Mail-Versand ist erneut fehlgeschlagen.');
         header('Location:/verwaltung'); exit;
+    }
+
+    public function markContactHandled(string $id): string
+    {
+        $this->guard();
+        Security::verifyCsrf();
+        ContactRequest::markHandled((int) $id);
+        Session::flash('success', 'Kontaktanfrage wurde als bearbeitet markiert.');
+        header('Location:/verwaltung');
+        exit;
     }
 
     public function updateUser(string $id): string

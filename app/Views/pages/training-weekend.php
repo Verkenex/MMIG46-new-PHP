@@ -444,6 +444,8 @@ $aircraftModels = [
 
             <?= Security::csrfField() ?>
 
+            <input type="hidden" name="idempotency_token" value="<?= Security::e((string) ($idempotencyToken ?? '')) ?>">
+
             <input type="checkbox"
                    name="registration_check"
                    value="1"

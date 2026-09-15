@@ -61,6 +61,7 @@ $router->post('/verwaltung/users/{id}/delete', [AdminController::class, 'deleteU
 $router->post('/verwaltung/applications/{id}/approve', [AdminController::class, 'approveApplication']);
 $router->post('/verwaltung/applications/{id}/reject', [AdminController::class, 'rejectApplication']);
 $router->post('/verwaltung/outbox/{id}/retry', [AdminController::class, 'retryOutbox']);
+$router->post('/verwaltung/contact/{id}/handled', [AdminController::class, 'markContactHandled']);
 $router->get('/verwaltung/rechnungen', [InvoiceController::class, 'index']);
 $router->get('/verwaltung/rechnungen/{id}', [InvoiceController::class, 'edit']);
 $router->get('/verwaltung/rechnungen/{id}/vorschau', [InvoiceController::class, 'preview']);
@@ -96,3 +97,6 @@ $router->post(
     '/trainingswochenende-2026/anmeldung',
     [PageController::class, 'sendTrainingWeekendRegistration']
 );
+
+// Muss zuletzt stehen: einsegmentige, in der Datenbank gepflegte Inhaltsseiten.
+$router->get('/{slug}', [PageController::class, 'contentPage']);

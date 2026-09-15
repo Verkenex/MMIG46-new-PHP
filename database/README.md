@@ -74,6 +74,7 @@ Empfohlene Reihenfolge:
 mysql -u USER -p DATENBANK < database/schema.sql
 mysql -u USER -p DATENBANK < database/patches/2026_membership_workflow_admin.sql
 mysql -u USER -p DATENBANK < database/patches/2026_invoice_management.sql
+mysql -u USER -p DATENBANK < database/patches/2026_audit_followup.sql
 mysql -u USER -p DATENBANK < database/seed_live.sql
 mysql -u USER -p DATENBANK < database/seed_admin.sql
 ```
@@ -98,6 +99,7 @@ Empfohlene Reihenfolge:
 mysql -u USER -p DATENBANK < database/schema.sql
 mysql -u USER -p DATENBANK < database/patches/2026_membership_workflow_admin.sql
 mysql -u USER -p DATENBANK < database/patches/2026_invoice_management.sql
+mysql -u USER -p DATENBANK < database/patches/2026_audit_followup.sql
 mysql -u USER -p DATENBANK < database/seed_demo.sql
 ```
 
@@ -134,6 +136,10 @@ einmal ausgeführt werden. Er ist nicht wiederholbar.
 
 `2026_invoice_management.sql` setzt den Mitgliedschafts-Workflow voraus und darf
 danach ebenfalls genau einmal ausgeführt werden.
+
+`2026_audit_followup.sql` wird danach einmal ausgeführt. Der Patch erlaubt neue
+Anträge nach einem abgelehnten oder stornierten Altantrag und legt die Tabelle
+für dauerhaft gespeicherte Trainingswochenende-Anmeldungen an.
 
 Backup:
 
