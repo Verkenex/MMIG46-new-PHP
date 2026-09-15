@@ -2938,6 +2938,8 @@ td {
 .admin-shell td {
     padding: 0.75rem 0.85rem;
     border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+    overflow-wrap: anywhere;
 }
 
 .admin-shell th {
@@ -2970,12 +2972,237 @@ td {
     box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
     font-weight: 750;
     text-decoration: none;
+    line-height: 1.25;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.admin-shell button:hover {
+    background: #1e40af;
+    transform: translateY(-1px);
+}
+
+.admin-shell button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.25);
+    outline-offset: 2px;
+}
+
+.admin-shell button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
 }
 
 .admin-shell .button.ghost {
     background: #fff;
     color: #1e293b;
     box-shadow: inset 0 0 0 1px #cbd5e1;
+}
+
+.admin-shell details > summary {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 12px;
+    color: var(--navy);
+    font-weight: 750;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+}
+
+.admin-shell details > summary::-webkit-details-marker {
+    display: none;
+}
+
+.admin-shell details > summary::before {
+    content: "›";
+    color: var(--accent-dark);
+    font-size: 1.2rem;
+    line-height: 1;
+    transform: rotate(0deg);
+    transition: transform 0.18s ease;
+}
+
+.admin-shell details[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.admin-shell details > summary:hover,
+.admin-shell details > summary:focus-visible {
+    background: #eff6ff;
+    outline: none;
+}
+
+.admin-edit-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: max-content;
+    padding: 0.55rem 0.75rem !important;
+    border-radius: 10px !important;
+    background: #eff6ff !important;
+    color: #1e40af !important;
+    box-shadow: none !important;
+    cursor: pointer;
+}
+
+.admin-edit-trigger:hover,
+.admin-edit-trigger:focus-visible {
+    background: #dbeafe !important;
+    outline: 3px solid rgba(37, 99, 235, 0.18);
+}
+
+.admin-edit-trigger span {
+    font-size: 1rem;
+}
+
+.admin-edit-dialog {
+    width: min(480px, calc(100vw - 32px));
+    max-width: none;
+    max-height: min(820px, calc(100vh - 32px));
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 22px;
+    background: #fff;
+    color: var(--text);
+    box-shadow: 0 28px 80px rgba(15, 23, 42, 0.28);
+}
+
+body.admin-dialog-open {
+    overflow: hidden;
+}
+
+.admin-edit-dialog--wide {
+    width: min(760px, calc(100vw - 32px));
+}
+
+.admin-edit-dialog::backdrop {
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(3px);
+}
+
+.admin-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.35rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-dialog-header h2,
+.admin-dialog-header .eyebrow {
+    margin: 0;
+}
+
+.admin-dialog-header h2 {
+    margin-top: 0.2rem;
+    font-size: 1.35rem;
+}
+
+.admin-dialog-close {
+    flex: 0 0 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    box-shadow: none !important;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.admin-dialog-close:hover {
+    background: #e2e8f0 !important;
+}
+
+.admin-dialog-body {
+    max-height: calc(100vh - 145px);
+    padding: 1.35rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.admin-dialog-body > * + * {
+    margin-top: 1rem;
+}
+
+.admin-dialog-body .admin-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-dialog-body .admin-form > button,
+.admin-dialog-body .admin-form > .checkbox-row,
+.admin-dialog-body .admin-form > label:has(textarea) {
+    grid-column: 1 / -1;
+}
+
+.admin-secondary-action {
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.admin-shell .admin-button--secondary {
+    background: #fff;
+    color: #1e40af;
+    box-shadow: inset 0 0 0 1px #93c5fd;
+}
+
+.admin-danger-zone,
+.admin-action-card--danger {
+    padding: 1rem;
+    border: 1px solid #fecaca;
+    border-radius: 16px;
+    background: #fff7f7;
+}
+
+.admin-danger-zone h3,
+.admin-danger-zone p {
+    margin-top: 0;
+}
+
+.admin-shell .admin-button--danger {
+    background: #b91c1c;
+    box-shadow: 0 8px 18px rgba(185, 28, 28, 0.18);
+}
+
+.admin-shell .admin-button--danger:hover {
+    background: #991b1b;
+}
+
+.admin-decision-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(250px, 0.8fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.admin-action-card {
+    align-content: start;
+    padding: 1rem;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    background: #f8fbff;
+}
+
+.admin-action-card > button {
+    max-width: 100%;
+    white-space: normal;
+}
+
+.admin-table-action {
+    min-width: 132px;
+    vertical-align: top;
 }
 
 .status-badge {
@@ -3628,7 +3855,7 @@ td {
    19. Responsive: navigation and medium screens
    -------------------------------------------------------------------------- */
 
-@media (min-width: 1401px) and (max-width: 1560px) {
+@media (min-width: 1721px) and (max-width: 1880px) {
     .container {
         width: min(var(--container), calc(100% - 32px));
     }
@@ -3651,7 +3878,7 @@ td {
     }
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1720px) {
     .site-header__inner {
         grid-template-columns: minmax(0, 1fr) auto;
         min-height: 68px;
@@ -3782,6 +4009,10 @@ td {
    -------------------------------------------------------------------------- */
 
 @media (max-width: 960px) {
+    .admin-decision-grid,
+    .admin-dialog-body .admin-form {
+        grid-template-columns: 1fr;
+    }
     .split-grid,
     .content-card-grid,
     .admin-grid,

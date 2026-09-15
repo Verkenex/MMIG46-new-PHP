@@ -785,13 +785,15 @@ $t = $copy[$isEn ? 'en' : 'de'];
                 <p><strong>Kontakt:</strong> <?= Security::e((string)$application['mobile']) ?> · <strong>Flugzeug:</strong> <?= Security::e((string)$application['model']) ?> <?= Security::e((string)$application['callsign']) ?></p>
                 <p><strong>Vorstand:</strong> <?= Security::e((string)($application['board_confirmed_at'] ?? 'offen')) ?> <?= Security::e((string)($application['board_admin_name'] ?? '')) ?> · <strong>Zahlung:</strong> <?= Security::e((string)($application['payment_confirmed_at'] ?? 'offen')) ?> <?= Security::e((string)($application['payment_admin_name'] ?? '')) ?></p>
                 <?php if (in_array($application['status'], ['pending','manual_review'], true)): ?>
-                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/applications/'.(int)$application['id'].'/approve')) ?>" class="admin-form"><?= Security::csrfField() ?>
+                    <div class="admin-decision-grid">
+                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/applications/'.(int)$application['id'].'/approve')) ?>" class="admin-form admin-action-card admin-action-card--approve"><?= Security::csrfField() ?>
                         <label class="checkbox-row"><input type="checkbox" name="board_confirmed" value="1" required><span>Aufnahme durch den Vorstand ist erfolgt</span></label>
                         <label class="checkbox-row"><input type="checkbox" name="payment_confirmed" value="1" required><span>Erforderlicher Zahlungseingang ist erfolgt</span></label>
                         <label class="checkbox-row"><input type="checkbox" name="link_existing_user" value="1"><span>Bei identischer E-Mail ausdrücklich mit dem vorhandenen Benutzer verknüpfen (bestehende Mitgliedsverknüpfungen bleiben gesperrt)</span></label>
                         <button class="primary" type="submit">Freigeben und Passwort-Link erzeugen</button>
                     </form>
-                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/applications/'.(int)$application['id'].'/reject')) ?>" class="admin-form"><?= Security::csrfField() ?><select name="decision"><option value="rejected">Ablehnen</option><option value="cancelled">Stornieren</option></select><label>Zur Bestätigung ABLEHNEN eingeben<input name="confirmation" required></label><button type="submit">Antrag abschließen</button></form>
+                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/applications/'.(int)$application['id'].'/reject')) ?>" class="admin-form admin-action-card admin-action-card--danger"><?= Security::csrfField() ?><label>Entscheidung<select name="decision"><option value="rejected">Ablehnen</option><option value="cancelled">Stornieren</option></select></label><label>Zur Bestätigung ABLEHNEN eingeben<input name="confirmation" required autocomplete="off"></label><button class="admin-button admin-button--danger" type="submit">Antrag abschließen</button></form>
+                    </div>
                 <?php endif; ?>
                 <?php foreach (($applicationOutbox[(int)$application['id']] ?? []) as $message): ?><p>Mail <?= Security::e((string)$message['message_type']) ?> an <?= Security::e((string)$message['recipient']) ?>: <strong><?= Security::e((string)$message['status']) ?></strong> (<?= (int)$message['attempts'] ?> Versuche)
                     <?php if ($message['status'] !== 'sent'): ?><form class="inline" method="post" action="<?= Security::e(I18n::url('/verwaltung/outbox/'.(int)$message['id'].'/retry')) ?>"><?= Security::csrfField() ?><button type="submit">Erneut senden</button></form><?php endif; ?></p><?php endforeach; ?>
@@ -860,13 +862,16 @@ $t = $copy[$isEn ? 'en' : 'de'];
                             <td>
                                 <?= Security::e((string)($user['role'] ?? '')) ?>
                             </td>
-                            <td><details><summary>Bearbeiten</summary>
+                            <td class="admin-table-action"><button class="admin-edit-trigger" type="button" data-admin-dialog-open="user-dialog-<?= (int)$user['id'] ?>"><span aria-hidden="true">✎</span> <?= $isEn ? 'Edit' : 'Bearbeiten' ?></button>
+                                <dialog class="admin-edit-dialog" id="user-dialog-<?= (int)$user['id'] ?>" aria-labelledby="user-dialog-title-<?= (int)$user['id'] ?>">
+                                <div class="admin-dialog-header"><div><span class="eyebrow"><?= $isEn ? 'User account' : 'Benutzerkonto' ?></span><h2 id="user-dialog-title-<?= (int)$user['id'] ?>"><?= Security::e((string)$user['name']) ?> <?= $isEn ? 'edit' : 'bearbeiten' ?></h2></div><button class="admin-dialog-close" type="button" data-admin-dialog-close aria-label="<?= $isEn ? 'Close dialog' : 'Dialog schließen' ?>">×</button></div>
+                                <div class="admin-dialog-body">
                                 <form method="post" action="<?= Security::e(I18n::url('/verwaltung/users/'.(int)$user['id'])) ?>" class="admin-form"><?= Security::csrfField() ?><label>Name<input name="name" required value="<?= Security::e((string)$user['name']) ?>"></label><label>E-Mail<input type="email" name="email" required value="<?= Security::e((string)$user['email']) ?>"></label><label>Rolle<select name="role"><?php foreach(['admin','moderator','member','guest'] as $role): ?><option value="<?= $role ?>" <?= $user['role']===$role?'selected':'' ?>><?= $role ?></option><?php endforeach; ?></select></label><button type="submit">Speichern</button></form>
-                                <form method="post" action="<?= Security::e(I18n::url('/verwaltung/users/'.(int)$user['id'].'/reset')) ?>"><?= Security::csrfField() ?><button type="submit">Passwort-Reset-Link senden</button></form>
-                                <p>Abhängigkeiten vor Löschung: <?= (int)$user['topic_count'] ?> Themen, <?= (int)$user['post_count'] ?> Beiträge, <?= (int)$user['member_count'] ?> Mitgliedsdatensätze.</p>
+                                <form method="post" action="<?= Security::e(I18n::url('/verwaltung/users/'.(int)$user['id'].'/reset')) ?>" class="admin-secondary-action"><?= Security::csrfField() ?><button class="admin-button admin-button--secondary" type="submit">Passwort-Reset-Link senden</button></form>
+                                <div class="admin-danger-zone"><h3>Benutzer löschen</h3><p>Abhängigkeiten: <?= (int)$user['topic_count'] ?> Themen, <?= (int)$user['post_count'] ?> Beiträge, <?= (int)$user['member_count'] ?> Mitgliedsdatensätze.</p>
                                 <?php foreach (($userOutbox[(int)$user['id']] ?? []) as $message): ?><p>Reset-Mail: <?= Security::e((string)$message['status']) ?> (<?= (int)$message['attempts'] ?> Versuche)<?php if($message['status']!=='sent'): ?> <form class="inline" method="post" action="<?= Security::e(I18n::url('/verwaltung/outbox/'.(int)$message['id'].'/retry')) ?>"><?= Security::csrfField() ?><button>Erneut senden</button></form><?php endif; ?></p><?php endforeach; ?>
-                                <form method="post" action="<?= Security::e(I18n::url('/verwaltung/users/'.(int)$user['id'].'/delete')) ?>"><?= Security::csrfField() ?><label>Zum Löschen BENUTZER LÖSCHEN eingeben<input name="confirmation" required></label><button type="submit">Benutzer löschen</button></form>
-                            </details></td>
+                                <form method="post" action="<?= Security::e(I18n::url('/verwaltung/users/'.(int)$user['id'].'/delete')) ?>"><?= Security::csrfField() ?><label>Zum Löschen BENUTZER LÖSCHEN eingeben<input name="confirmation" required autocomplete="off"></label><button class="admin-button admin-button--danger" type="submit">Benutzer löschen</button></form></div>
+                                </div></dialog></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -939,8 +944,10 @@ $t = $copy[$isEn ? 'en' : 'de'];
                             </td>
 
                             <td>
-                                <details>
-                                    <summary><?= Security::e($t['edit']) ?></summary>
+                                <button class="admin-edit-trigger" type="button" data-admin-dialog-open="member-dialog-<?= (int)$member['id'] ?>"><span aria-hidden="true">✎</span> <?= Security::e($t['edit']) ?></button>
+                                <dialog class="admin-edit-dialog admin-edit-dialog--wide" id="member-dialog-<?= (int)$member['id'] ?>" aria-labelledby="member-dialog-title-<?= (int)$member['id'] ?>">
+                                    <div class="admin-dialog-header"><div><span class="eyebrow"><?= Security::e($t['membership']) ?></span><h2 id="member-dialog-title-<?= (int)$member['id'] ?>"><?= Security::e((string)($member['name'] ?? '')) ?> <?= $isEn ? 'edit' : 'bearbeiten' ?></h2></div><button class="admin-dialog-close" type="button" data-admin-dialog-close aria-label="<?= $isEn ? 'Close dialog' : 'Dialog schließen' ?>">×</button></div>
+                                    <div class="admin-dialog-body">
                                     <form method="post" action="<?= Security::e(I18n::url('/verwaltung/members/' . (int) $member['id'])) ?>" class="admin-form">
                                         <?= Security::csrfField() ?>
                                         <label><?= Security::e($t['name']) ?><input type="text" name="name" required maxlength="120" value="<?= Security::e((string) ($member['name'] ?? '')) ?>"></label>
@@ -962,9 +969,10 @@ $t = $copy[$isEn ? 'en' : 'de'];
                                         <label class="checkbox-row"><input type="checkbox" name="public_consent_confirmed" value="1" <?= !empty($member['public_consent_at']) ? 'checked' : '' ?>><span>Gesonderte Einwilligung zur öffentlichen Anzeige liegt nachweisbar vor</span></label>
                                         <button class="primary" type="submit"><?= Security::e($t['save_changes']) ?></button>
                                     </form>
-                                    <p>Verknüpfungen: Benutzer #<?= (int)($member['user_id'] ?? 0) ?>, Antrag #<?= (int)($member['application_id'] ?? 0) ?>.</p>
-                                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/members/'.(int)$member['id'].'/delete')) ?>"><?= Security::csrfField() ?><label>Zum Löschen MITGLIED LÖSCHEN eingeben<input name="confirmation" required></label><button type="submit">Mitglied löschen</button></form>
-                                </details>
+                                    <div class="admin-danger-zone"><h3>Mitglied löschen</h3><p>Verknüpfungen: Benutzer #<?= (int)($member['user_id'] ?? 0) ?>, Antrag #<?= (int)($member['application_id'] ?? 0) ?>.</p>
+                                    <form method="post" action="<?= Security::e(I18n::url('/verwaltung/members/'.(int)$member['id'].'/delete')) ?>"><?= Security::csrfField() ?><label>Zum Löschen MITGLIED LÖSCHEN eingeben<input name="confirmation" required autocomplete="off"></label><button class="admin-button admin-button--danger" type="submit">Mitglied löschen</button></form></div>
+                                    </div>
+                                </dialog>
                             </td>
                         </tr>
                     <?php endforeach; ?>
