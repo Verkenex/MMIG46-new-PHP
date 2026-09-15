@@ -712,7 +712,7 @@ final class PageController
         * Unsichtbares Honeypot-Feld gegen einfache Formular-Bots.
         */
         if (
-            trim((string) ($_POST['website'] ?? '')) !== ''
+            isset($_POST['registration_check'])
         ) {
             http_response_code(400);
 

@@ -444,9 +444,9 @@ $aircraftModels = [
 
             <?= Security::csrfField() ?>
 
-            <input type="text"
-                   name="website"
-                   value=""
+            <input type="checkbox"
+                   name="registration_check"
+                   value="1"
                    tabindex="-1"
                    autocomplete="off"
                    class="form-honeypot"

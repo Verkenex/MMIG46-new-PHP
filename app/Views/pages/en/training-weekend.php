@@ -547,9 +547,9 @@ $aircraftModels = [
             >
 
             <input
-                type="text"
-                name="website"
-                value=""
+                type="checkbox"
+                name="registration_check"
+                value="1"
                 tabindex="-1"
                 autocomplete="off"
                 class="form-honeypot"
