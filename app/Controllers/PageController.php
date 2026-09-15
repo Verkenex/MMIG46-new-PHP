@@ -768,9 +768,15 @@ final class PageController
         /*
         * Unsichtbares Honeypot-Feld gegen einfache Formular-Bots.
         */
-        if (
-            isset($_POST['registration_check'])
-        ) {
+        $registrationCheck = $_POST['registration_check'] ?? '';
+        $registrationCheckIsEmpty = !is_array($registrationCheck)
+            && in_array(
+                strtolower(trim((string) $registrationCheck)),
+                ['', '0', 'false', 'off', 'no'],
+                true
+            );
+
+        if (!$registrationCheckIsEmpty) {
             http_response_code(400);
 
             return '';
@@ -836,8 +842,10 @@ final class PageController
             'ifr_check_flight',
             'set_check_flight',
             'garmin_consultation',
+            'garmin_training_flight',
             'ras_career_event',
             'kempen_old_town_tour',
+            'grefrath_open_air_museum',
         ];
 
         $submittedElements =
@@ -870,7 +878,6 @@ final class PageController
                 $email,
                 FILTER_VALIDATE_EMAIL
             )
-            || $callsign === ''
             || $selectedElements === []
             || !$privacyConsent
             || mb_strlen($name) > 150
@@ -934,21 +941,6 @@ final class PageController
         TrainingRegistration::markOrganizerMail($registrationId, $mailSent);
 
         /*
-        * Wenn die Hauptnachricht nicht versendet wurde,
-        * darf keine erfolgreiche Anmeldung angezeigt werden.
-        */
-        if (!$mailSent) {
-            Session::flash(
-                'error',
-                $lang === 'en'
-                    ? 'Your registration could not be submitted. Please try again later or contact the organiser directly.'
-                    : 'Ihre Anmeldung konnte nicht übermittelt werden. Bitte versuchen Sie es später erneut oder kontaktieren Sie den Organisator direkt.'
-            );
-
-            $this->redirectToTrainingWeekend($lang);
-        }
-
-        /*
         * Bestätigungskopie an den Anmeldenden senden.
         *
         * Ein Fehler bei der Kopie soll die bereits erfolgreich
@@ -970,19 +962,33 @@ final class PageController
 
         TrainingRegistration::markCopyMail($registrationId, $copySent);
 
-        if ($copySent) {
+        if ($mailSent && $copySent) {
             Session::flash(
                 'ok',
                 $lang === 'en'
                     ? 'Thank you. Your registration request has been sent to the organiser. A confirmation copy has been sent to your email address.'
                     : 'Vielen Dank. Ihre Anmeldeanfrage wurde an den Organisator übermittelt. Eine Bestätigungskopie wurde an Ihre E-Mail-Adresse gesendet.'
             );
-        } else {
+        } elseif ($mailSent) {
             Session::flash(
                 'ok',
                 $lang === 'en'
                     ? 'Thank you. Your registration request has been sent to the organiser. However, the confirmation copy could not be sent.'
                     : 'Vielen Dank. Ihre Anmeldeanfrage wurde an den Organisator übermittelt. Die Bestätigungskopie konnte jedoch nicht versendet werden.'
+            );
+        } elseif ($copySent) {
+            Session::flash(
+                'ok',
+                $lang === 'en'
+                    ? 'Your registration has been saved and a confirmation copy has been sent. The organiser can view it in the administration area; direct email delivery to the organiser is currently delayed.'
+                    : 'Ihre Anmeldung wurde gespeichert und eine Bestätigungskopie versendet. Der Organisator kann sie in der Verwaltung einsehen; die direkte E-Mail-Zustellung an ihn ist derzeit verzögert.'
+            );
+        } else {
+            Session::flash(
+                'ok',
+                $lang === 'en'
+                    ? 'Your registration has been saved and is visible to the organiser in the administration area. Confirmation emails are currently unavailable.'
+                    : 'Ihre Anmeldung wurde gespeichert und ist für den Organisator in der Verwaltung sichtbar. Bestätigungs-E-Mails sind derzeit nicht verfügbar.'
             );
         }
 

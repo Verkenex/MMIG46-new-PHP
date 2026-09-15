@@ -911,10 +911,14 @@ final class Mailer
                 'SET-Checkflug',
             'garmin_consultation' =>
                 'Persönliche Garmin-Beratung durch Fabian Kienzle',
+            'garmin_training_flight' =>
+                'Garmin-Beratung mit gemeinsamem Flug im eigenen Flugzeug',
             'ras_career_event' =>
                 'RAS-Karriereevent beziehungsweise Hallenbesichtigung',
             'kempen_old_town_tour' =>
                 'Altstadttour in Kempen für Begleitpersonen und Gäste',
+            'grefrath_open_air_museum' =>
+                'Freilichtmuseum Grefrath für Begleitpersonen und Gäste',
         ];
     }
 
