@@ -24,6 +24,50 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    const dialogOpeners = new WeakMap();
+
+    document.querySelectorAll('[data-admin-dialog-open]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const dialog = document.getElementById(button.dataset.adminDialogOpen || '');
+            if (dialog instanceof HTMLDialogElement) {
+                dialogOpeners.set(dialog, button);
+                dialog.showModal();
+                document.body.classList.add('admin-dialog-open');
+            }
+        });
+    });
+
+    document.querySelectorAll('.admin-edit-dialog').forEach((dialog) => {
+        if (!(dialog instanceof HTMLDialogElement)) {
+            return;
+        }
+
+        dialog.querySelectorAll('[data-admin-dialog-close]').forEach((button) => {
+            button.addEventListener('click', () => dialog.close());
+        });
+
+        dialog.addEventListener('click', (event) => {
+            const bounds = dialog.getBoundingClientRect();
+            const outside = event.clientX < bounds.left
+                || event.clientX > bounds.right
+                || event.clientY < bounds.top
+                || event.clientY > bounds.bottom;
+            if (outside) {
+                dialog.close();
+            }
+        });
+
+        dialog.addEventListener('close', () => {
+            if (!document.querySelector('.admin-edit-dialog[open]')) {
+                document.body.classList.remove('admin-dialog-open');
+            }
+            const opener = dialogOpeners.get(dialog);
+            if (opener instanceof HTMLElement) {
+                opener.focus();
+            }
+        });
+    });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
