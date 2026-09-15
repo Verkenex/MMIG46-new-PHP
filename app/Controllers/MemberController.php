@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MMIG46\Controllers;
 
 use MMIG46\Core\I18n;
+use MMIG46\Core\Security;
 use MMIG46\Core\Session;
 use MMIG46\Core\View;
 use MMIG46\Models\Member;
@@ -19,7 +20,7 @@ final class MemberController
 
     public function index(): string
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = Security::currentUser();
         $role = is_array($user)
             ? (string) ($user['role'] ?? '')
             : '';

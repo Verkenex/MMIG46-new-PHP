@@ -69,6 +69,7 @@ final class AuthController
             'name' => (string) $user['name'],
             'email' => (string) $user['email'],
             'role' => (string) $user['role'],
+            'auth_stamp' => (string) ($user['updated_at'] ?: $user['created_at']),
         ];
 
         $target = (($user['role'] ?? '') === 'admin')

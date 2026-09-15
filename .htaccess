@@ -2,6 +2,13 @@ Options -Indexes
 
 RewriteEngine On
 
+# Wenn die Domain ausnahmsweise auf das Projektwurzelverzeichnis zeigt,
+# duerfen Anwendungs-, Konfigurations- und Speicherdateien nie direkt
+# ausgeliefert werden. Empfohlen bleibt ein Domainziel direkt auf public/.
+RewriteRule ^(?:app|config|database|docs|storage|tests|tools|vendor)(?:/|$) - [F,L,NC]
+RewriteRule ^(?:composer\.(?:json|lock)|README\.md|write_repo\.py)$ - [F,L,NC]
+RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L,NC]
+
 # HTTPS erzwingen, sobald SSL aktiv ist
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
@@ -26,9 +33,6 @@ RedirectMatch 301 ^/index\.php/willkommen/impressum/?$ /impressum
 RedirectMatch 301 ^/index\.php/welcome/legal-notice/?$ /impressum
 RedirectMatch 301 ^/index\.php/willkommen/datenschutz/?$ /datenschutz
 RedirectMatch 301 ^/index\.php/welcome/privacy-policy/?$ /datenschutz
-
-# Forum bleibt Forum
-RedirectMatch 301 ^/forum/?$ /forum
 
 # Malibu Mirage Hauptseite
 RedirectMatch 301 ^/index\.php/welcome/malibu-mirage/?$ /malibu-mirage

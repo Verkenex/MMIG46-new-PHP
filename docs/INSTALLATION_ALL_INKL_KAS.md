@@ -10,7 +10,7 @@ Empfohlen ist, die Domain im KAS direkt auf das Verzeichnis `public` zeigen zu l
 
 Dann sind `app/`, `config/`, `database/`, `.env` und `vendor/` nicht direkt aus dem Web erreichbar.
 
-Falls das im KAS nicht gewuenscht oder nicht moeglich ist, kann die Domain auf das Projektwurzelverzeichnis zeigen. Die mitgelieferte Root-`.htaccess` leitet intern auf `public/` um und sperrt kritische Dateien.
+Nur wenn sich das Domainziel technisch nicht auf `public/` setzen laesst, darf die abgesicherte Root-`.htaccess` als Kompatibilitaetsweiterleitung verwendet werden. Danach muss geprueft werden, dass insbesondere `/.env`, `/composer.json`, `/database/schema.sql`, `/storage/` und `/vendor/` mit HTTP 403 oder 404 abgewiesen werden.
 
 Die sauberere Variante bleibt:
 
@@ -60,8 +60,13 @@ Importreihenfolge für eine neue produktive Installation:
 
 ```bash
 mysql -u USER -p DATENBANK < database/schema.sql
+mysql -u USER -p DATENBANK < database/patches/2026_membership_workflow_admin.sql
+mysql -u USER -p DATENBANK < database/patches/2026_invoice_management.sql
 mysql -u USER -p DATENBANK < database/seed_live.sql
 mysql -u USER -p DATENBANK < database/seed_admin.sql
+```
+
+Die beiden Patches sind Bestandteil einer Neuinstallation, setzen diese Reihenfolge voraus und duerfen genau einmal ausgefuehrt werden. `database/patches/2026_member_invoice_details.sql` ist nicht zusaetzlich zu importieren, weil dessen Spalten bereits in `schema.sql` enthalten sind.
 
 Wenn die Datenbank im KAS anders heisst, exakt diesen Namen in `.env` eintragen.
 

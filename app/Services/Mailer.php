@@ -20,7 +20,7 @@ final class Mailer
         $rows = [
             'Name' => $name,
             'E-Mail' => $email,
-            'Nachricht' => nl2br(self::e($message)),
+            'Nachricht' => $message,
             'IP-Adresse' => $_SERVER['REMOTE_ADDR'] ?? 'unbekannt',
             'Zeitpunkt' => date('d.m.Y H:i:s'),
         ];
@@ -176,7 +176,7 @@ final class Mailer
                     'Teilnehmerzahl' => (string) $participants,
                 ],
                 'Gewünschte Programmpunkte' => [
-                    'Auswahl' => $programmeHtml,
+                    'Auswahl' => ['trusted_html' => $programmeHtml],
                 ],
                 'Weitere Angaben' => [
                     'Anmerkungen' => $notes,
@@ -338,7 +338,7 @@ final class Mailer
                     'Teilnehmerzahl' => (string) $participants,
                 ],
                 'Gewünschte Programmpunkte' => [
-                    'Auswahl' => $programmeHtml,
+                    'Auswahl' => ['trusted_html' => $programmeHtml],
                 ],
                 'Weitere Angaben' => [
                     'Anmerkungen' => $notes,
@@ -813,7 +813,11 @@ final class Mailer
                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;border:1px solid #e4ded4;border-radius:12px;overflow:hidden;">';
 
             foreach ($rows as $label => $value) {
-                $display = (string) $value;
+                $trustedHtml = is_array($value)
+                    && array_key_exists('trusted_html', $value);
+                $display = $trustedHtml
+                    ? (string)$value['trusted_html']
+                    : (string)$value;
 
                 if ($display === '') {
                     $display = '—';
@@ -825,7 +829,7 @@ final class Mailer
                     . self::e($label)
                     . '</td>
                         <td style="padding:12px 14px;border-bottom:1px solid #eee7dc;color:#162033;font-size:15px;line-height:1.45;vertical-align:top;">'
-                    . self::safeHtmlValue($display)
+                    . ($trustedHtml ? $display : self::safeHtmlValue($display))
                     . '</td>
                     </tr>';
             }
@@ -957,14 +961,6 @@ final class Mailer
     private static function safeHtmlValue(
         string $value
     ): string {
-        if (
-            str_contains($value, '<br')
-            || str_contains($value, '<ul')
-            || str_contains($value, '<ol')
-        ) {
-            return $value;
-        }
-
         return nl2br(self::e($value));
     }
 
