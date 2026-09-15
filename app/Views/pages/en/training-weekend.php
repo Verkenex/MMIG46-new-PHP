@@ -148,29 +148,48 @@ $aircraftModels = [
 
             <ol class="event-schedule">
                 <li>
-                    <time>From 4:00 p.m.</time>
+                    <time>12:00–2:30 p.m.</time>
 
                     <div>
-                        <h3>Fire-extinguishing exercises</h3>
+                        <h3>Arrival and shuttle</h3>
 
                         <p>
-                            Practical fire-extinguishing exercises
-                            with the airport fire brigade in small
-                            groups.
+                            Shuttle from the main apron (A5 and A6) to
+                            the RAS seminar facilities.
                         </p>
                     </div>
                 </li>
 
                 <li>
-                    <time>6:15 p.m.</time>
+                    <time>3:00–5:00 p.m.</time>
+
+                    <div>
+                        <h3>Airport fire brigade, simulator and avionics</h3>
+
+                        <p>
+                            Individual airport fire brigade demonstration.
+                            The assigned hourly simulator sessions also begin,
+                            accompanied by a presentation of current Garmin equipment.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>5:00–6:00 p.m.</time>
 
                     <div>
                         <h3>Seaplane Flying in Germany</h3>
+                        <p>Specialist presentation on seaplane operations.</p>
+                    </div>
+                </li>
 
-                        <p>
-                            Presentation by
-                            <strong>Norbert Klippel</strong>.
-                        </p>
+                <li>
+                    <time>6:00–7:00 p.m.</time>
+
+                    <div>
+                        <h3>Transfer to Landgut Ramshof</h3>
+
+                        <p>Transfer from the airport to Landgut Ramshof.</p>
                     </div>
                 </li>
 
@@ -178,12 +197,8 @@ $aircraftModels = [
                     <time>7:30 p.m.</time>
 
                     <div>
-                        <h3>Transfer to Landgut Ramshof</h3>
-
-                        <p>
-                            Transfer to Landgut Ramshof followed by a
-                            group dinner.
-                        </p>
+                        <h3>Group dinner</h3>
+                        <p>Dinner in the Ramshof’s “Oval Office”.</p>
 
                         <div class="event-self-pay-notice">
                             <strong>Personal contribution:</strong>
@@ -205,81 +220,125 @@ $aircraftModels = [
 
             <ol class="event-schedule">
                 <li>
-                    <time>From 9:00 a.m.</time>
+                    <time>8:30–9:00 a.m.</time>
 
                     <div>
-                        <h3>Presentations</h3>
+                        <h3>Arrival and daily briefing</h3>
+                        <p>Coffee at RAS followed by a joint briefing.</p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>9:00–10:30 a.m.</time>
+
+                    <div>
+                        <h3>Specialist presentations and simulator</h3>
 
                         <p>
-                            IFR refresher training, IFR meteorology
-                            presented by
-                            <strong>Frank Lumnitzer</strong>
-                            <span class="speaker-role">
-                                (Senior Aviation Executive)
-                            </span>,
-                            current developments in avionics and
-                            specialised retrofit solutions for PA46
-                            aircraft.
-                        </p>
-
-                        <p>
-                            Personal consultation on Garmin systems
-                            will be provided by
-                            <strong>Fabian Kienzle</strong>.
-                            The team of speakers and experts will also
-                            include <strong>Dr Ralf Wendt</strong>.
+                            Presentations on flight operations; assigned hourly
+                            simulator sessions run in parallel.
                         </p>
                     </div>
                 </li>
 
                 <li>
-                    <time>Afterwards</time>
+                    <time>10:30–11:00 a.m.</time>
 
                     <div>
-                        <h3>Hands-on training</h3>
-
+                        <h3>Garmin avionics and PA46 retrofits</h3>
                         <p>
-                            Practical training in participants’ own
-                            aircraft with some of the best instructors
-                            in the German-speaking aviation community,
-                            including individual exercises and training
-                            sequences.
+                            Presentation on current avionics and retrofit options.
                         </p>
                     </div>
                 </li>
 
                 <li>
-                    <time>In parallel / subject to availability</time>
+                    <time>From 11:00 a.m.</time>
 
                     <div>
-                        <h3>Simulator training</h3>
+                        <h3>Personal flight training and Garmin consultation</h3>
 
                         <p>
-                            Training on a modern
-                            <strong>ALSIM simulator</strong>,
-                            FNTP approved, at
-                            <strong>MG-Flyers</strong>.
+                            Individual training with instructors plus Garmin
+                            consultation and training flights by prior arrangement.
                         </p>
                     </div>
                 </li>
 
                 <li>
-                    <time>Subject to availability</time>
+                    <time>11:00 a.m.–1:00 p.m.</time>
 
                     <div>
-                        <h3>
-                            Proficiency checks and Garmin consultation
-                        </h3>
+                        <h3>Murphy’s Law, health and Flying Hope</h3>
 
                         <p>
-                            IFR or SET proficiency check flights may
-                            be arranged. Personal advice on Garmin
-                            avionics will be provided by
-                            <strong>Fabian Kienzle</strong>.
+                            Presentations on safety, health and Flying Hope’s
+                            charitable flight operations.
                         </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>1:00–2:00 p.m.</time>
+
+                    <div>
+                        <h3>Lunch break</h3>
+
+                        <p>Snacks, sandwiches, coffee and mineral water; longer if required.</p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>Afternoon</time>
+                    <div>
+                        <h3>Training and simulator sessions</h3>
+                        <p>Continuation of individual training and assigned simulator sessions.</p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>5:30–6:00 p.m.</time>
+                    <div>
+                        <h3>Feedback and conclusion</h3>
+                        <p>Feedback, planning of future events and departure from 6:00 p.m.</p>
                     </div>
                 </li>
             </ol>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container event-content">
+        <div>
+            <p class="section-eyebrow">ARRIVAL BY AIRCRAFT</p>
+            <h2>Apron positions A5 and A6</h2>
+            <p>
+                The reserved parking positions are located below the tower.
+                After landing, please advise ground control that you wish to
+                taxi to these positions.
+            </p>
+            <p>
+                Pilots without a customer account at Mönchengladbach Airport
+                should send the aircraft type, registration, name and postal
+                billing address directly to the responsible airport contact.
+                The postal address is not collected by this registration form.
+            </p>
+        </div>
+
+        <div>
+            <p class="section-eyebrow">SIMULATOR</p>
+            <h2>Current slot allocation</h2>
+            <p>
+                The Friday slots at 3:00, 4:00 and 5:00 p.m. and the Saturday
+                slots at 9:00, 10:00 and 11:00 a.m., noon, and 2:00, 3:00,
+                4:00 and 5:00 p.m. are currently assigned.
+            </p>
+            <p>
+                Requests may still be submitted as an expression of interest
+                or for the waiting list. Slot swaps are coordinated directly
+                with the organisers.
+            </p>
         </div>
     </div>
 </section>
@@ -417,8 +476,8 @@ $aircraftModels = [
             <h2>Landgut Ramshof in Willich</h2>
 
             <p>
-                A limited room allocation has been arranged for
-                MMIG46 participants. A double room is available for
+                Rooms are still available at the Ramshof according to the
+                latest information. A double room is available for
                 <strong>EUR 110 for one night</strong>.
             </p>
 
@@ -480,16 +539,17 @@ $aircraftModels = [
             </p>
 
             <div class="event-additional-programme">
-                <h3>Guided tour of Kempen’s historic old town</h3>
+                <h3>Weather-dependent accompanying programme</h3>
 
                 <p>
-                    A joint tour of Kempen’s historic old town is
-                    planned for accompanying persons, guests and
-                    interested female participants.
+                    The options are a guided walk through Kempen’s historic
+                    old town or a visit to the Grefrath open-air museum. An
+                    indoor alternative is planned in poor weather.
                 </p>
 
                 <p class="event-additional-programme__condition">
-                    Subject to demand and sufficient interest.
+                    Please state definitively during registration who will
+                    take part in the accompanying programme.
                 </p>
             </div>
         </div>
@@ -596,12 +656,11 @@ $aircraftModels = [
                 </label>
 
                 <label>
-                    Aircraft registration *
+                    Aircraft registration (if arriving by aircraft)
 
                     <input
                         type="text"
                         name="callsign"
-                        required
                         maxlength="20"
                         placeholder="e.g. D-EXYZ"
                         autocomplete="off"
@@ -627,7 +686,7 @@ $aircraftModels = [
                 </label>
 
                 <label>
-                    Number of participants
+                    Number of participants including companions
 
                     <input
                         type="number"
@@ -735,6 +794,10 @@ $aircraftModels = [
 
                     <span class="programme-option__text">
                         Training on an ALSIM simulator at MG-Flyers
+                        <small>
+                            The published slots are currently assigned; select
+                            this as an interest or waiting-list request
+                        </small>
                     </span>
                 </label>
 
@@ -790,6 +853,18 @@ $aircraftModels = [
                     <input
                         type="checkbox"
                         name="elements[]"
+                        value="garmin_training_flight"
+                    >
+
+                    <span class="programme-option__text">
+                        Garmin consultation with a joint flight in your own aircraft
+                    </span>
+                </label>
+
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
                         value="kempen_old_town_tour"
                     >
 
@@ -802,6 +877,19 @@ $aircraftModels = [
                         </small>
                     </span>
                 </label>
+
+                <label class="programme-option">
+                    <input
+                        type="checkbox"
+                        name="elements[]"
+                        value="grefrath_open_air_museum"
+                    >
+
+                    <span class="programme-option__text">
+                        Grefrath open-air museum for accompanying persons and guests
+                        <small>Weather-dependent alternative to the old-town tour</small>
+                    </span>
+                </label>
             </fieldset>
 
             <label class="event-notes-field">
@@ -811,7 +899,7 @@ $aircraftModels = [
                     name="notes"
                     rows="5"
                     maxlength="2000"
-                    placeholder="Special training requests, proficiency checks, number of pilots, etc."
+                    placeholder="Special training requests, proficiency checks, accompanying person, estimated arrival time, etc."
                 ></textarea>
             </label>
 
