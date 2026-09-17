@@ -2718,6 +2718,79 @@ td {
     text-align: left;
 }
 
+.forum-index-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.forum-index-head {
+    display: block;
+    margin: 0;
+    padding: 30px 34px 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+.forum-index-head .eyebrow {
+    margin: 0 0 8px;
+}
+
+.forum-index-head h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+}
+
+.forum-index-intro {
+    max-width: 680px;
+    margin: 12px 0 0;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.forum-action-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 24px 34px 28px;
+    padding: 18px 20px;
+    border: 1px solid rgba(182, 105, 42, 0.32);
+    border-left: 4px solid var(--accent);
+    border-radius: 12px;
+    background: rgba(182, 105, 42, 0.06);
+}
+
+.forum-action-copy {
+    min-width: 0;
+}
+
+.forum-action-copy strong {
+    display: block;
+    color: var(--navy);
+    font-size: 1.05rem;
+}
+
+.forum-action-copy p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.forum-action-panel .button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.forum-index-card .forum-table-wrap {
+    border-width: 1px 0 0;
+    border-radius: 0;
+}
+
+.forum-empty-state {
+    margin: 0;
+    padding: 0 34px 30px;
+}
+
 .forum-section-label,
 .forum-legacy-badge {
     color: var(--muted);
@@ -4851,6 +4924,7 @@ body.admin-dialog-open {
 .forum-index-page .container,
 .forum-index-card,
 .forum-index-head,
+.forum-action-panel,
 .forum-table-wrap,
 .memberlist-page,
 .memberlist-table-wrap {
@@ -5012,16 +5086,13 @@ body.admin-dialog-open {
     .forum-index-card {
         width: 100%;
         max-width: 100%;
-        padding: 18px;
+        padding: 0;
         overflow: hidden;
     }
 
     .forum-index-head {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-        align-items: stretch;
-        gap: 16px;
-        margin-bottom: 22px;
+        display: block;
+        padding: 24px 20px 20px;
     }
 
     .forum-index-head h2 {
@@ -5031,12 +5102,36 @@ body.admin-dialog-open {
         letter-spacing: -0.045em;
     }
 
-    .forum-index-head .button {
+    .forum-action-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: stretch;
+        gap: 16px;
+        margin: 18px 20px 24px;
+        padding: 16px;
+    }
+
+    .forum-action-panel .button {
         width: 100%;
         max-width: none;
         min-height: 52px;
         padding-inline: 18px;
         text-align: center;
+    }
+
+    .forum-table .forum-section-row {
+        display: block;
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .forum-table .forum-section-row th {
+        display: block;
+        padding: 12px 14px;
+        border-radius: 12px;
     }
 
     /* Hero und Seitentitel dürfen nicht über den Viewport hinausragen. */
@@ -5063,8 +5158,15 @@ body.admin-dialog-open {
 /* Sehr schmale Geräte */
 @media (max-width: 420px) {
     .forum-index-card {
-        padding: 14px;
         border-radius: 14px;
+    }
+
+    .forum-index-head {
+        padding-inline: 16px;
+    }
+
+    .forum-action-panel {
+        margin-inline: 16px;
     }
 
     .forum-table td,

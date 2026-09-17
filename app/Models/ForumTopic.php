@@ -13,16 +13,21 @@ final class ForumTopic
         $stmt = DB::pdo()->prepare(
             'SELECT t.*, COALESCE(t.legacy_author_name, u.name) AS author,
                     s.name AS section_name, s.visibility AS section_visibility,
-                    (
-                        SELECT COUNT(*)
-                        FROM forum_posts p
-                        WHERE p.topic_id = t.id AND p.is_deleted = 0
-                    ) AS reply_count
+                    COALESCE(post_stats.reply_count, 0) AS reply_count,
+                    COALESCE(post_stats.last_post_at, t.updated_at, t.created_at) AS last_post_at
              FROM forum_topics t
              LEFT JOIN users u ON u.id = t.user_id
              LEFT JOIN forum_sections s ON s.id = t.section_id
+             LEFT JOIN (
+                 SELECT topic_id, COUNT(*) AS reply_count, MAX(created_at) AS last_post_at
+                 FROM forum_posts
+                 WHERE is_deleted = 0
+                 GROUP BY topic_id
+             ) post_stats ON post_stats.topic_id = t.id
              WHERE s.id IS NULL OR s.visibility IN (' . $placeholders . ')
-             ORDER BY COALESCE(s.sort_order, 0), s.name, t.is_pinned DESC, t.updated_at DESC, t.created_at DESC'
+             ORDER BY COALESCE(s.sort_order, 0), s.name,
+                      COALESCE(post_stats.last_post_at, t.updated_at, t.created_at) DESC,
+                      t.id DESC'
         );
         $stmt->execute($visibilities);
         return $stmt->fetchAll();
