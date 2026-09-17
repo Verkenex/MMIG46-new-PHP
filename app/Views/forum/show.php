@@ -183,7 +183,11 @@ $text = $isEnglish
                                 <ul>
                                     <?php foreach ($postAttachments as $attachment): ?>
                                         <li>
-                                            <a href="<?= $e(I18n::url('/forum/anhang/' . (int) $attachment['id'])) ?>">
+                                            <a
+                                                href="<?= $e(I18n::url('/forum/anhang/' . (int) $attachment['id'])) ?>"
+                                                target="_blank"
+                                                rel="noopener"
+                                            >
                                                 <?= $e($attachment['original_name']) ?>
                                             </a>
                                             <?php if ((int) ($attachment['file_size'] ?? 0) > 0): ?>

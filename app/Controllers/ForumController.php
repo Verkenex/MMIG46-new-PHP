@@ -180,9 +180,24 @@ final class ForumController
         if (!preg_match('/\A[a-z0-9.+-]+\/[a-z0-9.+-]+\z/', $mimeType)) {
             $mimeType = 'application/octet-stream';
         }
+
+        $inlineMimeTypes = [
+            'application/pdf',
+            'image/gif',
+            'image/jpeg',
+            'image/png',
+            'image/webp',
+        ];
+        $disposition = in_array($mimeType, $inlineMimeTypes, true)
+            ? 'inline'
+            : 'attachment';
+
         header('Content-Type: ' . $mimeType);
         header('Content-Length: ' . (string) filesize($path));
-        header("Content-Disposition: attachment; filename*=UTF-8''" . rawurlencode($filename));
+        header(
+            "Content-Disposition: {$disposition}; filename*=UTF-8''"
+            . rawurlencode($filename)
+        );
         header('X-Content-Type-Options: nosniff');
         readfile($path);
         return '';
