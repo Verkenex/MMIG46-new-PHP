@@ -3,6 +3,10 @@
 /storage/logs/*.log
 /storage/uploads/*
 !/storage/uploads/.gitkeep
+/storage/forum-attachments/*
+!/storage/forum-attachments/.gitkeep
+*.private.sql
+*.report.json
 /storage/invoices/*.pdf
 /storage/invoices/tmp-*
 .DS_Store

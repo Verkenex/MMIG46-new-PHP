@@ -9,9 +9,9 @@ final class ForumPost
     public static function forTopic(int $topicId): array
     {
         $stmt = DB::pdo()->prepare(
-            'SELECT p.*, u.name AS author
+            'SELECT p.*, COALESCE(p.legacy_author_name, u.name) AS author
              FROM forum_posts p
-             JOIN users u ON u.id = p.user_id
+             LEFT JOIN users u ON u.id = p.user_id
              WHERE p.topic_id = ? AND p.is_deleted = 0
              ORDER BY p.created_at ASC'
         );

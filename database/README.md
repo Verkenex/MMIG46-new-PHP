@@ -8,6 +8,7 @@ Dieses Verzeichnis enthält das aktuelle Datenbankschema, Daten für verschieden
 database/
 ├── patches/
 │   ├── archive/
+│   ├── 2026_phpbb_history_import.sql
 │   └── 2026_woerthersee_static_cleanup.sql
 ├── README.md
 ├── forum.sql
@@ -140,6 +141,13 @@ danach ebenfalls genau einmal ausgeführt werden.
 `2026_audit_followup.sql` wird danach einmal ausgeführt. Der Patch erlaubt neue
 Anträge nach einem abgelehnten oder stornierten Altantrag und legt die Tabelle
 für dauerhaft gespeicherte Trainingswochenende-Anmeldungen an.
+
+`2026_phpbb_history_import.sql` erweitert das Forum für historische,
+nicht mit Benutzerkonten verknüpfte Autoren, geschützte Forenbereiche und
+Anhänge. Er wird vor dem privaten, mit `tools/convert-phpbb-history.py`
+erzeugten Datenimport genau einmal ausgeführt. Dump, generierte Importdatei und
+Anhänge dürfen nicht in Git eingecheckt werden. Details stehen in
+`docs/PHPBB_HISTORY_IMPORT.md`.
 
 Backup:
 

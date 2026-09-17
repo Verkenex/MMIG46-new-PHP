@@ -42,6 +42,7 @@ $text = $isEnglish
         'replies' => 'Replies',
         'last_post' => 'Last post',
         'unknown' => 'Unknown',
+        'current' => 'Current discussions',
     ]
     : [
         'eyebrow' => 'Forum',
@@ -56,6 +57,7 @@ $text = $isEnglish
         'replies' => 'Antworten',
         'last_post' => 'Letzter Beitrag',
         'unknown' => 'Unbekannt',
+        'current' => 'Aktuelle Diskussionen',
     ];
 
 ?>
@@ -129,6 +131,7 @@ $text = $isEnglish
                         </thead>
 
                         <tbody>
+                            <?php $lastSection = null; ?>
                             <?php foreach ($topics as $topic): ?>
                                 <?php
                                 $slug = (string) ($topic['slug'] ?? '');
@@ -143,7 +146,15 @@ $text = $isEnglish
                                 $lastPostDate = $topic['updated_at']
                                     ?? $topic['created_at']
                                     ?? null;
+                                $sectionName = (string) ($topic['section_name'] ?? $text['current']);
                                 ?>
+
+                                <?php if ($sectionName !== $lastSection): ?>
+                                    <tr class="forum-section-row">
+                                        <th colspan="4" scope="rowgroup"><?= $e($sectionName) ?></th>
+                                    </tr>
+                                    <?php $lastSection = $sectionName; ?>
+                                <?php endif; ?>
 
                                 <tr>
                                     <td data-label="<?= $e($text['topic']) ?>">

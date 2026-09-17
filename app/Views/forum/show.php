@@ -5,6 +5,7 @@ use MMIG46\Core\Security;
 
 $topic = $topic ?? null;
 $posts = $posts ?? [];
+$attachments = is_array($attachments ?? null) ? $attachments : [];
 $canWrite = (bool) ($canWrite ?? false);
 
 $lang = I18n::current();
@@ -88,6 +89,8 @@ $text = $isEnglish
         'not_found_text' => 'The requested forum topic does not exist or has been removed.',
         'by' => 'By',
         'unknown' => 'Unknown',
+        'historical' => 'Historical post',
+        'attachments' => 'Attachments',
         'back' => 'Back to forum overview',
         'locked_title' => 'Topic closed',
         'locked_text' => 'No further replies can be posted to this topic.',
@@ -104,6 +107,8 @@ $text = $isEnglish
         'not_found_text' => 'Das angeforderte Forumsthema existiert nicht oder wurde entfernt.',
         'by' => 'Von',
         'unknown' => 'Unbekannt',
+        'historical' => 'Historischer Beitrag',
+        'attachments' => 'Anhänge',
         'back' => 'Zurück zur Übersicht',
         'locked_title' => 'Thema geschlossen',
         'locked_text' => 'Zu diesem Thema können keine weiteren Antworten geschrieben werden.',
@@ -128,6 +133,10 @@ $text = $isEnglish
             <h1><?= $e($topic['title']) ?></h1>
 
             <p>
+                <?php if (!empty($topic['section_name'])): ?>
+                    <span class="forum-section-label"><?= $e($topic['section_name']) ?></span>
+                    ·
+                <?php endif; ?>
                 <?= $e($text['by']) ?>
                 <?= $e($topic['author'] ?? $text['unknown']) ?>
                 ·
@@ -157,11 +166,34 @@ $text = $isEnglish
                             <span>
                                 · <?= $e($formatDate($post['created_at'] ?? null)) ?>
                             </span>
+
+                            <?php if (!empty($post['legacy_phpbb_post_id'])): ?>
+                                <span class="forum-legacy-badge">· <?= $e($text['historical']) ?></span>
+                            <?php endif; ?>
                         </div>
 
                         <div class="forum-post-body">
                             <?= $renderForumText($post['body'] ?? '') ?>
                         </div>
+
+                        <?php $postAttachments = $attachments[(int) ($post['id'] ?? 0)] ?? []; ?>
+                        <?php if ($postAttachments !== []): ?>
+                            <div class="forum-attachments">
+                                <strong><?= $e($text['attachments']) ?></strong>
+                                <ul>
+                                    <?php foreach ($postAttachments as $attachment): ?>
+                                        <li>
+                                            <a href="<?= $e(I18n::url('/forum/anhang/' . (int) $attachment['id'])) ?>">
+                                                <?= $e($attachment['original_name']) ?>
+                                            </a>
+                                            <?php if ((int) ($attachment['file_size'] ?? 0) > 0): ?>
+                                                <small>(<?= $e(number_format((int) $attachment['file_size'] / 1024, 0, ',', '.')) ?> KB)</small>
+                                            <?php endif; ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
                     </article>
                 <?php endforeach; ?>
             </div>
