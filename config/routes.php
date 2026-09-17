@@ -44,6 +44,7 @@ $router->post('/logout', [AuthController::class, 'logout']);
 $router->get('/forum', [ForumController::class, 'index']);
 $router->get('/forum/neu', [ForumController::class, 'create']);
 $router->post('/forum/neu', [ForumController::class, 'store']);
+$router->get('/forum/anhang/{id}', [ForumController::class, 'attachment']);
 $router->get('/forum/{slug}', [ForumController::class, 'show']);
 $router->post('/forum/{slug}/antwort', [ForumController::class, 'reply']);
 

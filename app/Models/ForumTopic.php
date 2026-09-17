@@ -6,31 +6,42 @@ use MMIG46\Core\DB;
 
 final class ForumTopic
 {
-    public static function all(): array
+    public static function all(?string $role = null): array
     {
-        return DB::pdo()->query(
-            'SELECT t.*, u.name AS author,
+        $visibilities = self::allowedVisibilities($role);
+        $placeholders = implode(',', array_fill(0, count($visibilities), '?'));
+        $stmt = DB::pdo()->prepare(
+            'SELECT t.*, COALESCE(t.legacy_author_name, u.name) AS author,
+                    s.name AS section_name, s.visibility AS section_visibility,
                     (
                         SELECT COUNT(*)
                         FROM forum_posts p
                         WHERE p.topic_id = t.id AND p.is_deleted = 0
                     ) AS reply_count
              FROM forum_topics t
-             JOIN users u ON u.id = t.user_id
-             ORDER BY t.is_pinned DESC, t.updated_at DESC, t.created_at DESC'
-        )->fetchAll();
+             LEFT JOIN users u ON u.id = t.user_id
+             LEFT JOIN forum_sections s ON s.id = t.section_id
+             WHERE s.id IS NULL OR s.visibility IN (' . $placeholders . ')
+             ORDER BY COALESCE(s.sort_order, 0), s.name, t.is_pinned DESC, t.updated_at DESC, t.created_at DESC'
+        );
+        $stmt->execute($visibilities);
+        return $stmt->fetchAll();
     }
 
-    public static function findBySlug(string $slug): ?array
+    public static function findBySlug(string $slug, ?string $role = null): ?array
     {
+        $visibilities = self::allowedVisibilities($role);
+        $placeholders = implode(',', array_fill(0, count($visibilities), '?'));
         $stmt = DB::pdo()->prepare(
-            'SELECT t.*, u.name AS author
+            'SELECT t.*, COALESCE(t.legacy_author_name, u.name) AS author,
+                    s.name AS section_name, s.visibility AS section_visibility
              FROM forum_topics t
-             JOIN users u ON u.id = t.user_id
-             WHERE t.slug = ?
+             LEFT JOIN users u ON u.id = t.user_id
+             LEFT JOIN forum_sections s ON s.id = t.section_id
+             WHERE t.slug = ? AND (s.id IS NULL OR s.visibility IN (' . $placeholders . '))
              LIMIT 1'
         );
-        $stmt->execute([$slug]);
+        $stmt->execute(array_merge([$slug], $visibilities));
         return $stmt->fetch() ?: null;
     }
 
@@ -67,5 +78,18 @@ final class ForumTopic
         $value = trim((string) $value, '-');
 
         return $value !== '' ? $value : 'thema';
+    }
+
+    private static function allowedVisibilities(?string $role): array
+    {
+        if ($role === 'admin' || $role === 'moderator') {
+            return ['public', 'member', 'admin'];
+        }
+
+        if ($role === 'member') {
+            return ['public', 'member'];
+        }
+
+        return ['public'];
     }
 }

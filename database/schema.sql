@@ -32,9 +32,26 @@ CREATE TABLE IF NOT EXISTS members (
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS forum_sections (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  parent_id INT UNSIGNED NULL,
+  name VARCHAR(180) NOT NULL,
+  description TEXT NULL,
+  visibility ENUM('public','member','admin') NOT NULL DEFAULT 'public',
+  sort_order INT NOT NULL DEFAULT 100,
+  legacy_phpbb_forum_id INT UNSIGNED NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_forum_sections_parent FOREIGN KEY (parent_id) REFERENCES forum_sections(id) ON DELETE SET NULL,
+  UNIQUE KEY uq_forum_sections_legacy (legacy_phpbb_forum_id),
+  INDEX idx_forum_sections_visibility_sort (visibility, sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS forum_topics (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  user_id INT UNSIGNED NOT NULL,
+  user_id INT UNSIGNED NULL,
+  section_id INT UNSIGNED NULL,
+  legacy_author_name VARCHAR(255) NULL,
+  legacy_phpbb_topic_id INT UNSIGNED NULL,
   title VARCHAR(180) NOT NULL,
   slug VARCHAR(220) NOT NULL,
   is_pinned TINYINT(1) NOT NULL DEFAULT 0,
@@ -42,8 +59,10 @@ CREATE TABLE IF NOT EXISTS forum_topics (
   is_public TINYINT(1) NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT fk_forum_topics_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  CONSTRAINT fk_forum_topics_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  CONSTRAINT fk_forum_topics_section FOREIGN KEY (section_id) REFERENCES forum_sections(id) ON DELETE SET NULL,
   UNIQUE KEY uq_forum_topic_slug (slug),
+  UNIQUE KEY uq_forum_topic_legacy (legacy_phpbb_topic_id),
   INDEX idx_forum_topics_created (created_at),
   INDEX idx_forum_topics_pinned (is_pinned, created_at),
   FULLTEXT KEY ft_forum_topics_search (title)
@@ -52,15 +71,34 @@ CREATE TABLE IF NOT EXISTS forum_topics (
 CREATE TABLE IF NOT EXISTS forum_posts (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   topic_id INT UNSIGNED NOT NULL,
-  user_id INT UNSIGNED NOT NULL,
+  user_id INT UNSIGNED NULL,
+  legacy_author_name VARCHAR(255) NULL,
+  legacy_phpbb_post_id INT UNSIGNED NULL,
   body MEDIUMTEXT NOT NULL,
   is_deleted TINYINT(1) NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT fk_forum_posts_topic FOREIGN KEY (topic_id) REFERENCES forum_topics(id) ON DELETE CASCADE,
-  CONSTRAINT fk_forum_posts_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  CONSTRAINT fk_forum_posts_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  UNIQUE KEY uq_forum_post_legacy (legacy_phpbb_post_id),
   INDEX idx_forum_posts_topic_created (topic_id, created_at),
   FULLTEXT KEY ft_forum_posts_search (body)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS forum_attachments (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  post_id INT UNSIGNED NOT NULL,
+  original_name VARCHAR(255) NOT NULL,
+  stored_name VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(120) NOT NULL DEFAULT 'application/octet-stream',
+  file_size INT UNSIGNED NOT NULL DEFAULT 0,
+  download_count INT UNSIGNED NOT NULL DEFAULT 0,
+  legacy_phpbb_attach_id INT UNSIGNED NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_forum_attachments_post FOREIGN KEY (post_id) REFERENCES forum_posts(id) ON DELETE CASCADE,
+  UNIQUE KEY uq_forum_attachment_legacy (legacy_phpbb_attach_id),
+  UNIQUE KEY uq_forum_attachment_stored (stored_name),
+  INDEX idx_forum_attachments_post (post_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS contact_requests (

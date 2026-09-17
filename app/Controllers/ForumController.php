@@ -10,13 +10,14 @@ use MMIG46\Core\Session;
 use MMIG46\Core\View;
 use MMIG46\Models\ForumPost;
 use MMIG46\Models\ForumTopic;
+use MMIG46\Models\ForumAttachment;
 
 final class ForumController
 {
     public function index(): string
     {
         return View::render('forum/index', [
-            'topics' => ForumTopic::all(),
+            'topics' => ForumTopic::all($this->currentRole()),
             'canWrite' => $this->canWrite(),
             'lang' => I18n::current(),
         ]);
@@ -25,7 +26,7 @@ final class ForumController
     public function show(string $slug = ''): string
     {
         $slug = $this->resolveSlug($slug);
-        $topic = ForumTopic::findBySlug($slug);
+        $topic = ForumTopic::findBySlug($slug, $this->currentRole());
 
         if (!$topic) {
             http_response_code(404);
@@ -37,6 +38,7 @@ final class ForumController
         return View::render('forum/show', [
             'topic' => $topic,
             'posts' => ForumPost::forTopic((int) $topic['id']),
+            'attachments' => ForumAttachment::forTopic((int) $topic['id']),
             'canWrite' => $this->canWrite(),
             'lang' => I18n::current(),
         ]);
@@ -89,7 +91,7 @@ final class ForumController
 
         $lang = I18n::current();
         $slug = $this->resolveSlug($slug);
-        $topic = ForumTopic::findBySlug($slug);
+        $topic = ForumTopic::findBySlug($slug, $this->currentRole());
 
         if (!$topic) {
             http_response_code(404);
@@ -151,6 +153,45 @@ final class ForumController
     private function currentUserId(): int
     {
         return (int) ($_SESSION['user']['id'] ?? 0);
+    }
+
+    public function attachment(string $id = ''): string
+    {
+        $attachment = ForumAttachment::findAccessible((int) $id, $this->currentRole());
+        if (!$attachment) {
+            http_response_code(404);
+            return View::render('errors/404', ['lang' => I18n::current()]);
+        }
+
+        $storedName = (string) ($attachment['stored_name'] ?? '');
+        if (!preg_match('/\A[a-f0-9]{64}\z/', $storedName)) {
+            http_response_code(404);
+            return View::render('errors/404', ['lang' => I18n::current()]);
+        }
+
+        $path = dirname(__DIR__, 2) . '/storage/forum-attachments/' . $storedName;
+        if (!is_file($path)) {
+            http_response_code(404);
+            return View::render('errors/404', ['lang' => I18n::current()]);
+        }
+
+        $filename = str_replace(["\r", "\n", '"'], '', (string) $attachment['original_name']);
+        $mimeType = strtolower((string) ($attachment['mime_type'] ?? ''));
+        if (!preg_match('/\A[a-z0-9.+-]+\/[a-z0-9.+-]+\z/', $mimeType)) {
+            $mimeType = 'application/octet-stream';
+        }
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . (string) filesize($path));
+        header("Content-Disposition: attachment; filename*=UTF-8''" . rawurlencode($filename));
+        header('X-Content-Type-Options: nosniff');
+        readfile($path);
+        return '';
+    }
+
+    private function currentRole(): ?string
+    {
+        $role = $_SESSION['user']['role'] ?? null;
+        return is_string($role) ? $role : null;
     }
 
     private function resolveSlug(string $slug): string
