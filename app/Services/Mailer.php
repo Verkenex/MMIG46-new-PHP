@@ -890,7 +890,7 @@ final class Mailer
     {
         return [
             'fire_training' =>
-                'Feuerlöschübung mit der Flughafenfeuerwehr',
+                'Demonstration der Flughafenfeuerwehr',
             'water_flying_lecture' =>
                 'Vortrag: Wasserfliegen in Deutschland',
             'dinner' =>
@@ -898,7 +898,7 @@ final class Mailer
             'ifr_refresher' =>
                 'IFR-Refresher',
             'ifr_meteorology' =>
-                'IFR-Meteorologie mit Frank Lumnitzer',
+                'Wetter-Apps und deren Nutzung mit Frank Lumnitzer',
             'avionics_lecture' =>
                 'Avionik und PA46-Nachrüstung',
             'hands_on_training' =>
@@ -911,10 +911,10 @@ final class Mailer
                 'SET-Checkflug',
             'garmin_consultation' =>
                 'Persönliche Garmin-Beratung durch Fabian Kienzle',
-            'ras_career_event' =>
-                'RAS-Karriereevent beziehungsweise Hallenbesichtigung',
+            'offermann_lectures' =>
+                'Vorträge von Dr. Michael Offermann zu Flugmedizin, Stress und Simulatortraining',
             'kempen_old_town_tour' =>
-                'Altstadttour in Kempen für Begleitpersonen und Gäste',
+                'Begleitprogramm: Altstadt Kempen, Freilichtmuseum Grefrath oder Kaffeekranz mit Sekt',
         ];
     }
 

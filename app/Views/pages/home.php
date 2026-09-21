@@ -97,8 +97,8 @@ function mmig_format_date(?string $date): string
 
             <p>
                 <?= $isEn
-                    ? 'Use it or lose it: IFR refresher training, fire-safety exercises, avionics, simulator training, hands-on sessions and proficiency check flights.'
-                    : 'Use it or lose it: IFR-Refresher, Feuerlöschübungen, Avionik, Simulatortraining, praktische Übungen und Checkflüge.' ?>
+                    ? 'Use it or lose it: IFR refresher training, a fire-brigade demonstration, avionics, simulator training, hands-on sessions and proficiency check flights.'
+                    : 'Use it or lose it: IFR-Refresher, Feuerwehrdemonstration, Avionik, Simulatortraining, praktische Übungen und Checkflüge.' ?>
             </p>
 
             <p class="training-banner__limited">

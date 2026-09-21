@@ -32,7 +32,7 @@ $aircraftModels = [
 
         <p class="event-hero__lead">
             Two days of IFR refresher training, practical exercises,
-            avionics sessions, fire-safety training, proficiency
+            avionics sessions, a fire-brigade demonstration, proficiency
             checks and personal exchange in the modern RAS seminar
             facilities.
         </p>
@@ -148,21 +148,60 @@ $aircraftModels = [
 
             <ol class="event-schedule">
                 <li>
-                    <time>From 4:00 p.m.</time>
+                    <time>12:00–2:30 p.m.</time>
 
                     <div>
-                        <h3>Fire-extinguishing exercises</h3>
+                        <h3>Arrival and shuttle to RAS</h3>
 
                         <p>
-                            Practical fire-extinguishing exercises
-                            with the airport fire brigade in small
-                            groups.
+                            Please inform ground control that you are attending
+                            the MMIG46 event and park your aircraft on the main
+                            apron (A5 or A6). Then call Frank Prochaska on
+                            <a href="tel:+491782550246">+49 178 2550246</a>;
+                            the shuttle will take you from the apron to RAS.
+                        </p>
+
+                        <p>
+                            Drivers should use the main RAS car park: continue
+                            past the turn directly in front of the main building,
+                            then turn left a short distance further on.
                         </p>
                     </div>
                 </li>
 
                 <li>
-                    <time>6:15 p.m.</time>
+                    <time>3:00–5:00 p.m.</time>
+
+                    <div>
+                        <h3>Airport fire brigade</h3>
+
+                        <p>
+                            Individual demonstration by the airport fire brigade
+                            with an emergency vehicle, led by Mr Hensen.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>From 3:00 p.m.</time>
+
+                    <div>
+                        <h3>Simulator, training/check flights and Garmin</h3>
+
+                        <p>
+                            Hourly simulator sessions at MG-Flyers according to
+                            the schedule. Frank Lumnitzer and Ralph Wendt are
+                            available for training flights on Friday afternoon
+                            or evening. IFR or SET proficiency checks can also
+                            be conducted during these flights; please contact
+                            the organisers directly if interested. Fabian
+                            Kienzle will demonstrate the latest Garmin devices.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>5:00–6:00 p.m.</time>
 
                     <div>
                         <h3>Seaplane Flying in Germany</h3>
@@ -175,14 +214,14 @@ $aircraftModels = [
                 </li>
 
                 <li>
-                    <time>7:30 p.m.</time>
+                    <time>6:00–7:00 p.m.</time>
 
                     <div>
                         <h3>Transfer to Landgut Ramshof</h3>
 
                         <p>
-                            Transfer to Landgut Ramshof followed by a
-                            group dinner.
+                            Transfer to Landgut Ramshof. The group dinner begins
+                            at 7:30 p.m. in the Oval Office.
                         </p>
 
                         <div class="event-self-pay-notice">
@@ -205,77 +244,112 @@ $aircraftModels = [
 
             <ol class="event-schedule">
                 <li>
+                    <time>8:30–9:00 a.m.</time>
+
+                    <div>
+                        <h3>Arrival and daily briefing</h3>
+
+                        <p>Arrival at RAS, coffee and daily briefing.</p>
+                    </div>
+                </li>
+
+                <li>
                     <time>From 9:00 a.m.</time>
-
-                    <div>
-                        <h3>Presentations</h3>
-
-                        <p>
-                            IFR refresher training, IFR meteorology
-                            presented by
-                            <strong>Frank Lumnitzer</strong>
-                            <span class="speaker-role">
-                                (Senior Aviation Executive)
-                            </span>,
-                            current developments in avionics and
-                            specialised retrofit solutions for PA46
-                            aircraft.
-                        </p>
-
-                        <p>
-                            Personal consultation on Garmin systems
-                            will be provided by
-                            <strong>Fabian Kienzle</strong>.
-                            The team of speakers and experts will also
-                            include <strong>Dr Ralf Wendt</strong>.
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <time>Afterwards</time>
-
-                    <div>
-                        <h3>Hands-on training</h3>
-
-                        <p>
-                            Practical training in participants’ own
-                            aircraft with some of the best instructors
-                            in the German-speaking aviation community,
-                            including individual exercises and training
-                            sequences.
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <time>In parallel / subject to availability</time>
 
                     <div>
                         <h3>Simulator training</h3>
 
                         <p>
-                            Training on a modern
-                            <strong>ALSIM simulator</strong>,
-                            FNTP approved, at
-                            <strong>MG-Flyers</strong>.
+                            Hourly simulator sessions at MG-Flyers according to
+                            the schedule.
                         </p>
                     </div>
                 </li>
 
                 <li>
-                    <time>Subject to availability</time>
+                    <time>9:00–10:30 a.m.</time>
 
                     <div>
-                        <h3>
-                            Proficiency checks and Garmin consultation
-                        </h3>
+                        <h3>IFR refresher and weather apps</h3>
 
                         <p>
-                            IFR or SET proficiency check flights may
-                            be arranged. Personal advice on Garmin
-                            avionics will be provided by
-                            <strong>Fabian Kienzle</strong>.
+                            Presentations by <strong>Frank Lumnitzer</strong>
+                            covering an IFR refresher and the selection and use
+                            of weather apps.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>10:30–11:00 a.m.</time>
+
+                    <div>
+                        <h3>Garmin avionics and PA46 retrofit solutions</h3>
+                        <p>
+                            <strong>Fabian Kienzle</strong> presents the latest
+                            Garmin avionics and specific retrofit solutions for
+                            PA46 aircraft.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>From 11:00 a.m.</time>
+
+                    <div>
+                        <h3>Personal flight training, checks and consultation</h3>
+
+                        <p>
+                            Personal training with Frank Lumnitzer and Ralph
+                            Wendt; IFR or SET proficiency checks can also be
+                            conducted during these flights. Stefan Bassiri will
+                            be available in an advisory capacity. Individual
+                            Garmin consultation and training flights can be
+                            arranged with Fabian Kienzle, who is also available
+                            for joint training flights on Sunday.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>11:00 a.m.–1:00 p.m.</time>
+
+                    <div>
+                        <h3>Aviation medicine, stress and simulator training</h3>
+
+                        <p>
+                            Presentations by <strong>Dr Michael Offermann</strong>:
+                        </p>
+                        <p><strong>1.</strong> Murphy’s law and the value of simulator training for non-commercial pilots</p>
+                        <p><strong>2.</strong> Managing non-system-related stress on board</p>
+                        <p><strong>3.</strong> The 30 most important medical issues to discuss with an aviation medical examiner</p>
+                        <p><strong>4.</strong> Volunteering as a pilot or co-pilot for Flying Hope</p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>1:00–2:00 p.m. (and longer)</time>
+
+                    <div>
+                        <h3>Lunch break and afternoon programme</h3>
+
+                        <p>
+                            Snacks, filled rolls, coffee and mineral water,
+                            followed by further individual training and the
+                            scheduled simulator sessions.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <time>5:30–6:00 p.m.</time>
+
+                    <div>
+                        <h3>Feedback and conclusion</h3>
+
+                        <p>
+                            Feedback and planning of future events from
+                            5:30 p.m.; conclusion and departure at 6:00 p.m.
                         </p>
                     </div>
                 </li>
@@ -322,8 +396,9 @@ $aircraftModels = [
                     </p>
 
                     <p>
-                        Speaker on IFR meteorology and operational
-                        topics in professional aviation.
+                        Speaker on IFR refresher training and weather apps,
+                        and instructor for individual training and proficiency
+                        check flights.
                     </p>
                 </div>
             </article>
@@ -365,16 +440,15 @@ $aircraftModels = [
                 </div>
 
                 <div class="event-speaker__content">
-                    <h3>Dr Ralf Wendt</h3>
+                    <h3>Ralph Wendt</h3>
 
                     <p class="event-speaker__role">
-                        Speaker and aviation expert
+                        Flight training and proficiency checks
                     </p>
 
                     <p>
-                        Dr Ralf Wendt complements the training
-                        weekend’s team of speakers and aviation
-                        experts.
+                        Personal training in participants’ own aircraft and
+                        IFR and SET proficiency checks.
                     </p>
                 </div>
             </article>
@@ -400,6 +474,48 @@ $aircraftModels = [
                     <p>
                         Presentation on the operational and
                         organisational aspects of seaplane flying.
+                    </p>
+                </div>
+            </article>
+
+            <article class="event-speaker">
+                <div
+                    class="event-speaker__image
+                           event-speaker__image--placeholder"
+                >
+                    <span aria-hidden="true">MO</span>
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Dr Michael Offermann</h3>
+
+                    <p class="event-speaker__role">
+                        Aviation medicine, stress and simulator training
+                    </p>
+
+                    <p>
+                        Presentations on simulator training, stress management,
+                        aviation medicine and Flying Hope.
+                    </p>
+                </div>
+            </article>
+
+            <article class="event-speaker">
+                <div
+                    class="event-speaker__image
+                           event-speaker__image--placeholder"
+                >
+                    <span aria-hidden="true">SB</span>
+                </div>
+
+                <div class="event-speaker__content">
+                    <h3>Stefan Bassiri</h3>
+
+                    <p class="event-speaker__role">Consultation</p>
+
+                    <p>
+                        Stefan Bassiri will be available to advise participants
+                        on Saturday.
                     </p>
                 </div>
             </article>
@@ -461,35 +577,22 @@ $aircraftModels = [
         </div>
 
         <div>
-            <p class="section-eyebrow">
-                ADDITIONAL PROGRAMME
-            </p>
+            <p class="section-eyebrow">ACCOMPANYING PROGRAMME</p>
 
-            <h2>RAS career event</h2>
-
-            <p>
-                RAS will also hold a career event at EDLN during the
-                same weekend to attract new apprentices and trainees.
-                The event is expected to include an opportunity to
-                visit hangars and operational areas.
-            </p>
-
-            <p>
-                The exact integration into the MMIG46 programme will
-                depend on the final schedule of the RAS event.
-            </p>
+            <h2>Saturday from approximately 10:00 a.m.</h2>
 
             <div class="event-additional-programme">
-                <h3>Guided tour of Kempen’s historic old town</h3>
+                <h3>Programme for accompanying persons</h3>
 
                 <p>
-                    A joint tour of Kempen’s historic old town is
-                    planned for accompanying persons, guests and
-                    interested female participants.
+                    Depending on the weather, the programme will include either
+                    a guided tour of Kempen’s historic old town or a visit to
+                    the Lower Rhine Open-Air Museum in Grefrath. In poor weather,
+                    a coffee gathering and sparkling wine will be hosted.
                 </p>
 
                 <p class="event-additional-programme__condition">
-                    Subject to demand and sufficient interest.
+                    Led by Bärbel Gerecht
                 </p>
             </div>
         </div>
@@ -650,7 +753,7 @@ $aircraftModels = [
                     >
 
                     <span class="programme-option__text">
-                        Fire-extinguishing exercise on Friday
+                        Airport fire-brigade demonstration on Friday
                     </span>
                 </label>
 
@@ -698,7 +801,7 @@ $aircraftModels = [
                     >
 
                     <span class="programme-option__text">
-                        IFR meteorology with Frank Lumnitzer
+                        Weather apps and their use with Frank Lumnitzer
                     </span>
                 </label>
 
@@ -722,7 +825,7 @@ $aircraftModels = [
                     >
 
                     <span class="programme-option__text">
-                        Hands-on training in your own aircraft
+                        Personal training/practice flight in your own aircraft
                     </span>
                 </label>
 
@@ -778,11 +881,11 @@ $aircraftModels = [
                     <input
                         type="checkbox"
                         name="elements[]"
-                        value="ras_career_event"
+                        value="offermann_lectures"
                     >
 
                     <span class="programme-option__text">
-                        Interest in the RAS career event or hangar visit
+                        Presentations by Dr Michael Offermann
                     </span>
                 </label>
 
@@ -794,11 +897,11 @@ $aircraftModels = [
                     >
 
                     <span class="programme-option__text">
-                        Guided tour of Kempen’s historic old town for
-                        accompanying persons and guests
+                        Accompanying programme on Saturday
 
                         <small>
-                            Subject to demand and sufficient interest
+                            Depending on the weather: Kempen old town,
+                            Grefrath Open-Air Museum, or coffee and sparkling wine
                         </small>
                     </span>
                 </label>
