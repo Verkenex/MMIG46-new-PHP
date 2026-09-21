@@ -836,7 +836,7 @@ final class PageController
             'ifr_check_flight',
             'set_check_flight',
             'garmin_consultation',
-            'ras_career_event',
+            'offermann_lectures',
             'kempen_old_town_tour',
         ];
 
