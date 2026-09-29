@@ -416,8 +416,7 @@ th {
 .page-kicker,
 .eyebrow,
 .section-eyebrow,
-.event-kicker,
-.event-popup__eyebrow {
+.event-kicker {
     margin: 0 0 14px;
     color: var(--accent-dark);
     font-size: 0.78rem;
@@ -3327,7 +3326,7 @@ body.admin-dialog-open {
 
 .training-banner {
     padding: 1.4rem 0;
-    background: var(--danger);
+    background: var(--navy);
     color: #fff;
 }
 
@@ -3697,49 +3696,6 @@ body.admin-dialog-open {
     font-size: 0.84rem;
     font-weight: 750;
     line-height: 1.4;
-}
-
-.event-popup[hidden] {
-    display: none;
-}
-
-.event-popup {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    display: grid;
-    place-items: center;
-    padding: 1rem;
-}
-
-.event-popup__backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 15, 20, 0.72);
-    backdrop-filter: blur(4px);
-}
-
-.event-popup__dialog {
-    position: relative;
-    z-index: 1;
-    width: min(560px, 100%);
-    padding: clamp(1.5rem, 5vw, 3rem);
-    border-radius: 1.25rem;
-    background: #fff;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
-}
-
-.event-popup__close {
-    position: absolute;
-    top: 0.7rem;
-    right: 0.9rem;
-    border: 0;
-    background: transparent;
-    font-size: 2rem;
-}
-
-.has-modal {
-    overflow: hidden;
 }
 
 /* --------------------------------------------------------------------------

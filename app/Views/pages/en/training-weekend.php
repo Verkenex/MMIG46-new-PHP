@@ -1,86 +1,28 @@
-<?php
-
-use MMIG46\Core\Security;
-use MMIG46\Core\Session;
-
-$error = Session::flash('error');
-$success = Session::flash('success');
-
-$aircraftModels = [
-    'PA46-310',
-    'PA46-350',
-    'PA46-JetPROP',
-    'PA46R-350T',
-    'PA46-M500',
-    'PA46-M600',
-    'PA46-M700',
-    'Other',
-];
-?>
-
 <section class="event-hero">
     <div class="container event-hero__inner">
         <p class="event-kicker">
             MMIG46 TRAINING WEEKEND
         </p>
 
-        <h1>Use it or lose it.</h1>
+        <h1>2026 Training Weekend</h1>
 
         <p class="event-hero__date">
             25–26 September 2026 · Mönchengladbach Airport EDLN
         </p>
 
         <p class="event-hero__lead">
-            Two days of IFR refresher training, practical exercises,
-            avionics sessions, a fire-brigade demonstration, proficiency
-            checks and personal exchange in the modern RAS seminar
-            facilities.
+            The training weekend at Mönchengladbach Airport has concluded.
+            PA46 training and personal exchange were at its heart.
         </p>
 
         <div class="event-alert">
-            <strong>First come, first served:</strong>
-            Capacity for individual programme items, instructors and
-            proficiency checks is limited.
+            <strong>The training weekend was a success.</strong>
+            Thank you to everyone who took part and helped make it happen.
+            A review with photos and a summary will follow soon.
         </div>
 
-        <div
-            class="event-price-box"
-            aria-label="Participation fees"
-        >
-            <div class="event-price-box__heading">
-                Participation fees
-            </div>
-
-            <div class="event-price-box__prices">
-                <div class="event-price">
-                    <span class="event-price__label">
-                        MMIG46 members
-                    </span>
-
-                    <strong>EUR 450</strong>
-                </div>
-
-                <div class="event-price">
-                    <span class="event-price__label">
-                        Non-members
-                    </span>
-
-                    <strong>EUR 650</strong>
-                </div>
-            </div>
-
-            <p class="event-price-box__note">
-                Prior registration is mandatory. Participation is only
-                possible after registration and subsequent confirmation
-                by the organiser.
-            </p>
-        </div>
-
-        <a
-            class="button button--primary"
-            href="#registration"
-        >
-            Request programme items now
+        <a class="button button--primary" href="#programme">
+            View the original programme
         </a>
     </div>
 </section>
@@ -89,60 +31,37 @@ $aircraftModels = [
     <div class="container">
         <div class="event-facts">
             <article class="event-fact">
-                <span class="event-fact__label">
-                    Location
-                </span>
-
-                <strong>RAS seminar facilities at EDLN</strong>
-
-                <p>
-                    Modern seminar and training facilities at
-                    Mönchengladbach Airport.
-                </p>
-
+                <span class="event-fact__label">Location</span>
+                <strong>RAS seminar facilities, EDLN</strong>
+                <p>The training weekend took place at Mönchengladbach Airport.</p>
                 <p class="event-fact__thanks">
-                    We would like to thank RAS, and especially
-                    Mr Frank Prochaska, for their support and for
-                    providing the seminar facilities.
+                    Special thanks to RAS and Mr Frank Prochaska for their support
+                    and for providing the seminar facilities.
                 </p>
             </article>
-
             <article class="event-fact">
-                <span class="event-fact__label">
-                    For participants
-                </span>
-
-                <strong>Landing fee reduced by 50%</strong>
-
-                <p>
-                    No aircraft parking fee will be charged during
-                    the training weekend.
-                </p>
+                <span class="event-fact__label">Dates</span>
+                <strong>25–26 September 2026</strong>
+                <p>Two days of PA46 training and personal exchange.</p>
             </article>
-
             <article class="event-fact">
-                <span class="event-fact__label">
-                    Participation
-                </span>
-
-                <strong>Prior registration required</strong>
-
-                <p>
-                    Participation and individual programme items are
-                    only available following prior registration and
-                    confirmation.
-                </p>
+                <span class="event-fact__label">Review</span>
+                <strong>Photos and a summary to follow</strong>
+                <p>The original programme remains available below.</p>
             </article>
         </div>
     </div>
 </section>
 
-<section class="section section--soft">
+<section class="section section--soft" id="programme">
     <div class="container event-content">
         <div>
             <p class="section-eyebrow">
-                PROGRAMME
+                ORIGINAL PROGRAMME · ARCHIVE
             </p>
+            <p>The programme below records the original plan for 25 and 26
+                September 2026. Times and activities are retained for the
+                historical record.</p>
 
             <h2>Friday, 25 September</h2>
 
@@ -596,356 +515,5 @@ $aircraftModels = [
                 </p>
             </div>
         </div>
-    </div>
-</section>
-
-<section
-    class="section section--accent"
-    id="registration"
->
-    <div class="container event-registration">
-        <div>
-            <p class="section-eyebrow">
-                REGISTRATION
-            </p>
-
-            <h2>Request your preferred programme items</h2>
-
-            <p>
-                Prior registration is mandatory for all participants.
-                Please select the programme items you would like to
-                attend. Submission of this form constitutes a binding
-                request, but does not yet guarantee availability.
-                Dr Gerecht will coordinate the available places and
-                contact you by email.
-            </p>
-
-            <div class="event-registration-prices">
-                <strong>Participation fees:</strong>
-                EUR 450 for MMIG46 members ·
-                EUR 650 for non-members
-            </div>
-
-            <p>
-                Capacity is limited:
-                <strong>first come, first served.</strong>
-            </p>
-        </div>
-
-        <form
-            method="post"
-            action="/trainingswochenende-2026/anmeldung"
-            class="event-form"
-        >
-            <input
-                type="hidden"
-                name="_csrf"
-                value="<?= Security::e(Security::csrf()) ?>"
-            >
-
-            <input
-                type="hidden"
-                name="language"
-                value="en"
-            >
-
-            <input type="hidden" name="idempotency_token" value="<?= Security::e((string) ($idempotencyToken ?? '')) ?>">
-
-            <input
-                type="checkbox"
-                name="registration_check"
-                value="1"
-                tabindex="-1"
-                autocomplete="off"
-                class="form-honeypot"
-                aria-hidden="true"
-            >
-
-            <?php if ($error): ?>
-                <div class="form-message form-message--error">
-                    <?= Security::e($error) ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($success): ?>
-                <div class="form-message form-message--success">
-                    <?= Security::e($success) ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="form-grid">
-                <label>
-                    Name *
-
-                    <input
-                        type="text"
-                        name="name"
-                        required
-                        maxlength="150"
-                        autocomplete="name"
-                    >
-                </label>
-
-                <label>
-                    Email address *
-
-                    <input
-                        type="email"
-                        name="email"
-                        required
-                        maxlength="190"
-                        autocomplete="email"
-                    >
-                </label>
-
-                <label>
-                    Aircraft registration *
-
-                    <input
-                        type="text"
-                        name="callsign"
-                        required
-                        maxlength="20"
-                        placeholder="e.g. D-EXYZ"
-                        autocomplete="off"
-                    >
-                </label>
-
-                <label>
-                    Aircraft type
-
-                    <select name="aircraft_model">
-                        <option value="">
-                            Please select
-                        </option>
-
-                        <?php foreach ($aircraftModels as $model): ?>
-                            <option
-                                value="<?= Security::e($model) ?>"
-                            >
-                                <?= Security::e($model) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </label>
-
-                <label>
-                    Number of participants
-
-                    <input
-                        type="number"
-                        name="participants"
-                        min="1"
-                        max="4"
-                        value="1"
-                    >
-                </label>
-            </div>
-
-            <fieldset class="programme-options">
-                <legend>Requested programme items *</legend>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="fire_training"
-                    >
-
-                    <span class="programme-option__text">
-                        Airport fire-brigade demonstration on Friday
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="water_flying_lecture"
-                    >
-
-                    <span class="programme-option__text">
-                        Presentation “Seaplane Flying in Germany”
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="dinner"
-                    >
-
-                    <span class="programme-option__text">
-                        Group dinner at Landgut Ramshof
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="ifr_refresher"
-                    >
-
-                    <span class="programme-option__text">
-                        IFR refresher
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="ifr_meteorology"
-                    >
-
-                    <span class="programme-option__text">
-                        Weather apps and their use with Frank Lumnitzer
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="avionics_lecture"
-                    >
-
-                    <span class="programme-option__text">
-                        Avionics and PA46 retrofit solutions
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="hands_on_training"
-                    >
-
-                    <span class="programme-option__text">
-                        Personal training/practice flight in your own aircraft
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="simulator_training"
-                    >
-
-                    <span class="programme-option__text">
-                        Training on an ALSIM simulator at MG-Flyers
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="ifr_check_flight"
-                    >
-
-                    <span class="programme-option__text">
-                        IFR proficiency check flight
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="set_check_flight"
-                    >
-
-                    <span class="programme-option__text">
-                        SET proficiency check flight
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="garmin_consultation"
-                    >
-
-                    <span class="programme-option__text">
-                        Personal Garmin consultation by Fabian Kienzle
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="offermann_lectures"
-                    >
-
-                    <span class="programme-option__text">
-                        Presentations by Dr Michael Offermann
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="kempen_old_town_tour"
-                    >
-
-                    <span class="programme-option__text">
-                        Accompanying programme on Saturday
-
-                        <small>
-                            Depending on the weather: Kempen old town,
-                            Grefrath Open-Air Museum, or coffee and sparkling wine
-                        </small>
-                    </span>
-                </label>
-            </fieldset>
-
-            <label class="event-notes-field">
-                <span>Comments</span>
-
-                <textarea
-                    name="notes"
-                    rows="5"
-                    maxlength="2000"
-                    placeholder="Special training requests, proficiency checks, number of pilots, etc."
-                ></textarea>
-            </label>
-
-            <label class="consent-label">
-                <input
-                    type="checkbox"
-                    name="privacy_consent"
-                    value="1"
-                    required
-                >
-
-                <span class="consent-label__text">
-                    I agree that my information may be processed for
-                    the organisation of the training weekend and
-                    forwarded to the responsible organiser.
-
-                    <span class="consent-label__privacy">
-                        Further information is available in the
-                        <a href="/datenschutz?lang=en">
-                            privacy policy
-                        </a>.
-                    </span>
-                </span>
-            </label>
-
-            <button
-                type="submit"
-                class="button button--primary"
-            >
-                Submit binding request
-            </button>
-        </form>
     </div>
 </section>

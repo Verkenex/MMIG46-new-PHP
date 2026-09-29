@@ -1,70 +1,26 @@
-<?php
-
-use MMIG46\Core\Security;
-use MMIG46\Core\Session;
-
-$error = Session::flash('error');
-$success = Session::flash('success');
-
-$aircraftModels = [
-    'PA46-310',
-    'PA46-350',
-    'PA46-JetPROP',
-    'PA46R-350T',
-    'PA46-M500',
-    'PA46-M600',
-    'PA46-M700',
-    'Sonstiges',
-];
-?>
-
 <section class="event-hero">
     <div class="container event-hero__inner">
         <p class="event-kicker">MMIG46 TRAININGSWOCHENENDE</p>
 
-        <h1>Use it or lose it.</h1>
+        <h1>Trainingswochenende 2026</h1>
 
         <p class="event-hero__date">
             25.–26. September 2026 · Flughafen Mönchengladbach EDLN
         </p>
 
         <p class="event-hero__lead">
-            Zwei Tage IFR-Refresher, praktische Übungen, Avionik,
-            Feuerwehrdemonstration, Checkflüge und persönlicher Austausch
-            im modernen RAS-Seminarbereich.
+            Das Trainingswochenende am Flughafen Mönchengladbach ist vorbei.
+            Im Mittelpunkt standen PA46-Training und persönlicher Austausch.
         </p>
 
         <div class="event-alert">
-            <strong>First come, first served:</strong>
-            Die Kapazitäten für einzelne Programmpunkte und Trainer
-            sind begrenzt.
+            <strong>Das Trainingswochenende ist erfolgreich zu Ende gegangen.</strong>
+            Vielen Dank an alle Teilnehmenden und Mitwirkenden. Ein Rückblick
+            mit Bildern und Zusammenfassung folgt in Kürze.
         </div>
 
-        <div class="event-price-box" aria-label="Teilnahmegebühren">
-            <div class="event-price-box__heading">
-                Teilnahmegebühren
-            </div>
-
-            <div class="event-price-box__prices">
-                <div class="event-price">
-                    <span class="event-price__label">MMIG46-Mitglieder</span>
-                    <strong>450 €</strong>
-                </div>
-
-                <div class="event-price">
-                    <span class="event-price__label">Nichtmitglieder</span>
-                    <strong>650 €</strong>
-                </div>
-            </div>
-
-            <p class="event-price-box__note">
-                Die Teilnahme ist ausschließlich nach vorheriger Registrierung
-                und anschließender Bestätigung durch den Veranstalter möglich.
-            </p>
-        </div>
-
-        <a class="button button--primary" href="#anmeldung">
-            Jetzt Programmpunkte anfragen
+        <a class="button button--primary" href="#programm">
+            Damaliges Programm ansehen
         </a>
     </div>
 </section>
@@ -72,47 +28,36 @@ $aircraftModels = [
 <section class="section">
     <div class="container">
         <div class="event-facts">
-
             <article class="event-fact">
-                <span class="event-fact__label">Location</span>
+                <span class="event-fact__label">Ort</span>
                 <strong>RAS-Seminarräume, EDLN</strong>
-                <p>
-                    Moderner Seminar- und Trainingsbereich am Flughafen
-                    Mönchengladbach.
-                </p>
+                <p>Das Trainingswochenende fand am Flughafen Mönchengladbach statt.</p>
                 <p class="event-fact__thanks">
-                    Unser besonderer Dank gilt RAS und insbesondere
-                    Herrn Frank Prochaska für die Unterstützung sowie die
-                    Bereitstellung der Seminarräume.
+                    Unser besonderer Dank gilt RAS und insbesondere Herrn Frank
+                    Prochaska für die Unterstützung und die Seminarräume.
                 </p>
             </article>
-
             <article class="event-fact">
-                <span class="event-fact__label">Für Teilnehmer</span>
-                <strong>50 % reduzierte Landegebühr</strong>
-                <p>
-                    Während des Trainingswochenendes wird keine
-                    Abstellgebühr erhoben.
-                </p>
+                <span class="event-fact__label">Zeitraum</span>
+                <strong>25.–26. September 2026</strong>
+                <p>Zwei Tage Training und persönlicher Austausch rund um die PA46.</p>
             </article>
-
             <article class="event-fact">
-                <span class="event-fact__label">Teilnahme</span>
-                <strong>Vorherige Registrierung erforderlich</strong>
-                <p>
-                    Die Teilnahme und die Buchung einzelner Programmpunkte
-                    sind nur nach vorheriger Anmeldung und Bestätigung möglich.
-                </p>
+                <span class="event-fact__label">Rückblick</span>
+                <strong>Bilder und Zusammenfassung folgen</strong>
+                <p>Das damalige Programm ist unten weiterhin dokumentiert.</p>
             </article>
-
         </div>
     </div>
 </section>
 
-<section class="section section--soft">
+<section class="section section--soft" id="programm">
     <div class="container event-content">
         <div>
-            <p class="section-eyebrow">PROGRAMM</p>
+            <p class="section-eyebrow">DAMALIGES PROGRAMM · ARCHIV</p>
+            <p>Das folgende Programm dokumentiert die ursprüngliche Planung vom
+                25. und 26. September 2026. Angaben zu Zeiten und Angeboten
+                dienen ausschließlich der Dokumentation.</p>
             <h2>Freitag, 25. September</h2>
 
             <ol class="event-schedule">
@@ -512,300 +457,5 @@ $aircraftModels = [
                 </p>
             </div>
         </div>
-    </div>
-</section>
-
-<section class="section section--accent" id="anmeldung">
-    <div class="container event-registration">
-        <div>
-            <p class="section-eyebrow">ANMELDUNG</p>
-            <h2>Gewünschte Programmpunkte anfragen</h2>
-
-            <p>
-                Eine vorherige Registrierung ist für sämtliche Teilnehmer
-                erforderlich. Bitte wählen Sie die gewünschten Programmpunkte aus.
-                Die Anmeldung stellt zunächst eine verbindliche Anfrage dar.
-                Dr. Gerecht koordiniert die verfügbaren Plätze und meldet sich
-                anschließend per E-Mail.
-            </p>
-
-            <div class="event-registration-prices">
-                <strong>Teilnahmegebühren:</strong>
-                450 € für MMIG46-Mitglieder · 650 € für Nichtmitglieder
-            </div>
-
-            <p>
-                Wegen der begrenzten Kapazitäten gilt:
-                <strong>First come, first served.</strong>
-            </p>
-        </div>
-
-        <form method="post"
-              action="/trainingswochenende-2026/anmeldung"
-              class="event-form">
-
-            <?= Security::csrfField() ?>
-
-            <input type="hidden" name="idempotency_token" value="<?= Security::e((string) ($idempotencyToken ?? '')) ?>">
-
-            <input type="checkbox"
-                   name="registration_check"
-                   value="1"
-                   tabindex="-1"
-                   autocomplete="off"
-                   class="form-honeypot"
-                   aria-hidden="true">
-
-            <?php if ($error): ?>
-                <div class="form-message form-message--error">
-                    <?= Security::e($error) ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($success): ?>
-                <div class="form-message form-message--success">
-                    <?= Security::e($success) ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="form-grid">
-                <label>
-                    Name *
-                    <input type="text"
-                           name="name"
-                           required
-                           maxlength="150"
-                           autocomplete="name">
-                </label>
-
-                <label>
-                    E-Mail *
-                    <input type="email"
-                           name="email"
-                           required
-                           maxlength="190"
-                           autocomplete="email">
-                </label>
-
-                <label>
-                    Flugzeugkennung *
-                    <input type="text"
-                           name="callsign"
-                           required
-                           maxlength="20"
-                           placeholder="z. B. D-EXYZ">
-                </label>
-
-                <label>
-                    Flugzeugtyp
-                    <select name="aircraft_model">
-                        <option value="">Bitte wählen</option>
-
-                        <?php foreach ($aircraftModels as $model): ?>
-                            <option value="<?= Security::e($model) ?>">
-                                <?= Security::e($model) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </label>
-
-                <label>
-                    Teilnehmerzahl
-                    <input type="number"
-                           name="participants"
-                           min="1"
-                           max="4"
-                           value="1">
-                </label>
-            </div>
-
-            <fieldset class="programme-options">
-                <legend>Gewünschte Programmpunkte *</legend>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="fire_training"
-                    >
-                    <span class="programme-option__text">
-                        Feuerwehrdemonstration am Freitag
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="water_flying_lecture"
-                    >
-                    <span class="programme-option__text">
-                        Vortrag „Wasserfliegen in Deutschland“ von Norbert Klippel
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="dinner"
-                    >
-                    <span class="programme-option__text">
-                        Gemeinsames Abendessen im Ramshof
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="ifr_refresher"
-                    >
-                    <span class="programme-option__text">
-                        IFR-Refresher
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="ifr_meteorology"
-                    >
-                    <span class="programme-option__text">
-                        Wetter-Apps und deren Nutzung mit Frank Lumnitzer
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="avionics_lecture"
-                    >
-                    <span class="programme-option__text">
-                        Avionik und PA46-Nachrüstung
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="hands_on_training"
-                    >
-                    <span class="programme-option__text">
-                        Persönliches Trainings-/Übungsfliegen im eigenen Flugzeug
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="simulator_training"
-                    >
-                    <span class="programme-option__text">
-                        Simulatortraining auf einem ALSIM-Simulator bei MG-Flyers
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="ifr_check_flight"
-                    >
-                    <span class="programme-option__text">
-                        IFR-Checkflug
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="set_check_flight"
-                    >
-                    <span class="programme-option__text">
-                        SET-Checkflug
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="garmin_consultation"
-                    >
-                    <span class="programme-option__text">
-                        Persönliche Garmin-Beratung durch Fabian Kienzle
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="offermann_lectures"
-                    >
-                    <span class="programme-option__text">
-                        Vorträge von Dr. Michael Offermann
-                    </span>
-                </label>
-
-                <label class="programme-option">
-                    <input
-                        type="checkbox"
-                        name="elements[]"
-                        value="kempen_old_town_tour">
-
-                    <span class="programme-option__text">
-                        Begleitprogramm am Samstag
-                        <small>
-                            Je nach Wetter: Altstadt Kempen, Freilichtmuseum
-                            Grefrath oder Kaffeekranz mit Sekt
-                        </small>
-                    </span>
-                </label>
-
-            </fieldset>
-
-
-            <label class="event-notes-field">
-                <span>Anmerkungen</span>
-
-                <textarea
-                    name="notes"
-                    rows="5"
-                    maxlength="2000"
-                    placeholder="Besondere Trainingswünsche, Checkflug, Anzahl der Piloten etc."
-                ></textarea>
-            </label>
-
-            <label class="consent-label">
-                <input
-                    type="checkbox"
-                    name="privacy_consent"
-                    value="1"
-                    required
-                >
-
-                <span class="consent-label__text">
-                    Ich bin damit einverstanden, dass meine Angaben zur
-                    Organisation des Trainingswochenendes verarbeitet und
-                    an den zuständigen Organisator übermittelt werden.
-
-                    <span class="consent-label__privacy">
-                        Weitere Informationen stehen in der
-                        <a href="/datenschutz">Datenschutzerklärung</a>.
-                    </span>
-                </span>
-            </label>
-
-            <button type="submit" class="button button--primary">
-                Anfrage verbindlich absenden
-            </button>
-        </form>
     </div>
 </section>
