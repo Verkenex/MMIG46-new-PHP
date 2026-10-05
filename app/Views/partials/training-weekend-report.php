@@ -41,31 +41,31 @@
         <div class="recap-gallery recap-gallery--5 container" aria-label="Bilder zum Trainingswochenende">
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/01-poloshirts-640.webp" srcset="/assets/img/training-weekend/recap-2026/01-poloshirts-640.webp 480w, /assets/img/training-weekend/recap-2026/01-poloshirts.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Die neuen MMIG46-Polohemden">
                 <figcaption>Die neuen MMIG46-Polohemden</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/02-ras-640.webp" srcset="/assets/img/training-weekend/recap-2026/02-ras-640.webp 480w, /assets/img/training-weekend/recap-2026/02-ras.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="RAS am Flughafen Mönchengladbach">
                 <figcaption>RAS am Flughafen Mönchengladbach</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/03-ankunft-640.webp" srcset="/assets/img/training-weekend/recap-2026/03-ankunft-640.webp 640w, /assets/img/training-weekend/recap-2026/03-ankunft.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="Teilnehmer vor der RAS">
                 <figcaption>Teilnehmer vor der RAS</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/04-simulator-640.webp" srcset="/assets/img/training-weekend/recap-2026/04-simulator-640.webp 640w, /assets/img/training-weekend/recap-2026/04-simulator.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="Training im ALSIM-Simulator">
                 <figcaption>Training im ALSIM-Simulator</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/05-cockpit-640.webp" srcset="/assets/img/training-weekend/recap-2026/05-cockpit-640.webp 480w, /assets/img/training-weekend/recap-2026/05-cockpit.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Cockpit einer TBM unseres Mitglieds">
                 <figcaption>Cockpit einer TBM unseres Mitglieds</figcaption>
             </figure>
@@ -85,31 +85,31 @@
         <div class="recap-gallery recap-gallery--5 container" aria-label="Bilder zum Trainingswochenende">
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/06-feuerwehrfahrzeug-640.webp" srcset="/assets/img/training-weekend/recap-2026/06-feuerwehrfahrzeug-640.webp 640w, /assets/img/training-weekend/recap-2026/06-feuerwehrfahrzeug.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="Flughafenfeuerwehr vor dem RAS-Hangar">
                 <figcaption>Flughafenfeuerwehr vor dem RAS-Hangar</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/07-feuerwehrdemonstration-640.webp" srcset="/assets/img/training-weekend/recap-2026/07-feuerwehrdemonstration-640.webp 640w, /assets/img/training-weekend/recap-2026/07-feuerwehrdemonstration.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="Wasserdemonstration der Flughafenfeuerwehr">
                 <figcaption>Wasserdemonstration der Flughafenfeuerwehr</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/08-feuerwehr-640.webp" srcset="/assets/img/training-weekend/recap-2026/08-feuerwehr-640.webp 480w, /assets/img/training-weekend/recap-2026/08-feuerwehr.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Einblick in die Arbeit der Flughafenfeuerwehr">
                 <figcaption>Einblick in die Arbeit der Flughafenfeuerwehr</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/09-vorfeld-640.webp" srcset="/assets/img/training-weekend/recap-2026/09-vorfeld-640.webp 480w, /assets/img/training-weekend/recap-2026/09-vorfeld.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Flugzeug auf dem Vorfeld in EDLN">
                 <figcaption>Flugzeug auf dem Vorfeld in EDLN</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/10-vortrag-640.webp" srcset="/assets/img/training-weekend/recap-2026/10-vortrag-640.webp 480w, /assets/img/training-weekend/recap-2026/10-vortrag.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Vortrag im Seminarraum">
                 <figcaption>Vortrag im Seminarraum</figcaption>
             </figure>
@@ -120,32 +120,32 @@
     <section class="recap-section" id="recap-freitagabend">
         <div class="recap-prose">
             <h2>Freitagabend</h2>
-            <p>Am Abend dann das gemeinsame Abendessen im nahe gelegenen Ankunft am Ramshof.</p>
+            <p>Am Abend dann das gemeinsame Abendessen im nahe gelegenen Hotel und Restaurant Ramshof.</p>
             <p>Uns war es gelungen, das separate Oval Office für unsere Veranstaltung benutzen zu können.</p>
             <p>So waren wir unter uns – auch mit mehreren begleitenden Ehepartnern – und zu leckerem Essen und ausgewählten Getränken wurde erzählt, berichtet und diskutiert, zum Teil bis spät in die Nacht.</p>
         </div>
         <div class="recap-gallery recap-gallery--4 container" aria-label="Bilder zum Trainingswochenende">
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/11-ramshof-640.webp" srcset="/assets/img/training-weekend/recap-2026/11-ramshof-640.webp 480w, /assets/img/training-weekend/recap-2026/11-ramshof.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Ankunft am Ramshof">
                 <figcaption>Ankunft am Ramshof</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/12-gesellschaftsabend-640.webp" srcset="/assets/img/training-weekend/recap-2026/12-gesellschaftsabend-640.webp 480w, /assets/img/training-weekend/recap-2026/12-gesellschaftsabend.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Gespräche beim gemeinsamen Abendessen">
                 <figcaption>Gespräche beim gemeinsamen Abendessen</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/13-abendessen-640.webp" srcset="/assets/img/training-weekend/recap-2026/13-abendessen-640.webp 480w, /assets/img/training-weekend/recap-2026/13-abendessen.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Kulinarischer Ausklang">
                 <figcaption>Kulinarischer Ausklang</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/14-oval-office-640.webp" srcset="/assets/img/training-weekend/recap-2026/14-oval-office-640.webp 480w, /assets/img/training-weekend/recap-2026/14-oval-office.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Unser Gesellschaftsabend im Oval Office">
                 <figcaption>Unser Gesellschaftsabend im Oval Office</figcaption>
             </figure>
@@ -175,37 +175,37 @@
         <div class="recap-gallery recap-gallery--6 container" aria-label="Bilder zum Trainingswochenende">
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/15-seminarraum-640.webp" srcset="/assets/img/training-weekend/recap-2026/15-seminarraum-640.webp 480w, /assets/img/training-weekend/recap-2026/15-seminarraum.webp 1200w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1200" height="1600" loading="lazy" decoding="async" alt="Teilnehmer im Seminarraum">
                 <figcaption>Teilnehmer im Seminarraum</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/16-ifr-vortrag-640.webp" srcset="/assets/img/training-weekend/recap-2026/16-ifr-vortrag-640.webp 640w, /assets/img/training-weekend/recap-2026/16-ifr-vortrag.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="IFR-Vortrag bei der RAS">
                 <figcaption>IFR-Vortrag bei der RAS</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/17-avionik-vortrag-640.webp" srcset="/assets/img/training-weekend/recap-2026/17-avionik-vortrag-640.webp 640w, /assets/img/training-weekend/recap-2026/17-avionik-vortrag.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="Garmin-Avionik im Vortrag">
                 <figcaption>Garmin-Avionik im Vortrag</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/18-avionik-640.webp" srcset="/assets/img/training-weekend/recap-2026/18-avionik-640.webp 640w, /assets/img/training-weekend/recap-2026/18-avionik.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="Praktischer Austausch zur Avionik">
                 <figcaption>Praktischer Austausch zur Avionik</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/19-gespraeche-640.webp" srcset="/assets/img/training-weekend/recap-2026/19-gespraeche-640.webp 640w, /assets/img/training-weekend/recap-2026/19-gespraeche.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="Gespräche zwischen den Teilnehmern">
                 <figcaption>Gespräche zwischen den Teilnehmern</figcaption>
             </figure>
             <figure class="recap-photo">
                     <img src="/assets/img/training-weekend/recap-2026/20-austausch-640.webp" srcset="/assets/img/training-weekend/recap-2026/20-austausch-640.webp 640w, /assets/img/training-weekend/recap-2026/20-austausch.webp 1600w"
-                         sizes="(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 64px) / 2), 370px"
+                         sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 64px), 580px"
                          width="1600" height="1200" loading="lazy" decoding="async" alt="Persönlicher Austausch bei der RAS">
                 <figcaption>Persönlicher Austausch bei der RAS</figcaption>
             </figure>

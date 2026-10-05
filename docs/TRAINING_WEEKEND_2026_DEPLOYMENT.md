@@ -2,7 +2,7 @@
 
 Diese Liste umfasst die Vorankündigung aus PR #13 und den finalen Rückblick. Alle Dateien aus dem endgültigen Stand von `main` verwenden.
 
-1. Zuerst den neuen Bilderordner und die neue gemeinsame Ansicht hochladen.
+1. Zuerst den neuen Bilderordner und beide neuen Berichtsansichten hochladen.
 2. Anschließend die acht vorhandenen PHP-/CSS-/JS-Dateien ersetzen.
 3. In phpMyAdmin auf der richtigen MMIG-Datenbank einmalig `database/patches/2026_training_weekend_recap.sql` ausführen. Dies aktualisiert den vorhandenen Newsbeitrag oder legt ihn bei Bedarf an, inklusive Bild. Bestehende Kommentare bleiben erhalten.
 4. Die Veranstaltungsseite mit `?lang=de` und `?lang=en` öffnen, Galerie prüfen und die Startseite/News kontrollieren.
@@ -18,6 +18,7 @@ Der ältere Patch `2026_training_weekend_completed.sql` ist nicht erforderlich. 
 - `app/Views/pages/training-weekend.php` **ersetzen**
 - `app/Views/pages/en/training-weekend.php` **ersetzen**
 - `app/Views/partials/training-weekend-report.php` **neu**
+- `app/Views/partials/training-weekend-report-en.php` **neu**
 - `public/assets/css/app.css` **ersetzen**
 - `public/assets/js/app.js` **ersetzen**
 
