@@ -98,7 +98,7 @@ function mmig_format_date(?string $date): string
             <p>
                 <?= $isEn
                     ? 'A successful weekend of PA46 training and exchange at Mönchengladbach Airport. Thank you to everyone who took part and helped make it happen.'
-                    : 'Ein gelungenes Wochenende mit PA46-Training und Austausch am Flughafen Mönchengladbach. Vielen Dank an alle Teilnehmenden und Mitwirkenden.' ?>
+                    : 'Ein gelungenes Wochenende mit PA46-Training und Austausch am Flughafen Mönchengladbach. Vielen Dank an alle Teilnehmer und Helfer.' ?>
             </p>
 
             <p class="training-banner__limited">
