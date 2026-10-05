@@ -17,7 +17,6 @@ use MMIG46\Models\NewsItem;
 use MMIG46\Models\Search;
 use MMIG46\Models\SiteSetting;
 use MMIG46\Models\TravelItem;
-use MMIG46\Models\TrainingRegistration;
 use MMIG46\Services\Mailer;
 use MMIG46\Services\OutboxDelivery;
 use MMIG46\Services\Markdown;
@@ -741,252 +740,15 @@ final class PageController
 
     public function trainingWeekend(): string
     {
-        $token = bin2hex(random_bytes(32));
-        $tokens = (array) ($_SESSION['training_idempotency_tokens'] ?? []);
-        $tokens[] = $token;
-        $_SESSION['training_idempotency_tokens'] = array_slice(array_values(array_unique($tokens)), -5);
-        return $this->renderStaticLocalized(
-            'training-weekend',
-            ['idempotencyToken' => $token]
-        );
+        return $this->renderStaticLocalized('training-weekend');
     }
 
     public function sendTrainingWeekendRegistration(): string
     {
-        Security::verifyCsrf();
+        // Auch alte Formularseiten und direkte POST-Anfragen dürfen keine Anmeldung mehr auslösen.
+        http_response_code(410);
 
-        $idempotencyToken = trim((string) ($_POST['idempotency_token'] ?? ''));
-        $sessionTokens = (array) ($_SESSION['training_idempotency_tokens'] ?? []);
-        $tokenIndex = array_search($idempotencyToken, $sessionTokens, true);
-        if ($idempotencyToken === '' || $tokenIndex === false) {
-            Session::flash('error', I18n::current() === 'en'
-                ? 'The form has expired. Please reload it.'
-                : 'Das Formular ist abgelaufen. Bitte laden Sie es neu.');
-            $this->redirectToTrainingWeekend(I18n::current());
-        }
-
-        /*
-        * Unsichtbares Honeypot-Feld gegen einfache Formular-Bots.
-        */
-        if (
-            isset($_POST['registration_check'])
-        ) {
-            http_response_code(400);
-
-            return '';
-        }
-
-        /*
-        * Die Sprache wird zusätzlich aus dem Formular übernommen.
-        * Das ist wichtig, falls beim POST kein lang-Parameter in der
-        * URL enthalten ist.
-        */
-        $postedLanguage = strtolower(
-            trim((string) ($_POST['language'] ?? ''))
-        );
-
-        $lang = in_array(
-            $postedLanguage,
-            ['de', 'en'],
-            true
-        )
-            ? $postedLanguage
-            : I18n::current();
-
-        $name = trim(
-            (string) ($_POST['name'] ?? '')
-        );
-
-        $email = trim(
-            (string) ($_POST['email'] ?? '')
-        );
-
-        $callsign = strtoupper(
-            trim((string) ($_POST['callsign'] ?? ''))
-        );
-
-        $aircraftModel = trim(
-            (string) ($_POST['aircraft_model'] ?? '')
-        );
-
-        $participants = max(
-            1,
-            min(
-                4,
-                (int) ($_POST['participants'] ?? 1)
-            )
-        );
-
-        $notes = trim(
-            (string) ($_POST['notes'] ?? '')
-        );
-
-        $privacyConsent =
-            isset($_POST['privacy_consent']);
-
-        $allowedElements = [
-            'fire_training',
-            'water_flying_lecture',
-            'dinner',
-            'ifr_refresher',
-            'ifr_meteorology',
-            'avionics_lecture',
-            'hands_on_training',
-            'simulator_training',
-            'ifr_check_flight',
-            'set_check_flight',
-            'garmin_consultation',
-            'offermann_lectures',
-            'kempen_old_town_tour',
-        ];
-
-        $submittedElements =
-            $_POST['elements'] ?? [];
-
-        if (!is_array($submittedElements)) {
-            $submittedElements = [];
-        }
-
-        $submittedElements = array_map(
-            static fn (mixed $element): string =>
-                (string) $element,
-            $submittedElements
-        );
-
-        $selectedElements = array_values(
-            array_intersect(
-                $allowedElements,
-                $submittedElements
-            )
-        );
-
-        /*
-        * Pflichtfelder prüfen.
-        */
-        if (
-            $name === ''
-            || $email === ''
-            || !filter_var(
-                $email,
-                FILTER_VALIDATE_EMAIL
-            )
-            || $callsign === ''
-            || $selectedElements === []
-            || !$privacyConsent
-            || mb_strlen($name) > 150
-            || mb_strlen($email) > 190
-            || mb_strlen($callsign) > 20
-            || mb_strlen($aircraftModel) > 100
-            || mb_strlen($notes) > 2000
-        ) {
-            Session::flash(
-                'error',
-                $lang === 'en'
-                    ? 'Please complete all required fields, enter a valid email address and select at least one programme item.'
-                    : 'Bitte füllen Sie alle Pflichtfelder aus, geben Sie eine gültige E-Mail-Adresse ein und wählen Sie mindestens einen Programmpunkt.'
-            );
-
-            $this->redirectToTrainingWeekend($lang);
-        }
-
-        $registrationData = [
-            'name' => $name,
-            'email' => $email,
-            'callsign' => $callsign,
-            'aircraft_model' => $aircraftModel,
-            'participants' => $participants,
-            'elements' => $selectedElements,
-            'notes' => $notes,
-            'privacy_consent' => $privacyConsent,
-            'language' => $lang,
-        ];
-
-        try {
-            $registrationId = TrainingRegistration::create($registrationData, $idempotencyToken);
-        } catch (\Throwable $exception) {
-            $this->logException('Training registration database insert failed', $exception);
-            Session::flash('error', $lang === 'en'
-                ? 'Your registration could not be saved. Please try again later.'
-                : 'Ihre Anmeldung konnte nicht gespeichert werden. Bitte versuchen Sie es später erneut.');
-            $this->redirectToTrainingWeekend($lang);
-        }
-
-        unset($sessionTokens[$tokenIndex]);
-        $_SESSION['training_idempotency_tokens'] = array_values($sessionTokens);
-
-        /*
-        * Hauptnachricht an den Organisator senden.
-        */
-        try {
-            $mailSent =
-                Mailer::trainingWeekendRegistration(
-                    $registrationData
-                );
-        } catch (\Throwable $exception) {
-            $this->logException(
-                'Training weekend registration mail failed',
-                $exception
-            );
-
-            $mailSent = false;
-        }
-
-        TrainingRegistration::markOrganizerMail($registrationId, $mailSent);
-
-        /*
-        * Wenn die Hauptnachricht nicht versendet wurde,
-        * darf keine erfolgreiche Anmeldung angezeigt werden.
-        */
-        if (!$mailSent) {
-            Session::flash(
-                'error',
-                $lang === 'en'
-                    ? 'Your registration could not be submitted. Please try again later or contact the organiser directly.'
-                    : 'Ihre Anmeldung konnte nicht übermittelt werden. Bitte versuchen Sie es später erneut oder kontaktieren Sie den Organisator direkt.'
-            );
-
-            $this->redirectToTrainingWeekend($lang);
-        }
-
-        /*
-        * Bestätigungskopie an den Anmeldenden senden.
-        *
-        * Ein Fehler bei der Kopie soll die bereits erfolgreich
-        * versendete Hauptanmeldung nicht rückgängig machen.
-        */
-        try {
-            $copySent =
-                Mailer::trainingWeekendCopy(
-                    $registrationData
-                );
-        } catch (\Throwable $exception) {
-            $this->logException(
-                'Training weekend confirmation copy failed',
-                $exception
-            );
-
-            $copySent = false;
-        }
-
-        TrainingRegistration::markCopyMail($registrationId, $copySent);
-
-        if ($copySent) {
-            Session::flash(
-                'ok',
-                $lang === 'en'
-                    ? 'Thank you. Your registration request has been sent to the organiser. A confirmation copy has been sent to your email address.'
-                    : 'Vielen Dank. Ihre Anmeldeanfrage wurde an den Organisator übermittelt. Eine Bestätigungskopie wurde an Ihre E-Mail-Adresse gesendet.'
-            );
-        } else {
-            Session::flash(
-                'ok',
-                $lang === 'en'
-                    ? 'Thank you. Your registration request has been sent to the organiser. However, the confirmation copy could not be sent.'
-                    : 'Vielen Dank. Ihre Anmeldeanfrage wurde an den Organisator übermittelt. Die Bestätigungskopie konnte jedoch nicht versendet werden.'
-            );
-        }
-
-        $this->redirectToTrainingWeekend($lang);
+        return $this->renderStaticLocalized('training-weekend');
     }
 
     private function sendMailSafely(
@@ -1046,25 +808,6 @@ final class PageController
                 ['lang' => $lang]
             )
         );
-    }
-
-    private function redirectToTrainingWeekend(
-        string $lang
-    ): never {
-        $anchor = $lang === 'en'
-            ? '#registration'
-            : '#anmeldung';
-
-        header(
-            'Location: '
-            . I18n::url(
-                '/trainingswochenende-2026',
-                $lang
-            )
-            . $anchor
-        );
-
-        exit;
     }
 
     private function logException(

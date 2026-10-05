@@ -1,4 +1,5 @@
--- Aktueller Seed für neue Installationen.
+-- Direkt ausführen; ersetzt auch die Vorankündigung. Der vorherige Completed-Patch ist nicht erforderlich.
+-- Bestehende Kommentare und die Identität des Newsbeitrags bleiben erhalten.
 INSERT INTO news_items (lang, title, slug, category, teaser, body, image_path, published_at, is_published, comment_count)
 VALUES
 ('de',

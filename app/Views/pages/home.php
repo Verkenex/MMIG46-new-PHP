@@ -97,14 +97,14 @@ function mmig_format_date(?string $date): string
 
             <p>
                 <?= $isEn
-                    ? 'Use it or lose it: IFR refresher training, a fire-brigade demonstration, avionics, simulator training, hands-on sessions and proficiency check flights.'
-                    : 'Use it or lose it: IFR-Refresher, Feuerwehrdemonstration, Avionik, Simulatortraining, praktische Übungen und Checkflüge.' ?>
+                    ? 'A successful weekend of PA46 training and exchange at Mönchengladbach Airport. Thank you to everyone who took part and helped make it happen.'
+                    : 'Ein gelungenes Wochenende mit PA46-Training und Austausch am Flughafen Mönchengladbach. Vielen Dank an alle Teilnehmenden und Mitwirkenden.' ?>
             </p>
 
             <p class="training-banner__limited">
                 <?= $isEn
-                    ? 'Limited capacity – first come, first served.'
-                    : 'Begrenzte Kapazitäten – first come, first served.' ?>
+                    ? 'The full report by Klaus Gerecht is now available, with photos.'
+                    : 'Der vollständige Rückblick von Klaus Gerecht mit Bildern ist jetzt online.' ?>
             </p>
         </div>
 
@@ -113,8 +113,8 @@ function mmig_format_date(?string $date): string
                ? '/trainingswochenende-2026?lang=en'
                : '/trainingswochenende-2026?lang=de' ?>">
             <?= $isEn
-                ? 'View programme and register'
-                : 'Programm ansehen und anmelden' ?>
+                ? 'Read the report with photos'
+                : 'Rückblick mit Bildern lesen' ?>
         </a>
     </div>
 </section>

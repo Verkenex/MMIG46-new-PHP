@@ -42,6 +42,12 @@ final class Seo
                 'priority' => '0.7',
                 'changefreq' => 'monthly',
             ],
+            '/trainingswochenende-2026' => [
+                'title' => $en ? '2026 Training Weekend – MMIG46' : 'Trainingswochenende 2026 – MMIG46',
+                'description' => $en ? 'Read Klaus Gerecht’s original German report and view photos from the MMIG46 training weekend at EDLN on 25–26 September 2026.' : 'Rückblick von Klaus Gerecht mit Bildern: MMIG46-Trainingswochenende am 25. und 26. September 2026 bei RAS und MGFlyers in EDLN.',
+                'priority' => '0.7',
+                'changefreq' => 'monthly',
+            ],
             '/malibu-mirage' => [
                 'title' => 'Piper PA-46 Malibu Mirage & JetPROP – MMIG46',
                 'description' => $en ? 'Technical information and archive articles about Piper PA-46 Malibu, Mirage and JetPROP aircraft.' : 'Fachinformationen und Archivbeiträge zu Piper PA-46 Malibu, Mirage und JetPROP.',
