@@ -201,7 +201,7 @@
             <p>Am Samstagmorgen trafen wir uns ab 08:30 Uhr vor dem Seminarraum zum Kaffee und ersten Gesprächen.</p>
             <p>Ab 09:00 Uhr fanden stündlich weitere Sitzungen im Flugsimulator bei MgFlyers statt.</p>
             <p>Nach einer kurzen Einführung durch Klaus Gerecht begann Frank Lumnitzer mit seinen hochinteressanten Ausführungen zu den Hintergründen der Planung von IFR-Anflügen und der Ausdehnung der Sicherheitsbereiche im Raum.</p>
-            <p>Wer von uns hat sich jemals detailliert mit den Temperaturvariablen von LNAV-Anflügen auseinandergesetzt? Dass hier bei kalten Temperaturen erhebliche Risiken in Hinblick auf die Hindernisfreiheit entstehen können, war wohl kaum jemandem bisher klar.</p>
+            <p>Wer von uns hat sich jemals detailliert mit den Temperaturvariablen von LNAV-Anflügen auseinandergesetzt? Dass hier bei kalten Temperaturen erhebliche Risiken in Hinblick auf die Hindernisfreiheit entstehen können, war wohl kaum jemandem klar bisher.</p>
             <p>Also lieber LPV oder ILS, wenn verfügbar.</p>
             <p>Fabian Kienzle erläuterte zum Thema „Neuheiten Garmin-Avionik und spezifische PA46-Nachrüstung“ die neue Produktreihe namens Axis.</p>
             <p>Auf 11,6- und 8-Zoll-Bildschirmen ist es möglich, in älteren Maschinen voll integrierte Avionik zu installieren. Wenn man seinen Avionics Stack weiter liebt, gibt es Versionen, die lediglich als Anzeigetafeln dienen.</p>
@@ -279,7 +279,7 @@
             <p>Für den Frühsommer 2027 (Mai/Juni) planen wir das nächste Fly-out, diesmal nach Cannes.</p>
             <p>Chris Hannen kennt sich dort hervorragend aus und unterstützt uns bei der Planung.</p>
             <p>Wer interessiert ist, an den von uns gelegentlich – teilweise auch kurzfristig – geplanten Flügen in Europa teilzunehmen, möge sich bitte bei mir melden.</p>
-            <p>Das Gleiche gilt für mögliche größere Operationen, wie zum Beispiel, gemeinsam nach Oshkosh zu fliegen oder ultimativ einmal um die ganze Welt.</p>
+            <p>Das Gleiche gilt für mögliche größere Operationen, wie zum Beispiel nach Oshkosh gemeinsam zu fliegen oder ultimativ einmal um die ganze Welt.</p>
             <p>Natürlich dann nicht kurzfristig geplant …</p>
             <p class="recap-signature"><strong>Klaus Gerecht</strong><span>Präsident MMIG46</span></p>
         </div>
