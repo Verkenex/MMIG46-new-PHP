@@ -103,8 +103,8 @@ function mmig_format_date(?string $date): string
 
             <p class="training-banner__limited">
                 <?= $isEn
-                    ? 'A review with photos and a summary will follow soon.'
-                    : 'Ein Rückblick mit Bildern und Zusammenfassung folgt in Kürze.' ?>
+                    ? 'The full report by Klaus Gerecht is now available, with photos.'
+                    : 'Der vollständige Rückblick von Klaus Gerecht mit Bildern ist jetzt online.' ?>
             </p>
         </div>
 
@@ -113,8 +113,8 @@ function mmig_format_date(?string $date): string
                ? '/trainingswochenende-2026?lang=en'
                : '/trainingswochenende-2026?lang=de' ?>">
             <?= $isEn
-                ? 'View the event page'
-                : 'Veranstaltungsseite ansehen' ?>
+                ? 'Read the report with photos'
+                : 'Rückblick mit Bildern lesen' ?>
         </a>
     </div>
 </section>

@@ -2,38 +2,24 @@
 
 declare(strict_types=1);
 
-$root = dirname(__DIR__);
-$controller = file_get_contents($root . '/app/Controllers/PageController.php');
+require dirname(__DIR__) . '/app/bootstrap.php';
 
-if ($controller === false) {
-    throw new RuntimeException('PageController konnte nicht gelesen werden.');
+$lang = ($argv[1] ?? 'de') === 'en' ? 'en' : 'de';
+$_GET['lang'] = $lang;
+$_SERVER['REQUEST_URI'] = '/trainingswochenende-2026/anmeldung?lang=' . $lang;
+$_SERVER['REQUEST_METHOD'] = 'POST';
+// A stale or direct submission must be closed before CSRF, database or mail processing.
+$_POST = ['name' => 'Old registration', 'email' => 'test@example.invalid'];
+
+$html = (new \MMIG46\Controllers\PageController())->sendTrainingWeekendRegistration();
+if (http_response_code() !== 410) {
+    throw new RuntimeException('The closed registration endpoint must return HTTP 410.');
 }
-
-foreach ([
-    '/app/Views/pages/training-weekend.php',
-    '/app/Views/pages/en/training-weekend.php',
-] as $viewPath) {
-    $view = file_get_contents($root . $viewPath);
-    if ($view === false) {
-        throw new RuntimeException($viewPath . ' konnte nicht gelesen werden.');
-    }
-
-    if (str_contains($view, '<form') || !str_contains($view, 'ARCHIV')) {
-        throw new RuntimeException($viewPath . ' muss das Programm archivieren und ohne Anmeldeformular anzeigen.');
-    }
+if (!str_contains($html, 'Klaus Gerecht') || !str_contains($html, 'data-recap-photo')) {
+    throw new RuntimeException('The closed endpoint must display the final report.');
 }
-
-$registrationHandler = substr(
-    $controller,
-    strpos($controller, 'public function sendTrainingWeekendRegistration(): string'),
-    strpos($controller, 'private function sendMailSafely(')
-        - strpos($controller, 'public function sendTrainingWeekendRegistration(): string')
-);
-
-if (!str_contains($registrationHandler, 'http_response_code(410)')
-    || str_contains($registrationHandler, 'TrainingRegistration::create')
-    || str_contains($registrationHandler, 'Mailer::trainingWeekendRegistration')) {
-    throw new RuntimeException('Der alte Anmelde-Endpunkt muss ohne Datenspeicherung und E-Mail antworten.');
+if (str_contains($html, 'action="/trainingswochenende-2026/anmeldung"')
+    || isset($_SESSION['training_idempotency_tokens'])) {
+    throw new RuntimeException('The final report must not offer or initialise registration.');
 }
-
-echo "Training registration closed test: OK\n";
+echo "Training registration closed ($lang): OK\n";

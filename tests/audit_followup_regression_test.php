@@ -46,14 +46,14 @@ foreach (['DROP INDEX uq_membership_applications_duplicate', 'CREATE TABLE IF NO
 }
 
 $pageController = $read('app/Controllers/PageController.php');
-foreach (['membership_idempotency_tokens', 'training_idempotency_tokens', 'TrainingRegistration::create'] as $fragment) {
+foreach (['membership_idempotency_tokens', 'http_response_code(410)'] as $fragment) {
     if (!str_contains($pageController, $fragment)) {
         throw new RuntimeException('Mehrfachformular-/Event-Schutz fehlt: ' . $fragment);
     }
 }
 
 $news = $read('app/Models/NewsItem.php');
-$travel = $read('app/Models/Travelitem.php');
+$travel = $read('app/Models/TravelItem.php');
 if (str_contains(substr($news, (int) strpos($news, 'public static function all')), 'WHERE lang = ?')
     || !str_contains($travel, 'SELECT id, lang, title')) {
     throw new RuntimeException('Adminübersicht enthält nicht alle Sprach-/Veröffentlichungsstände.');

@@ -44,7 +44,7 @@ final class Seo
             ],
             '/trainingswochenende-2026' => [
                 'title' => $en ? '2026 Training Weekend – MMIG46' : 'Trainingswochenende 2026 – MMIG46',
-                'description' => $en ? 'The MMIG46 training weekend took place at EDLN on 25–26 September 2026. A review with photos and a summary will follow soon.' : 'Das MMIG46-Trainingswochenende fand am 25. und 26. September 2026 in EDLN statt. Ein Rückblick mit Bildern und Zusammenfassung folgt.',
+                'description' => $en ? 'Read Klaus Gerecht’s original German report and view photos from the MMIG46 training weekend at EDLN on 25–26 September 2026.' : 'Rückblick von Klaus Gerecht mit Bildern: MMIG46-Trainingswochenende am 25. und 26. September 2026 bei RAS und MGFlyers in EDLN.',
                 'priority' => '0.7',
                 'changefreq' => 'monthly',
             ],

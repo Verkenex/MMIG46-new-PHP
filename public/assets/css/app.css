@@ -5138,3 +5138,65 @@ body.admin-dialog-open {
         letter-spacing: 0.025em;
     }
 }
+
+/* Training weekend 2026: report and photo gallery */
+.recap { padding-bottom: clamp(3rem, 7vw, 6rem); }
+.recap-language-note { margin-top: 1.5rem; color: var(--muted); }
+.recap-hero { display: grid; grid-template-columns: 0.95fr 1.05fr; align-items: center; gap: clamp(2rem, 5vw, 4rem); padding-top: clamp(2.5rem, 6vw, 5rem); padding-bottom: clamp(2.5rem, 6vw, 5rem); }
+.recap-hero__copy { min-width: 0; }
+.recap-hero h1 { margin: 0 0 1.5rem; font-size: clamp(2.1rem, 4.5vw, 4rem); line-height: 1.08; letter-spacing: -0.035em; overflow-wrap: normal; color: var(--navy); }
+.recap-hero h1 span { display: block; color: var(--accent-dark); }
+.recap-hero__date { font-size: 1rem; color: var(--muted); }
+.recap-hero__author { margin: 1.75rem 0; font-weight: 700; color: var(--navy); }
+.recap-hero__author span { display: block; font-size: 0.86rem; font-weight: 400; color: var(--muted); }
+.recap-nav { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+.recap-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.5rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; font-size: 0.87rem; text-decoration: none; background: var(--surface); }
+.recap-nav a:hover { border-color: var(--accent); color: var(--accent-dark); }
+.recap-nav a:focus-visible, .recap-photo-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.recap-hero__photo { margin: 0; min-width: 0; }
+.recap-hero__photo img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; }
+.recap-hero__photo figcaption { padding: 0.8rem 0 0; font-size: 0.86rem; color: var(--muted); }
+.recap-section { scroll-margin-top: calc(var(--header-height) + 24px); }
+.recap-prose { max-width: 720px; width: calc(100% - 48px); margin: 0 auto; }
+.recap-prose h2 { margin: 2.25rem 0 1.5rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: clamp(1.65rem, 3vw, 2.35rem); letter-spacing: -0.02em; color: var(--navy); }
+.recap-prose p, .recap-topics { margin: 0 0 1.4rem; font-size: 1.08rem; line-height: 1.85; overflow-wrap: break-word; }
+.recap-prose p:first-of-type { margin-top: 0; }
+.recap-topics { padding-left: 1.65rem; }
+.recap-topics li { padding-left: 0.4rem; margin-bottom: 0.85rem; }
+.recap-topics li::marker { color: var(--accent-dark); font-weight: 700; }
+.recap-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin-top: 2.5rem; margin-bottom: 3rem; }
+.recap-photo { margin: 0; min-width: 0; }
+.recap-photo-link { display: block; position: relative; overflow: hidden; border-radius: 12px; background: var(--sand); }
+.recap-photo img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 35%; }
+.recap-photo__zoom { position: absolute; right: 0.65rem; bottom: 0.65rem; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(7, 31, 69, 0.84); color: #fff; }
+.recap-photo figcaption { padding: 0.65rem 0.1rem 0; font-size: 0.82rem; line-height: 1.45; color: var(--muted); }
+.recap-signature { padding-top: 1rem; }
+.recap-signature strong, .recap-signature span { display: block; }
+.recap-signature strong { color: var(--navy); }
+.recap-signature span { color: var(--muted); font-size: 0.95rem; }
+.recap-viewer { width: min(1100px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 0; border-radius: 16px; background: #101b2c; color: #fff; }
+.recap-viewer::backdrop { background: rgba(5, 12, 22, 0.9); }
+.recap-viewer__toolbar, .recap-viewer__navigation { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.6rem 1rem; }
+.recap-viewer button { min-width: 44px; min-height: 44px; padding: 0.5rem 0.9rem; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; background: transparent; color: #fff; cursor: pointer; }
+.recap-viewer button:focus-visible { outline: 3px solid #d9b28c; outline-offset: 2px; }
+.recap-viewer figure { margin: 0; }
+.recap-viewer img { display: block; width: 100%; height: min(65dvh, 760px); object-fit: contain; }
+.recap-viewer figcaption { padding: 0.7rem 1rem; font-size: 0.95rem; text-align: center; }
+body.recap-viewer-open { overflow: hidden; }
+@media (max-width: 900px) { .recap-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+    .recap-hero { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    .recap-hero h1 { max-width: 100%; font-size: clamp(2rem, 7.5vw, 3rem); }
+    .recap-hero__author { margin: 1.25rem 0; }
+    .recap-hero__photo img { border-radius: 12px; }
+}
+@media (max-width: 600px) {
+    .recap-hero { padding-top: 2rem; padding-bottom: 1rem; }
+    .recap-prose { width: calc(100% - 32px); }
+    .recap-prose p, .recap-topics { font-size: 1rem; line-height: 1.8; }
+    .recap-gallery { gap: 1rem 0.75rem; margin-top: 1.75rem; margin-bottom: 2rem; }
+    .recap-photo figcaption { font-size: 0.75rem; }
+    .recap-viewer { width: calc(100% - 16px); max-height: calc(100dvh - 16px); border-radius: 10px; }
+    .recap-viewer__toolbar, .recap-viewer__navigation { padding: 0.55rem 0.7rem; }
+    .recap-viewer img { height: 60dvh; }
+}

@@ -69,3 +69,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Native dialog with ordinary image links as a no-JavaScript fallback.
+document.addEventListener('DOMContentLoaded', () => {
+    const viewer = document.querySelector('.recap-viewer');
+    const links = Array.from(document.querySelectorAll('[data-recap-photo]'));
+    if (!(viewer instanceof HTMLDialogElement) || !links.length || typeof viewer.showModal !== 'function') return;
+    const image = viewer.querySelector('[data-recap-image]');
+    const caption = viewer.querySelector('[data-recap-caption]');
+    const counter = viewer.querySelector('[data-recap-counter]');
+    let current = 0;
+    let opener;
+    let touchStartX;
+    const show = (index) => {
+        current = (index + links.length) % links.length;
+        const thumbnail = links[current].querySelector('img');
+        image.src = links[current].href;
+        image.alt = thumbnail.alt;
+        caption.textContent = thumbnail.alt;
+        counter.textContent = `${current + 1} / ${links.length}`;
+    };
+    links.forEach((link, index) => {
+        link.addEventListener('click', (event) => {
+            if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+            event.preventDefault();
+            opener = link;
+            show(index);
+            viewer.showModal();
+            document.body.classList.add('recap-viewer-open');
+        });
+    });
+    viewer.querySelector('[data-recap-close]').addEventListener('click', () => viewer.close());
+    viewer.querySelector('[data-recap-prev]').addEventListener('click', () => show(current - 1));
+    viewer.querySelector('[data-recap-next]').addEventListener('click', () => show(current + 1));
+    viewer.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+            event.preventDefault();
+            show(current + (event.key === 'ArrowLeft' ? -1 : 1));
+        }
+    });
+    viewer.addEventListener('click', (event) => {
+        if (event.target === viewer) {
+            const bounds = viewer.getBoundingClientRect();
+            if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) viewer.close();
+        }
+    });
+    image.addEventListener('touchstart', (event) => {
+        touchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+    image.addEventListener('touchend', (event) => {
+        if (touchStartX === undefined) return;
+        const distance = event.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(distance) > 60) show(current + (distance > 0 ? -1 : 1));
+        touchStartX = undefined;
+    }, { passive: true });
+    viewer.addEventListener('close', () => {
+        document.body.classList.remove('recap-viewer-open');
+        if (opener) opener.focus({ preventScroll: true });
+    });
+});
