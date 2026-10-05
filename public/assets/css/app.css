@@ -5152,7 +5152,7 @@ body.admin-dialog-open {
 .recap-nav { display: flex; flex-wrap: wrap; gap: 0.55rem; }
 .recap-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.5rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; font-size: 0.87rem; text-decoration: none; background: var(--surface); }
 .recap-nav a:hover { border-color: var(--accent); color: var(--accent-dark); }
-.recap-nav a:focus-visible, .recap-photo-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.recap-nav a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 .recap-hero__photo { margin: 0; min-width: 0; }
 .recap-hero__photo img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; }
 .recap-hero__photo figcaption { padding: 0.8rem 0 0; font-size: 0.86rem; color: var(--muted); }
@@ -5164,26 +5164,22 @@ body.admin-dialog-open {
 .recap-topics { padding-left: 1.65rem; }
 .recap-topics li { padding-left: 0.4rem; margin-bottom: 0.85rem; }
 .recap-topics li::marker { color: var(--accent-dark); font-weight: 700; }
-.recap-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin-top: 2.5rem; margin-bottom: 3rem; }
+.recap-gallery { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2.5rem; margin-bottom: 3rem; }
+.recap-gallery--5 .recap-photo { grid-column: span 4; }
+.recap-gallery--6 .recap-photo { grid-column: span 3; }
+.recap-gallery--4 .recap-photo, .recap-gallery--5 .recap-photo:nth-child(-n+2), .recap-gallery--6 .recap-photo:nth-child(-n+2) { grid-column: span 6; }
 .recap-photo { margin: 0; min-width: 0; }
-.recap-photo-link { display: block; position: relative; overflow: hidden; border-radius: 12px; background: var(--sand); }
-.recap-photo img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 35%; }
-.recap-photo__zoom { position: absolute; right: 0.65rem; bottom: 0.65rem; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(7, 31, 69, 0.84); color: #fff; }
+.recap-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 35%; border-radius: 14px; }
 .recap-photo figcaption { padding: 0.65rem 0.1rem 0; font-size: 0.82rem; line-height: 1.45; color: var(--muted); }
 .recap-signature { padding-top: 1rem; }
 .recap-signature strong, .recap-signature span { display: block; }
 .recap-signature strong { color: var(--navy); }
 .recap-signature span { color: var(--muted); font-size: 0.95rem; }
-.recap-viewer { width: min(1100px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 0; border-radius: 16px; background: #101b2c; color: #fff; }
-.recap-viewer::backdrop { background: rgba(5, 12, 22, 0.9); }
-.recap-viewer__toolbar, .recap-viewer__navigation { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.6rem 1rem; }
-.recap-viewer button { min-width: 44px; min-height: 44px; padding: 0.5rem 0.9rem; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; background: transparent; color: #fff; cursor: pointer; }
-.recap-viewer button:focus-visible { outline: 3px solid #d9b28c; outline-offset: 2px; }
-.recap-viewer figure { margin: 0; }
-.recap-viewer img { display: block; width: 100%; height: min(65dvh, 760px); object-fit: contain; }
-.recap-viewer figcaption { padding: 0.7rem 1rem; font-size: 0.95rem; text-align: center; }
-body.recap-viewer-open { overflow: hidden; }
-@media (max-width: 900px) { .recap-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) {
+    .recap-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .recap-gallery .recap-photo { grid-column: auto; }
+    .recap-gallery--5 .recap-photo:first-child { grid-column: 1 / -1; }
+}
 @media (max-width: 760px) {
     .recap-hero { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
     .recap-hero h1 { max-width: 100%; font-size: clamp(2rem, 7.5vw, 3rem); }
@@ -5196,7 +5192,11 @@ body.recap-viewer-open { overflow: hidden; }
     .recap-prose p, .recap-topics { font-size: 1rem; line-height: 1.8; }
     .recap-gallery { gap: 1rem 0.75rem; margin-top: 1.75rem; margin-bottom: 2rem; }
     .recap-photo figcaption { font-size: 0.75rem; }
-    .recap-viewer { width: calc(100% - 16px); max-height: calc(100dvh - 16px); border-radius: 10px; }
-    .recap-viewer__toolbar, .recap-viewer__navigation { padding: 0.55rem 0.7rem; }
-    .recap-viewer img { height: 60dvh; }
+}
+
+@media (max-width: 480px) {
+    .recap-gallery { grid-template-columns: minmax(0, 1fr); gap: 1.4rem; }
+    .recap-gallery .recap-photo { grid-column: auto; }
+    .recap-photo img { aspect-ratio: auto; max-height: 520px; object-fit: contain; background: var(--sand); }
+    .recap-photo figcaption { font-size: 0.85rem; }
 }

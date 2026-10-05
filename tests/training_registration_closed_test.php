@@ -15,7 +15,7 @@ $html = (new \MMIG46\Controllers\PageController())->sendTrainingWeekendRegistrat
 if (http_response_code() !== 410) {
     throw new RuntimeException('The closed registration endpoint must return HTTP 410.');
 }
-if (!str_contains($html, 'Klaus Gerecht') || !str_contains($html, 'data-recap-photo')) {
+if (!str_contains($html, 'Klaus Gerecht') || !str_contains($html, 'class="recap-photo"')) {
     throw new RuntimeException('The closed endpoint must display the final report.');
 }
 if (str_contains($html, 'action="/trainingswochenende-2026/anmeldung"')
