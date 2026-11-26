@@ -5200,3 +5200,27 @@ body.admin-dialog-open {
     .recap-photo img { aspect-ratio: auto; max-height: none; object-fit: contain; background: var(--sand); }
     .recap-photo figcaption { font-size: 0.85rem; }
 }
+
+#meeting-dialog {
+    box-sizing: border-box;
+    width: min(42rem, 94vw);
+    max-height: 88vh;
+    padding: 0 1.4rem 1.2rem;
+    border: 0;
+    border-radius: .75rem;
+    color: #162b40;
+    background: white;
+    overflow-y: auto;
+}
+#meeting-dialog::backdrop { background: rgb(13 32 51 / 60%); }
+#meeting-dialog form {
+    position: sticky;
+    top: 0;
+    padding: .65rem 0;
+    text-align: right;
+    background: white;
+}
+#meeting-dialog button, #meeting-invitation summary { cursor: pointer; }
+.meeting-letter { line-height: 1.55; }
+.meeting-letter ol { padding-inline-start: 1.6rem; }
+.training-banner .meeting-letter a { color: inherit; text-decoration: underline; }

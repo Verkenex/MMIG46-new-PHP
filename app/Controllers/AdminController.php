@@ -13,7 +13,6 @@ use MMIG46\Models\NewsItem;
 use MMIG46\Models\TravelItem;
 use MMIG46\Models\User;
 use MMIG46\Models\ContactRequest;
-use MMIG46\Models\TrainingRegistration;
 use MMIG46\Services\MembershipWorkflow;
 use MMIG46\Services\OutboxDelivery;
 use MMIG46\Core\Seo;
@@ -212,7 +211,6 @@ class AdminController
             'applicationOutbox' => $outbox,
             'userOutbox' => $userOutbox,
             'contactRequests' => ContactRequest::all(),
-            'trainingRegistrations' => TrainingRegistration::all(),
         ]);
     }
 

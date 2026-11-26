@@ -814,18 +814,6 @@ $t = $copy[$isEn ? 'en' : 'de'];
         </tbody></table></div>
     </section>
 
-    <section class="admin-card admin-card-wide">
-        <div class="admin-card-header"><span class="admin-icon" aria-hidden="true">📅</span><div><h2><?= $isEn ? 'Training weekend registrations' : 'Trainingswochenende-Anmeldungen' ?></h2><p><?= $isEn ? 'Persisted registrations and delivery status.' : 'Dauerhaft gespeicherte Anmeldungen und Versandstatus.' ?></p></div></div>
-        <div class="table"><table><thead><tr><th><?= $isEn ? 'Time' : 'Zeit' ?></th><th><?= Security::e($t['name']) ?></th><th><?= Security::e($t['email']) ?></th><th><?= Security::e($t['aircraft']) ?></th><th><?= $isEn ? 'People' : 'Personen' ?></th><th><?= $isEn ? 'Programme items' : 'Programmpunkte' ?></th><th><?= $isEn ? 'Delivery' : 'Versand' ?></th></tr></thead><tbody>
-        <?php foreach (($trainingRegistrations ?? []) as $registration): $elements = json_decode((string) $registration['elements_json'], true); ?><tr>
-            <td><?= Security::e((string) $registration['created_at']) ?></td><td><?= Security::e((string) $registration['name']) ?></td>
-            <td><?= Security::e((string) $registration['email']) ?></td><td><?= Security::e(trim((string) $registration['callsign'] . ' ' . (string) $registration['aircraft_model'])) ?></td>
-            <td><?= (int) $registration['participants'] ?></td><td><?= Security::e(implode(', ', is_array($elements) ? $elements : [])) ?><?php if ($registration['notes']): ?><br><?= nl2br(Security::e((string) $registration['notes'])) ?><?php endif; ?></td>
-            <td><?= $isEn ? 'Organiser' : 'Organisation' ?>: <?= Security::e((string) $registration['organizer_mail_status']) ?><br><?= $isEn ? 'Copy' : 'Kopie' ?>: <?= Security::e((string) $registration['copy_mail_status']) ?></td>
-        </tr><?php endforeach; ?>
-        </tbody></table></div>
-    </section>
-
     <!-- Nutzerübersicht -->
     <section class="admin-card admin-card-wide">
 

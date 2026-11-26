@@ -80,44 +80,9 @@ function mmig_format_date(?string $date): string
 ?>
 
 
-<section class="training-banner">
-    <div class="container training-banner__inner">
-        <div>
-            <p class="training-banner__eyebrow">
-                <?= $isEn
-                    ? '25–26 September 2026 · EDLN'
-                    : '25.–26. September 2026 · EDLN' ?>
-            </p>
-
-            <h2>
-                <?= $isEn
-                    ? 'MMIG46 Training Weekend'
-                    : 'MMIG46 Trainingswochenende' ?>
-            </h2>
-
-            <p>
-                <?= $isEn
-                    ? 'A successful weekend of PA46 training and exchange at Mönchengladbach Airport. Thank you to everyone who took part and helped make it happen.'
-                    : 'Ein gelungenes Wochenende mit PA46-Training und Austausch am Flughafen Mönchengladbach. Vielen Dank an alle Teilnehmer und Helfer.' ?>
-            </p>
-
-            <p class="training-banner__limited">
-                <?= $isEn
-                    ? 'The full report by Klaus Gerecht is now available, with photos.'
-                    : 'Der vollständige Rückblick von Klaus Gerecht mit Bildern ist jetzt online.' ?>
-            </p>
-        </div>
-
-        <a class="button button--light"
-           href="<?= $isEn
-               ? '/trainingswochenende-2026?lang=en'
-               : '/trainingswochenende-2026?lang=de' ?>">
-            <?= $isEn
-                ? 'Read the report with photos'
-                : 'Rückblick mit Bildern lesen' ?>
-        </a>
-    </div>
-</section>
+<?php if (time() < (new DateTimeImmutable('2026-12-06 00:00', new DateTimeZone('Europe/Berlin')))->getTimestamp()): ?>
+    <?php require __DIR__ . '/../partials/general-meeting-2026.php'; ?>
+<?php endif; ?>
 
 <section class="home-hero">
     <div class="home-hero__content">
