@@ -81,8 +81,8 @@ $memberAreaLabel = $lang === 'en' ? 'Member area' : 'Mitgliederbereich';
     <script type="application/ld+json"><?= json_encode(['@context'=>'https://schema.org','@graph'=>[
         ['@type'=>'Organization','@id'=>Seo::absoluteUrl('/').'#organization','name'=>'MMIG46 e.V.','url'=>Seo::absoluteUrl('/')],
         ['@type'=>'WebSite','@id'=>Seo::absoluteUrl('/').'#website','name'=>'MMIG46','url'=>Seo::absoluteUrl('/'),'publisher'=>['@id'=>Seo::absoluteUrl('/').'#organization'],'inLanguage'=>['de','en']],
-    ]], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) ?></script>
-    <?php if (!empty($seo['structured_data'])): ?><script type="application/ld+json"><?= json_encode($seo['structured_data'], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) ?></script><?php endif; ?>
+    ]], JSON_HEX_TAG|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) ?></script>
+    <?php if (!empty($seo['structured_data'])): ?><script type="application/ld+json"><?= json_encode($seo['structured_data'], JSON_HEX_TAG|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) ?></script><?php endif; ?>
 
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
     <?php

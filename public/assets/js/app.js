@@ -69,3 +69,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const invitation = document.getElementById('meeting-invitation');
+    const dialog = document.getElementById('meeting-dialog');
+    if (!invitation || !dialog || typeof dialog.showModal !== 'function') return;
+
+    const summary = invitation.querySelector('summary');
+    const openButton = document.createElement('button');
+    openButton.type = 'button';
+    openButton.className = 'button button--light';
+    openButton.textContent = summary.textContent;
+    openButton.setAttribute('aria-haspopup', 'dialog');
+    dialog.append(invitation.querySelector('article'));
+    invitation.replaceWith(openButton);
+    openButton.addEventListener('click', () => dialog.showModal());
+    dialog.addEventListener('close', () => openButton.focus({ preventScroll: true }));
+
+    try {
+        const key = 'mmig46-meeting-2026-shown';
+        if (!sessionStorage.getItem(key)) {
+            dialog.showModal();
+            sessionStorage.setItem(key, '1');
+        }
+    } catch {
+        // The invitation button also works when browser storage is blocked.
+    }
+});
